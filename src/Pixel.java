@@ -1,23 +1,25 @@
+import java.util.ArrayList;
+
 public class Pixel {
     public MyColor color;
     public int row;
     public int col;
     public static double width;
     public static double height;
-    
+
     public static double maxR = -1;
     public static double maxG = -1;
     public static double maxB = -1;
 
     // public Vector planePosition; // with respect to the origin of film plane
-    public Vector wPosition; // with respect to the origin of world
+    public Vector cPosition; // with respect to the origin of world
 
     public int divisions = 1;
 
     public Pixel(int row, int col, Vector position) {
         this.row = row;
         this.col = col;
-        this.wPosition = position;
+        this.cPosition = position;
     }
 
     public void setValue(MyColor value) {
@@ -36,7 +38,31 @@ public class Pixel {
     }
 
     public String toString() {
-        return "Pix pos: " + wPosition + " val : " + this.color;
+        return "Pix pos: " + cPosition + " val : " + this.color;
+    }
+
+    public ArrayList<Pixel> getSubPixels(int subpixelCount) {
+        ArrayList<Pixel> subPixels = new ArrayList<>();
+
+        double subpixelWidth = Pixel.width / subpixelCount;
+        double subpixelHeight = Pixel.height / subpixelCount;
+
+        for (int row = 0; row < subpixelCount; row++) {
+            for (int col = 0; col < subpixelCount; col++) {
+                Vector subPixelPosition = new Vector(
+                        -Pixel.width / 2 + col * subpixelWidth + subpixelWidth / 2,
+                        -Pixel.height / 2 + row * subpixelHeight + subpixelHeight / 2,
+                        0);
+                subPixelPosition.x += this.cPosition.x;
+                subPixelPosition.y += this.cPosition.y;
+                subPixelPosition.z += this.cPosition.z;
+                subPixelPosition.updateMagnitude();
+
+                subPixels.add(new Pixel(row, col, subPixelPosition));
+            }
+        }
+
+        return subPixels;
     }
 
 }
