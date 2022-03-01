@@ -28,21 +28,23 @@ public class MyColor {
         this.normalized = myColor.normalized;
     }
 
-    public void normalize() {
+    public MyColor normalize() {
         if (!normalized) {
             normalized = true;
             this.r /= 255;
             this.g /= 255;
             this.b /= 255;
         }
+        return this;
     }
 
-    public void denormalize() {
+    public MyColor denormalize() {
         if (normalized) {
             this.r *= 255;
             this.g *= 255;
             this.b *= 255;
         }
+        return this;
     }
 
     public MyColor getNormalized() {
