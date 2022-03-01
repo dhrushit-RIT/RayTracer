@@ -2,6 +2,8 @@ import java.util.ArrayList;
 
 public class World {
     public static double EPSILON = 0.01;
+
+    private Entity.BSDFTechnique techniqueToUse = Entity.BSDFTechnique.PHONG;
     BoundingBox boundingBox;
     private Camera camera;
 
@@ -13,6 +15,10 @@ public class World {
         this.worldObjects = new ArrayList<>();
         this.lightSources = new ArrayList<>();
         this.superSampleFactor = 1;
+    }
+
+    public void setBSDFTechnique(Entity.BSDFTechnique technique) {
+        this.techniqueToUse = technique;
     }
 
     public void setSuperSampleFactor(int factor) {
@@ -63,7 +69,8 @@ public class World {
                         light,
                         camera,
                         entityIntersectionDetails.intersectionPoint,
-                        entityIntersectionDetails.normalAtIntersection);
+                        entityIntersectionDetails.normalAtIntersection,
+                        this.techniqueToUse);
 
                 finalColor = Util.addColor(finalColor, tempColor);
             }
