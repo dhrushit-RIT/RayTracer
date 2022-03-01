@@ -1,24 +1,16 @@
-
 public class MyColor {
-    public float r;
-    public float g;
-    public float b;
+    public double r;
+    public double g;
+    public double b;
 
     public boolean normalized = false;
 
-    public MyColor(int r, int g, int b) {
-        this.r = r;
-        this.g = g;
-        this.b = b;
-        this.normalized = false;
-    }
-
-    public MyColor(float r, float g, float b) {
+    public MyColor(double r, double g, double b, boolean normalized) {
         this.r = r;
         this.g = g;
         this.b = b;
 
-        this.normalized = true;
+        this.normalized = normalized;
     }
 
     public MyColor(MyColor myColor) {
@@ -40,10 +32,15 @@ public class MyColor {
 
     public MyColor denormalize() {
         if (normalized) {
+            this.normalized = false;
             this.r *= 255;
             this.g *= 255;
             this.b *= 255;
         }
+
+        this.r = Math.floor(this.r);
+        this.r = Math.floor(this.r);
+        this.r = Math.floor(this.r);
         return this;
     }
 
@@ -69,6 +66,30 @@ public class MyColor {
 
     public String toString() {
         return "C:" + r + "," + g + "," + b;
+    }
+
+    public MyColor addColor(MyColor otherColor) {
+        this.normalize();
+        MyColor other = otherColor.getNormalized();
+        this.r += other.r;
+        this.g += other.g;
+        this.b += other.b;
+        return this;
+    }
+
+    public MyColor addColor(MyColor... otherColors) {
+        this.normalize();
+        for (MyColor other : otherColors) {
+            MyColor otherNorm = other.getNormalized();
+            this.r += otherNorm.r;
+            this.g += otherNorm.g;
+            this.b += otherNorm.b;
+        }
+
+        this.r = Math.max(0, Math.min(255, this.r));
+        this.g = Math.max(0, Math.min(255, this.g));
+        this.b = Math.max(0, Math.min(255, this.b));
+        return this;
     }
 
 }
