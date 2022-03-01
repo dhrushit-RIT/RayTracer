@@ -9,7 +9,7 @@ import org.ejml.simple.SimpleMatrix;
 
 public class Camera extends Entity {
 
-    static final MyColor DEFAULT_COLOR = new MyColor(128, 128, 128, false).normalize();
+    static final MyColor DEFAULT_COLOR = new MyColor(191, 191, 191, false).normalize();
 
     private static SimpleMatrix worldToNodeMatrix;
 
@@ -161,8 +161,8 @@ public class Camera extends Entity {
     }
 
     public void applyToneMapping() {
-        this.capToOne();
-        // this.normalizeAcrossPixels();
+        // this.capToOne();
+        this.normalizeAcrossPixels();
     }
 
     @Override
