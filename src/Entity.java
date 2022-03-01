@@ -21,9 +21,9 @@ public abstract class Entity {
 
     protected void setBaseColor(MyColor baseColor) {
         if (baseColor == null) {
-            this.baseColor = new MyColor(255, 255, 255);
+            this.baseColor = new MyColor(255, 255, 255, false).normalize();
         } else {
-            this.baseColor = baseColor;
+            this.baseColor = baseColor.normalize();
         }
     }
 
@@ -61,9 +61,9 @@ public abstract class Entity {
     }
 
     public void setColors(MyColor basecColor, MyColor speColor, MyColor diffuseColor) {
-        this.baseColor = basecColor;
-        this.specularColor = speColor;
-    this.diffusedColor = diffuseColor;
+        this.baseColor = basecColor.normalize();
+        this.specularColor = speColor.normalize();
+        this.diffusedColor = diffuseColor.normalize();
     }
 
     public abstract IntersectionDetails intersect(Ray ray);
