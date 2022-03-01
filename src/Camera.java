@@ -9,7 +9,7 @@ import org.ejml.simple.SimpleMatrix;
 
 public class Camera extends Entity {
 
-    static final MyColor DEFAULT_COLOR = new MyColor(128, 128, 128);
+    static final MyColor DEFAULT_COLOR = new MyColor(128, 128, 128, false).normalize();
 
     private static SimpleMatrix worldToNodeMatrix;
 
@@ -21,6 +21,9 @@ public class Camera extends Entity {
     private Point wLookAt;
     private Point cLookAt;
     private Point cPosition = new Point(0, 0, 0, Point.Space.CAMERA);
+
+    private int scaleRatio = 40;
+
     public Point getcPosition() {
         return cPosition;
     }
@@ -64,6 +67,7 @@ public class Camera extends Entity {
         this.cLookAtDir = Util.subtract(cLookAt, cPosition).normalize();
 
         Vector filmPlanePosition = Util.scale(this.cLookAtDir, this.focalLength);
+        // this.filmPlane = new FilmPlane(16, 10, 640, 400, filmPlanePosition);
         this.filmPlane = new FilmPlane(16, 10, 1280, 800, filmPlanePosition);
 
         System.out.println(this);
@@ -112,10 +116,14 @@ public class Camera extends Entity {
 
         for (Pixel pixel : filmPlane) {
             // System.out.println(pixel.color);
-            Color color = new Color((int) pixel.color.r, (int) pixel.color.g, (int) pixel.color.b);
+
+            MyColor denormColor = pixel.color.denormalize();
+
+            Color color = new Color((int) denormColor.r, (int) denormColor.g, (int) denormColor.b);
             int actualRow = filmPlane.numPixelsHeight - pixel.row - 1;
             rgbImage.setRGB(pixel.col, actualRow, color.getRGB());
         }
+
         writeImgToFile(rgbImage);
         return rgbImage;
     }
@@ -128,6 +136,27 @@ public class Camera extends Entity {
         } catch (IOException e) {
             System.out.println("error while writing image file " + e);
         }
+    }
+
+    public void capToOne() {
+        for (Pixel pixel : filmPlane) {
+            pixel.color.r = Math.max(0, Math.min(1, pixel.color.r));
+            pixel.color.g = Math.max(0, Math.min(1, pixel.color.g));
+            pixel.color.b = Math.max(0, Math.min(1, pixel.color.b));
+        }
+    }
+
+    public void normalizeAcrossPixels() {
+        for (Pixel pixel : filmPlane) {
+            pixel.color.r = Math.max(0, Math.min(1, pixel.color.r / Pixel.maxR));
+            pixel.color.g = Math.max(0, Math.min(1, pixel.color.g / Pixel.maxG));
+            pixel.color.b = Math.max(0, Math.min(1, pixel.color.b / Pixel.maxB));
+        }
+    }
+
+    public void applyToneMapping() {
+        this.capToOne();
+        // this.normalizeAcrossPixels();
     }
 
     @Override
