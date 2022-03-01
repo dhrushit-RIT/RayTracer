@@ -1,7 +1,7 @@
 
 public abstract class Entity {
 
-    protected static double EPSILON = 0.00001;
+    protected static double EPSILON = 0.000001;
     BoundingBox boundingBox;
     protected MyColor baseColor;
     protected MyColor specularColor;
