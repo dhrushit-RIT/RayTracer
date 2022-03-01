@@ -28,7 +28,7 @@ public class Vector {
         this.y = y;
         this.z = z;
         this.updateMagnitude();
-        this.matrix = new SimpleMatrix(new double[][] { { x, y, z, 1.0 } });
+        this.matrix = new SimpleMatrix(1, 4, true, new double[] { x, y, z, 1.0 });
     }
 
     public double getMagnitude() {
