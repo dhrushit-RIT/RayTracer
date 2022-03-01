@@ -1,8 +1,17 @@
+public class Light extends Entity {
 
+    MyColor color;
+    double irradiance;
 
-public class Light {
+    public Light(MyColor baseColor, Point position, double irradiance) {
+        super(baseColor, position);
+        this.color = baseColor;
+        this.irradiance = irradiance;
+    }
 
-    public Light(MyColor myColor, Point point, double d) {
+    @Override
+    public IntersectionDetails intersect(Ray ray) {
+        return new IntersectionDetails(this);
     }
 
 }
