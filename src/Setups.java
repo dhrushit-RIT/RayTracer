@@ -214,7 +214,7 @@ public class Setups {
 
         Sphere sphere1 = new Sphere(sphere1Center, sphere1Radius, basecColorS1);
         sphere1.setColors(basecColorS1, specColorS1, diffuseColorS1);
-        sphere1.setCoeffs(0.5, 0.4, 0.1, 60);
+        sphere1.setCoeffs(0.3, 0.6, 0.1, 60);
         application.getWorld().addEntity(sphere1);
 
         Point sphere2Center = new Point(0.6, 0.8, -0.6, Point.Space.WORLD);
@@ -225,7 +225,7 @@ public class Setups {
 
         Sphere sphere2 = new Sphere(sphere2Center, sphere2Radius, basecColorS2);
         sphere2.setColors(basecColorS2, specColorS2, diffuseColorS2);
-        sphere2.setCoeffs(0.5, 0.4, 0.1, 80);
+        sphere2.setCoeffs(0.3, 0.5, 0.2, 80);
         application.getWorld().addEntity(sphere2);
 
         Point triangle1Position = new Point(1, 0, 1, Point.Space.WORLD);
@@ -236,7 +236,7 @@ public class Setups {
         };
         MyColor triangle1Color = new MyColor(238, 50, 51, false).normalize();
         Triangle triangle1 = new Triangle(triangle1Color, triangle1Position, t1Vertices);
-        triangle1.setCoeffs(0.5, 0.4, 0.1, 80);
+        triangle1.setCoeffs(0.3, 0.4, 0.3, 80);
         
         application.getWorld().addEntity(triangle1);
 
@@ -248,7 +248,7 @@ public class Setups {
         };
         MyColor t2Color = new MyColor(238, 50, 51, false).normalize();
         Triangle triangle2 = new Triangle(t2Color, t2Position, t2Vertices);
-        triangle2.setCoeffs(0.5, 0.4, 0.1, 80);
+        triangle2.setCoeffs(0.3, 0.4, 0.2, 80);
         application.getWorld().addEntity(triangle2);
 
     }
