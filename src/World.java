@@ -24,6 +24,7 @@ public class World {
     public void simulate() {
         this.camera.takeASnap();
         this.camera.applyToneMapping();
+        // this.camera.denormalizeColors(); // use this as separate pass later
         this.camera.generateImage();
     }
 
