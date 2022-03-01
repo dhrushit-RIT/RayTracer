@@ -7,10 +7,16 @@ public class World {
 
     ArrayList<Entity> worldObjects;
     ArrayList<Light> lightSources;
+    private int superSampleFactor;
 
     public World() {
         this.worldObjects = new ArrayList<>();
         this.lightSources = new ArrayList<>();
+        this.superSampleFactor = 1;
+    }
+
+    public void setSuperSampleFactor(int factor) {
+        this.superSampleFactor = factor;
     }
 
     public void addEntity(Entity entity) {
@@ -22,7 +28,7 @@ public class World {
     }
 
     public void simulate() {
-        this.camera.takeASnap();
+        this.camera.takeASnap(this.superSampleFactor);
         this.camera.applyToneMapping();
         // this.camera.denormalizeColors(); // use this as separate pass later
         this.camera.generateImage();
