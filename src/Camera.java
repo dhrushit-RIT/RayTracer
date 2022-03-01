@@ -108,6 +108,12 @@ public class Camera extends Entity {
         }
     }
 
+    public void denormalizeColors(){
+        for(Pixel pixel: filmPlane){
+            pixel.color.denormalize();
+        }
+    }
+
     public BufferedImage generateImage() {
         // System.out.println(this.filmPlane);
         BufferedImage rgbImage = new BufferedImage(filmPlane.numPixelsWidth,
