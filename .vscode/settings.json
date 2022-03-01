@@ -1,0 +1,6 @@
+{
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "dependencies/ejml-0.41-libs/**/*.jar"
+    ]
+}
