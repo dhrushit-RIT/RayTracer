@@ -51,7 +51,9 @@ public class Sphere extends Entity {
                 intersectionDetails.normalAtIntersection = new Vector(
                         intersectionDetails.intersectionPoint.x - sphereCenterCamSpace.x,
                         intersectionDetails.intersectionPoint.y - sphereCenterCamSpace.y,
-                        intersectionDetails.intersectionPoint.z - sphereCenterCamSpace.z);
+                        intersectionDetails.intersectionPoint.z - sphereCenterCamSpace.z).normalize();
+
+                this.addEpsilonDisplacementToIntersection(intersectionDetails);
             } else {
                 intersectionDetails.intersectionPoint = null;
                 intersectionDetails.normalAtIntersection = null;
@@ -62,6 +64,12 @@ public class Sphere extends Entity {
         intersectionDetails.distance = w;
 
         return intersectionDetails;
+    }
+
+    private void addEpsilonDisplacementToIntersection(IntersectionDetails intersectionDetails) {
+        intersectionDetails.intersectionPoint.x += Entity.EPSILON * intersectionDetails.normalAtIntersection.x;
+        intersectionDetails.intersectionPoint.y += Entity.EPSILON * intersectionDetails.normalAtIntersection.y;
+        intersectionDetails.intersectionPoint.z += Entity.EPSILON * intersectionDetails.normalAtIntersection.z;
     }
 
 }
