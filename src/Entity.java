@@ -36,6 +36,31 @@ public abstract class Entity {
         }
     }
 
+    public MyColor phongBlinn(Light light, Camera camera, Point intersecPoint, Vector normal) {
+        Vector lightDir = Util.subtract(Camera.toCameraSpace(light.position), intersecPoint);
+        lightDir.normalize();
+        double ambientFactor = ka * light.irradiance;
+        double diffuseFactor = kd * light.irradiance * Util.dot(lightDir, normal);
+
+        normal.normalize();
+
+        // Vector reflectVector = Util.reflect(lightDir, normal, intersecPoint);
+        Vector view = Util.subtract(camera.getcPosition(), intersecPoint);
+        view.normalize();
+        // double reflectDotView = Math.max(0.0, Util.dot(reflectVector, view));
+        Vector halfway = Util.add(lightDir, view).normalize();
+        double normalDotHalf = Math.max(0.0, Util.dot(halfway, normal));
+
+        double specularFactor = ks * light.irradiance * Math.pow(normalDotHalf, ke);
+
+        MyColor ambient = Util.multColor(ambientFactor, baseColor);
+        MyColor diffuse = Util.multColor(diffuseFactor, diffusedColor);
+        MyColor specular = Util.multColor(specularFactor, specularColor);
+
+        MyColor finalColor = Util.addColor(ambient, diffuse, specular);
+        return finalColor;
+    }
+
     public MyColor phong(Light light, Camera camera, Point intersecPoint, Vector normal) {
         Vector lightDir = Util.subtract(Camera.toCameraSpace(light.position), intersecPoint);
         lightDir.normalize();
@@ -62,6 +87,9 @@ public abstract class Entity {
             BSDFTechnique technique) {
         MyColor retColor = new MyColor(0, 0, 0, true);
         switch (technique) {
+            case PHONG_BLINN:
+                retColor = this.phongBlinn(light, camera, intersection, normal);
+                break;
             default:
                 retColor = this.phong(light, camera, intersection, normal);
                 break;
