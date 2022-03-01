@@ -1,0 +1,24 @@
+<component name="libraryTable">
+  <library name="ejml-0.41-libs">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/dependencies/ejml-0.41-libs/ejml-dsparse-0.41.jar!/" />
+      <root url="jar://$PROJECT_DIR$/dependencies/ejml-0.41-libs/ejml-simple-0.41-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/dependencies/ejml-0.41-libs/ejml-fdense-0.41-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/dependencies/ejml-0.41-libs/ejml-cdense-0.41.jar!/" />
+      <root url="jar://$PROJECT_DIR$/dependencies/ejml-0.41-libs/ejml-cdense-0.41-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/dependencies/ejml-0.41-libs/ejml-ddense-0.41-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/dependencies/ejml-0.41-libs/ejml-experimental-0.41.jar!/" />
+      <root url="jar://$PROJECT_DIR$/dependencies/ejml-0.41-libs/ejml-ddense-0.41.jar!/" />
+      <root url="jar://$PROJECT_DIR$/dependencies/ejml-0.41-libs/ejml-experimental-0.41-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/dependencies/ejml-0.41-libs/ejml-core-0.41-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/dependencies/ejml-0.41-libs/ejml-core-0.41.jar!/" />
+      <root url="jar://$PROJECT_DIR$/dependencies/ejml-0.41-libs/ejml-dsparse-0.41-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/dependencies/ejml-0.41-libs/ejml-fdense-0.41.jar!/" />
+      <root url="jar://$PROJECT_DIR$/dependencies/ejml-0.41-libs/ejml-zdense-0.41.jar!/" />
+      <root url="jar://$PROJECT_DIR$/dependencies/ejml-0.41-libs/ejml-zdense-0.41-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/dependencies/ejml-0.41-libs/ejml-simple-0.41.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
