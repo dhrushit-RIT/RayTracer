@@ -1,6 +1,7 @@
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
@@ -22,7 +23,7 @@ public class Camera extends Entity {
     private Point cLookAt;
     private Point cPosition = new Point(0, 0, 0, Point.Space.CAMERA);
 
-    private int scaleRatio = 40;
+    private int scaleRatio = 80;
 
     public Point getcPosition() {
         return cPosition;
@@ -68,7 +69,7 @@ public class Camera extends Entity {
 
         Vector filmPlanePosition = Util.scale(this.cLookAtDir, this.focalLength);
         // this.filmPlane = new FilmPlane(16, 10, 640, 400, filmPlanePosition);
-        this.filmPlane = new FilmPlane(16, 10, 1280, 800, filmPlanePosition);
+        this.filmPlane = new FilmPlane(16, 10, 16 * scaleRatio, 10 * scaleRatio, filmPlanePosition);
 
         System.out.println(this);
     }
@@ -93,23 +94,33 @@ public class Camera extends Entity {
         this.world = world;
     }
 
-    public void takeASnap() {
+    public void takeASnap(int subpixelsCount) {
+        subpixelsCount = Math.max(subpixelsCount, 1);
+        int subPixelCountSquare = subpixelsCount * subpixelsCount;
+
         for (Pixel pixel : filmPlane) {
 
-            Vector dir = new Vector(pixel.wPosition);
-            dir.normalize();
-            Ray ray = new Ray(this.cPosition, dir);
-            MyColor color = this.world.getPixelIrradiance(ray);
-            if (color != null) {
-                pixel.setValue(color);
-            } else {
-                pixel.setValue(DEFAULT_COLOR);
+            ArrayList<Pixel> subPixels = pixel.getSubPixels(subpixelsCount);
+            MyColor color = new MyColor(0, 0, 0, true);
+            for (Pixel subPixel : subPixels) {
+                Vector dir = new Vector(subPixel.cPosition);
+                dir.normalize();
+                Ray ray = new Ray(this.cPosition, dir);
+                color.addColor(this.world.getPixelIrradiance(ray));
             }
+            color.r /= subPixelCountSquare;
+            color.g /= subPixelCountSquare;
+            color.b /= subPixelCountSquare;
+            // Vector dir = new Vector(pixel.cPosition);
+            // dir.normalize();
+            // Ray ray = new Ray(this.cPosition, dir);
+            // MyColor color = this.world.getPixelIrradiance(ray);
+            pixel.setValue(color);
         }
     }
 
-    public void denormalizeColors(){
-        for(Pixel pixel: filmPlane){
+    public void denormalizeColors() {
+        for (Pixel pixel : filmPlane) {
             pixel.color.denormalize();
         }
     }
