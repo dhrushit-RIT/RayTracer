@@ -1,6 +1,13 @@
 
 public abstract class Entity {
 
+    public enum BSDFTechnique {
+        PHONG,
+        PHONG_BLINN,
+        // ASHIKHMIN_SHIRLEY,
+        // COOK_TORRANCE
+    }
+
     protected static double EPSILON = 0.000001;
     BoundingBox boundingBox;
     protected MyColor baseColor;
@@ -29,7 +36,7 @@ public abstract class Entity {
         }
     }
 
-    public MyColor applyBSDF(Light light, Camera camera, Point intersecPoint, Vector normal) {
+    public MyColor phong(Light light, Camera camera, Point intersecPoint, Vector normal) {
         Vector lightDir = Util.subtract(Camera.toCameraSpace(light.position), intersecPoint);
         lightDir.normalize();
         double ambientFactor = ka * light.irradiance;
@@ -51,8 +58,15 @@ public abstract class Entity {
         return finalColor;
     }
 
-    public MyColor getPixelIrradiance(Light light, Camera camera, Point intersection, Vector normal) {
-        return this.applyBSDF(light, camera, intersection, normal);
+    public MyColor getPixelIrradiance(Light light, Camera camera, Point intersection, Vector normal,
+            BSDFTechnique technique) {
+        MyColor retColor = new MyColor(0, 0, 0, true);
+        switch (technique) {
+            default:
+                retColor = this.phong(light, camera, intersection, normal);
+                break;
+        }
+        return retColor;
     }
 
     public void setCoeffs(double ka, double kd, double ks, double ke) {
