@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 
 public class World {
+    public static double EPSILON = 0.01;
     BoundingBox boundingBox;
     private Camera camera;
 
@@ -22,6 +23,7 @@ public class World {
 
     public void simulate() {
         this.camera.takeASnap();
+        this.camera.applyToneMapping();
         this.camera.generateImage();
     }
 
@@ -31,14 +33,14 @@ public class World {
     }
 
     public MyColor getPixelIrradiance(Ray ray) {
-        MyColor finalColor = new MyColor(128, 128, 128);
-        // MyColor finalColor = new MyColor(0, 0, 0);
+        // MyColor finalColor = new MyColor(128, 128, 128, false).normalize();
+        MyColor finalColor = new MyColor(0, 0, 0, false).normalize();
 
         boolean didGetIlluminated = false;
         IntersectionDetails entityIntersectionDetails = this.checkIntersection(ray);
         if (entityIntersectionDetails == null || entityIntersectionDetails.entity == null
                 || entityIntersectionDetails.intersectionPoint == null) {
-            return Camera.DEFAULT_COLOR;
+            return new MyColor(Camera.DEFAULT_COLOR);
         }
         for (Light light : lightSources) {
             Ray shadowRay = new Ray(entityIntersectionDetails.intersectionPoint,
@@ -47,14 +49,16 @@ public class World {
                     Util.subtract(Camera.toCameraSpace(light.position), entityIntersectionDetails.intersectionPoint));
             IntersectionDetails intersectingEntity = checkIntersection(shadowRay);
             if (intersectingEntity != null || (intersectingEntity != null && intersectingEntity.entity != null)) {
-                finalColor = new MyColor(0, 0, 0);
+                finalColor = new MyColor(0, 0, 0, true);
             } else {
                 didGetIlluminated = true;
-                finalColor = entityIntersectionDetails.entity.getPixelIrradiance(
+                MyColor tempColor = entityIntersectionDetails.entity.getPixelIrradiance(
                         light,
                         camera,
                         entityIntersectionDetails.intersectionPoint,
                         entityIntersectionDetails.normalAtIntersection);
+
+                finalColor = Util.addColor(finalColor, tempColor);
             }
 
         }
@@ -69,7 +73,7 @@ public class World {
         IntersectionDetails bestIntersection = new IntersectionDetails(100000000);
         for (Entity entity : worldObjects) {
             IntersectionDetails intersection = entity.intersect(cRay);
-            if (intersection.distance > 0.001) {
+            if (intersection.distance > EPSILON) {
                 if (intersection.distance < nearestDistance) {
                     nearestEntity = entity;
                     nearestDistance = intersection.distance;
