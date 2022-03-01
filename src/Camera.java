@@ -9,7 +9,7 @@ import org.ejml.simple.SimpleMatrix;
 
 public class Camera extends Entity {
 
-    private static final MyColor DEFAULT_COLOR = new MyColor(128, 128, 128);
+    static final MyColor DEFAULT_COLOR = new MyColor(128, 128, 128);
 
     private static SimpleMatrix worldToNodeMatrix;
 
@@ -21,6 +21,14 @@ public class Camera extends Entity {
     private Point wLookAt;
     private Point cLookAt;
     private Point cPosition = new Point(0, 0, 0, Point.Space.CAMERA);
+    public Point getcPosition() {
+        return cPosition;
+    }
+
+    public void setcPosition(Point cPosition) {
+        this.cPosition = cPosition;
+    }
+
     private Vector cameraUp;
 
     private double focalLength;
@@ -44,17 +52,20 @@ public class Camera extends Entity {
         Vector wCameraPos = new Vector(position.x, position.y, position.z);
         //
         Camera.worldToNodeMatrix = new SimpleMatrix(new double[][] {
-                { u.x, u.y, u.z, 0 },
-                { v.x, v.y, v.z, 0 },
-                { n.x, n.y, n.z, 0 },
-                { -1.0 * Util.dot(wCameraPos, u), -1.0 * Util.dot(wCameraPos, v), -1.0 * Util.dot(wCameraPos, n), 1 }
+                { u.x, v.x, n.x, 0 },
+                { u.y, v.y, n.y, 0 },
+                { u.z, v.z, n.z, 0 },
+                { -1.0 * Util.dot(wCameraPos, u), -1.0 * Util.dot(wCameraPos, v), -1.0 *
+                        Util.dot(wCameraPos, n), 1 }
         });
 
         this.cLookAt = toCameraSpace(wLookAt);
+        this.cPosition = toCameraSpace(this.position);
         this.cLookAtDir = Util.subtract(cLookAt, cPosition).normalize();
 
         Vector filmPlanePosition = Util.scale(this.cLookAtDir, this.focalLength);
-        this.filmPlane = new FilmPlane(16, 10, 640, 400, filmPlanePosition);
+        this.filmPlane = new FilmPlane(16, 10, 1280, 800, filmPlanePosition);
+
         System.out.println(this);
     }
 
@@ -83,15 +94,13 @@ public class Camera extends Entity {
 
             Vector dir = new Vector(pixel.wPosition);
             dir.normalize();
-            Ray ray = new Ray(cPosition, dir);
-            IntersectionDetails color = this.world.checkIntersection(ray);
+            Ray ray = new Ray(this.cPosition, dir);
+            MyColor color = this.world.getPixelIrradiance(ray);
             if (color != null) {
-                pixel.setValue(new MyColor(255, 255, 255));
+                pixel.setValue(color);
             } else {
                 pixel.setValue(DEFAULT_COLOR);
             }
-
-            // shoot a ray and check intersection
         }
     }
 
