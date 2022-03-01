@@ -4,6 +4,10 @@ public class Pixel {
     public int col;
     public static double width;
     public static double height;
+    
+    public static double maxR = -1;
+    public static double maxG = -1;
+    public static double maxB = -1;
 
     // public Vector planePosition; // with respect to the origin of film plane
     public Vector wPosition; // with respect to the origin of world
@@ -18,6 +22,9 @@ public class Pixel {
 
     public void setValue(MyColor value) {
         this.color = value;
+        Pixel.maxR = Math.max(maxR, this.color.r);
+        Pixel.maxG = Math.max(maxG, this.color.g);
+        Pixel.maxB = Math.max(maxB, this.color.b);
     }
 
     public void setWidth(float width) {
