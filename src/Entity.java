@@ -36,17 +36,31 @@ public abstract class Entity {
         }
     }
 
+    public MyColor ashikhiminShirley(Light light, Camera camera, Point intersecPoint, Vector normalDir) {
+        // double nu = 5.0;
+        // double nv = 5.0;
+
+        // Vector lightDir = Util.subtract(Camera.toCameraSpace(light.position), intersecPoint).normalize();
+        // Vector view = Util.subtract(camera.getcPosition(), intersecPoint).normalize();
+        // Vector halfway = Util.add(lightDir, view).normalize();
+
+        // double constantCoeff = Math.sqrt((nu+1) * (nv+1)) / 8 / Math.PI;
+        // double cosPhi = ;
+        // double sinPhi = 
+        // double power = nu * Math.cos(); // nu cos2 φ+nv sin2 φ
+        // double numerator = Util.dot(normal.normalize(), halfway);
+    }
+
     public MyColor phongBlinn(Light light, Camera camera, Point intersecPoint, Vector normal) {
-        Vector lightDir = Util.subtract(Camera.toCameraSpace(light.position), intersecPoint);
-        lightDir.normalize();
+        Vector lightDir = Util.subtract(Camera.toCameraSpace(light.position), intersecPoint).normalize();
+
         double ambientFactor = ka * light.irradiance;
         double diffuseFactor = kd * light.irradiance * Util.dot(lightDir, normal);
 
         normal.normalize();
 
         // Vector reflectVector = Util.reflect(lightDir, normal, intersecPoint);
-        Vector view = Util.subtract(camera.getcPosition(), intersecPoint);
-        view.normalize();
+        Vector view = Util.subtract(camera.getcPosition(), intersecPoint).normalize();
         // double reflectDotView = Math.max(0.0, Util.dot(reflectVector, view));
         Vector halfway = Util.add(lightDir, view).normalize();
         double normalDotHalf = Math.max(0.0, Util.dot(halfway, normal));
