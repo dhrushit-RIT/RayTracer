@@ -23,7 +23,7 @@ public class Camera extends Entity {
     private Point cLookAt;
     private Point cPosition = new Point(0, 0, 0, Point.Space.CAMERA);
 
-    private int scaleRatio = 80;
+    private int scaleRatio = 40;
 
     public Point getcPosition() {
         return cPosition;
@@ -106,7 +106,8 @@ public class Camera extends Entity {
                 Vector dir = new Vector(subPixel.cPosition);
                 dir.normalize();
                 Ray ray = new Ray(this.cPosition, dir);
-                color.addColor(this.world.getPixelIrradiance(ray));
+                MyColor pixColor = this.world.getPixelIrradiance(ray);
+                color.addColor(pixColor);
             }
             color.r /= subPixelCountSquare;
             color.g /= subPixelCountSquare;
