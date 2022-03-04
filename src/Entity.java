@@ -4,7 +4,7 @@ public abstract class Entity {
     public enum BSDFTechnique {
         PHONG,
         PHONG_BLINN,
-        // ASHIKHMIN_SHIRLEY,
+        ASHIKHMIN_SHIRLEY,
         // COOK_TORRANCE
     }
 
@@ -37,18 +37,47 @@ public abstract class Entity {
     }
 
     public MyColor ashikhiminShirley(Light light, Camera camera, Point intersecPoint, Vector normalDir) {
-        // double nu = 5.0;
-        // double nv = 5.0;
+        normalDir.normalize();
 
-        // Vector lightDir = Util.subtract(Camera.toCameraSpace(light.position), intersecPoint).normalize();
-        // Vector view = Util.subtract(camera.getcPosition(), intersecPoint).normalize();
-        // Vector halfway = Util.add(lightDir, view).normalize();
+        double nu = 5.0;
+        double nv = 5.0;
 
-        // double constantCoeff = Math.sqrt((nu+1) * (nv+1)) / 8 / Math.PI;
-        // double cosPhi = ;
-        // double sinPhi = 
-        // double power = nu * Math.cos(); // nu cos2 φ+nv sin2 φ
-        // double numerator = Util.dot(normal.normalize(), halfway);
+        Vector lightDir = Util.subtract(Camera.toCameraSpace(light.position), intersecPoint).normalize();
+        Vector view = Util.subtract(camera.getcPosition(), intersecPoint).normalize();
+        Vector halfway = Util.add(lightDir, view).normalize();
+
+        Vector u = Util.cross(Util.subtract(camera.getcPosition(), intersecPoint), normalDir).normalize();
+        Vector v = Util.cross(normalDir, u);
+
+        double constantCoeff = Math.sqrt((nu + 1) * (nv + 1)) / 8 / Math.PI;
+        double hDotU = Util.dot(halfway, u);
+        double hDotV = Util.dot(halfway, v);
+        double hDotN = Util.dot(halfway, normalDir.normalize());
+        double kDotH = Util.dot(halfway, lightDir);
+
+        double power = (nu * hDotU * hDotU + nv * hDotV * hDotV) / (1 - hDotN * hDotN);
+        double numerator = Math.pow(Math.max(0, Util.dot(normalDir, halfway)), power);
+        double denominator = Util.dot(halfway, lightDir)
+                * Math.max(Util.dot(normalDir, lightDir), Util.dot(normalDir, view));
+
+        MyColor fresnel = Util.addColor(this.specularColor,
+                Util.multColor(this.specularColor.getComplement(), Math.pow((1 - kDotH), 5)));
+
+        MyColor specular = Util.multColor(fresnel, constantCoeff * (numerator / denominator));
+
+        //
+        // Diffuse
+        //
+
+        double constantCoeffDiffuse = 28/23/Math.PI;
+        double lightConstant = (1 - Math.pow((1 - Util.dot(normalDir, lightDir)/2), 5));
+        double viewConstant = (1 - Math.pow((1 - Util.dot(normalDir, view)/2), 5));
+
+        MyColor diffuse = Util.multColor(this.diffusedColor, this.specularColor.getComplement());
+        diffuse.multColor(constantCoeffDiffuse * lightConstant * viewConstant);
+
+        MyColor finalColor = Util.addColor(diffuse, specular);
+        return finalColor;
     }
 
     public MyColor phongBlinn(Light light, Camera camera, Point intersecPoint, Vector normal) {
@@ -86,7 +115,7 @@ public abstract class Entity {
         Vector reflectVector = Util.reflect(lightDir, normal, intersecPoint);
         Vector view = Util.subtract(camera.getcPosition(), intersecPoint);
         view.normalize();
-        double reflectDotView = Math.max(0.0, Util.dot(reflectVector, view));
+        double reflectDotView = Math.abs( Util.dot(reflectVector, view));
         double specularFactor = ks * light.irradiance * Math.pow(reflectDotView, ke);
 
         MyColor ambient = Util.multColor(ambientFactor, baseColor);
@@ -103,6 +132,9 @@ public abstract class Entity {
         switch (technique) {
             case PHONG_BLINN:
                 retColor = this.phongBlinn(light, camera, intersection, normal);
+                break;
+            case ASHIKHMIN_SHIRLEY:
+                retColor = this.ashikhiminShirley(light, camera, intersection, normal);
                 break;
             default:
                 retColor = this.phong(light, camera, intersection, normal);
