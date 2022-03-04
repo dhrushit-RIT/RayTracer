@@ -9,7 +9,8 @@ public class Application {
         // Setups.setup4(this);
         // Setups.setup5(this); // two light sources
         // Setups.setup6(this); // supersampling turned on
-        Setups.setup7(this); // phong blinn
+        // Setups.setup7(this); // phong blinn
+        Setups.setup8(this); // Ashikhimin Shirley
     }
 
     private World world;
