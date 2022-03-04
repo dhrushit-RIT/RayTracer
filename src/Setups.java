@@ -343,11 +343,11 @@ public class Setups {
         //
         // Light
         //
-        double irradianceL1 = 1.5;
+        double irradianceL1 = 50;
         Light light1 = new Light(new MyColor(1, 1, 1, true), new Point(0, 5, 0, Point.Space.WORLD), irradianceL1);
         application.getWorld().addLightSource(light1);
         
-        double irradianceL2 = 1.5;
+        double irradianceL2 = 50;
         Light light2 = new Light(new MyColor(1, 1, 1, true), new Point(2, 5, 5, Point.Space.WORLD), irradianceL2);
         application.getWorld().addLightSource(light2);
 
