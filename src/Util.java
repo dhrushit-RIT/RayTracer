@@ -95,7 +95,7 @@ public class Util {
     }
 
     public static MyColor multColor(double d, MyColor c) {
-        if(c.normalized == false){
+        if (c.normalized == false) {
             System.out.println("color is not normalized");
         }
         MyColor retColor = new MyColor(c);
@@ -106,6 +106,26 @@ public class Util {
         retColor.r = Math.min(255, retColor.r);
         retColor.g = Math.min(255, retColor.g);
         retColor.b = Math.min(255, retColor.b);
+
+        return retColor;
+    }
+
+    public static MyColor multColor(MyColor c1, MyColor c2) {
+        MyColor normalizedC1 = c1;
+        if (!c1.normalized) {
+            normalizedC1 = c1.getNormalized();
+        }
+
+        MyColor normalizedC2 = c2;
+        if (!c2.normalized) {
+            normalizedC2 = c2.getNormalized();
+        }
+
+        MyColor retColor = new MyColor(
+                normalizedC1.r * normalizedC2.r,
+                normalizedC1.g * normalizedC2.g,
+                normalizedC1.b * normalizedC2.b,
+                true);
 
         return retColor;
     }

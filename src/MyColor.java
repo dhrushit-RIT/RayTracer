@@ -64,8 +64,32 @@ public class MyColor {
         }
     }
 
+    public MyColor getComplement() {
+        MyColor retColor = new MyColor(this);
+        if(!retColor.normalized) {
+            retColor.normalize();
+        }
+
+        retColor.r = 1 - retColor.r;
+        retColor.g = 1 - retColor.g;
+        retColor.b = 1 - retColor.b;
+
+        return retColor;
+    }
+
     public String toString() {
         return "C:" + r + "," + g + "," + b;
+    }
+
+    public MyColor multColor(double d){
+        if (!this.normalized){
+            this.normalize();
+        }
+        this.r *= d;
+        this.g *= d;
+        this.b *= d;
+
+        return this;
     }
 
     public MyColor addColor(MyColor otherColor) {
