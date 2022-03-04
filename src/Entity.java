@@ -39,8 +39,11 @@ public abstract class Entity {
     public MyColor phongBlinn(Light light, Camera camera, Point intersecPoint, Vector normal) {
         Vector lightDir = Util.subtract(Camera.toCameraSpace(light.position), intersecPoint);
         lightDir.normalize();
-        double ambientFactor = ka * light.irradiance;
-        double diffuseFactor = kd * light.irradiance * Util.dot(lightDir, normal);
+
+        double squareDistanceFromLightSource = Util.sqDistance(light.position, intersecPoint);
+        double irradiance = light.irradiance / squareDistanceFromLightSource;
+        double ambientFactor = ka * irradiance;
+        double diffuseFactor = kd * irradiance * Util.dot(lightDir, normal);
 
         normal.normalize();
 
@@ -51,7 +54,7 @@ public abstract class Entity {
         Vector halfway = Util.add(lightDir, view).normalize();
         double normalDotHalf = Math.max(0.0, Util.dot(halfway, normal));
 
-        double specularFactor = ks * light.irradiance * Math.pow(normalDotHalf, ke);
+        double specularFactor = ks * irradiance * Math.pow(normalDotHalf, ke);
 
         MyColor ambient = Util.multColor(ambientFactor, baseColor);
         MyColor diffuse = Util.multColor(diffuseFactor, diffusedColor);
@@ -64,16 +67,19 @@ public abstract class Entity {
     public MyColor phong(Light light, Camera camera, Point intersecPoint, Vector normal) {
         Vector lightDir = Util.subtract(Camera.toCameraSpace(light.position), intersecPoint);
         lightDir.normalize();
-        double ambientFactor = ka * light.irradiance;
-        double diffuseFactor = kd * light.irradiance * Util.dot(lightDir, normal);
 
+        double squareDistanceFromLightSource = Util.sqDistance(light.position, intersecPoint);
+        double irradiance = light.irradiance / squareDistanceFromLightSource;
+        double ambientFactor = ka * irradiance;
+        double diffuseFactor = kd * irradiance * Util.dot(lightDir, normal);
+
+        
         normal.normalize();
-
         Vector reflectVector = Util.reflect(lightDir, normal, intersecPoint);
         Vector view = Util.subtract(camera.getcPosition(), intersecPoint);
         view.normalize();
         double reflectDotView = Math.max(0.0, Util.dot(reflectVector, view));
-        double specularFactor = ks * light.irradiance * Math.pow(reflectDotView, ke);
+        double specularFactor = ks * irradiance * Math.pow(reflectDotView, ke);
 
         MyColor ambient = Util.multColor(ambientFactor, baseColor);
         MyColor diffuse = Util.multColor(diffuseFactor, diffusedColor);
