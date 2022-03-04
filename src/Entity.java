@@ -39,8 +39,8 @@ public abstract class Entity {
     public MyColor ashikhiminShirley(Light light, Camera camera, Point intersecPoint, Vector normalDir) {
         normalDir.normalize();
 
-        double nu = 5.0;
-        double nv = 5.0;
+        double nu = 10.0;
+        double nv = 10.0;
 
         Vector lightDir = Util.subtract(Camera.toCameraSpace(light.position), intersecPoint).normalize();
         Vector view = Util.subtract(camera.getcPosition(), intersecPoint).normalize();
@@ -69,9 +69,15 @@ public abstract class Entity {
         // Diffuse
         //
 
-        double constantCoeffDiffuse = 28/23/Math.PI;
-        double lightConstant = (1 - Math.pow((1 - Util.dot(normalDir, lightDir)/2), 5));
-        double viewConstant = (1 - Math.pow((1 - Util.dot(normalDir, view)/2), 5));
+        // double constantCoeffDiffuse = 28 / 23 / Math.PI;
+        // double lightConstant = (1 - Math.pow((1 - Math.abs(Util.dot(normalDir,
+        // lightDir) / 2)), 5));
+        // double viewConstant = (1 - Math.pow((1 - Math.abs(Util.dot(normalDir, view) /
+        // 2)), 5));
+
+        double constantCoeffDiffuse = 28 / 23 / Math.PI;
+        double lightConstant = (1 - Math.pow((1 - Util.dot(normalDir, lightDir) / 2), 5));
+        double viewConstant = (1 - Math.pow((1 - Util.dot(normalDir, view) / 2), 5));
 
         MyColor diffuse = Util.multColor(this.diffusedColor, this.specularColor.getComplement());
         diffuse.multColor(constantCoeffDiffuse * lightConstant * viewConstant);
@@ -115,7 +121,7 @@ public abstract class Entity {
         Vector reflectVector = Util.reflect(lightDir, normal, intersecPoint);
         Vector view = Util.subtract(camera.getcPosition(), intersecPoint);
         view.normalize();
-        double reflectDotView = Math.abs( Util.dot(reflectVector, view));
+        double reflectDotView = Math.abs(Util.dot(reflectVector, view));
         double specularFactor = ks * light.irradiance * Math.pow(reflectDotView, ke);
 
         MyColor ambient = Util.multColor(ambientFactor, baseColor);
