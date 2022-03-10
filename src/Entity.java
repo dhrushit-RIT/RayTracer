@@ -9,11 +9,13 @@ public abstract class Entity {
     }
 
     protected static double EPSILON = 0.000001;
-    BoundingBox boundingBox;
+    public BoundingBox boundingBox;
+    BoundingBox cBoundingBox;
     protected MyColor baseColor;
     protected MyColor specularColor;
     protected MyColor diffusedColor;
     protected Point position;
+    protected Point cPosition;
 
     protected double ka = 0.1;
     protected double kd = 0.4;
@@ -27,6 +29,31 @@ public abstract class Entity {
         this.diffusedColor = baseColor;
         this.position = position;
     }
+
+    public Point getPositionInCameraCoordinates() {
+        if (this.cPosition == null) {
+            this.computeCPosition();
+        }
+        return this.cPosition;
+    }
+
+    private void computeCPosition() {
+        this.cPosition = Camera.toCameraSpace(position);
+    }
+
+    // TODO: make the bounding boxes independent of the camera position
+    public boolean intersect(Entity other) {
+        BoundingBox otherBoundingBoxInThisFrame = new BoundingBox(
+                other.boundingBox.xMin - this.cPosition.x,
+                other.boundingBox.xMax - this.cPosition.x,
+                other.boundingBox.yMin - this.cPosition.y,
+                other.boundingBox.yMax - this.cPosition.y,
+                other.boundingBox.zMin - this.cPosition.z,
+                other.boundingBox.zMax - this.cPosition.z);
+        return this.boundingBox.intersect(otherBoundingBoxInThisFrame);
+    }
+
+    protected abstract void computeBoundingBox();
 
     protected void setBaseColor(MyColor baseColor) {
         if (baseColor == null) {
