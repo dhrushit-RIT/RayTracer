@@ -205,4 +205,9 @@ public class Camera extends Entity {
         return sb.toString();
     }
 
+    @Override
+    protected void computeBoundingBox() {
+        this.boundingBox = null;        
+    }
+
 }

@@ -1,9 +1,17 @@
+/**
+ * bounding box is assumed to be centered at the center of the sphere
+ * bounding box is assumed to be in context of the entity
+ */
 public class Sphere extends Entity {
     private double radius;
 
     public Sphere(Point sphereCenter, double sphereRadius, MyColor sphereColor) {
         super(sphereColor, sphereCenter);
         this.radius = sphereRadius;
+        this.boundingBox = new BoundingBox(
+                -this.radius, this.radius,
+                -this.radius, this.radius,
+                -this.radius, this.radius);
     }
 
     @Override
@@ -70,6 +78,11 @@ public class Sphere extends Entity {
         intersectionDetails.intersectionPoint.x += Entity.EPSILON * intersectionDetails.normalAtIntersection.x;
         intersectionDetails.intersectionPoint.y += Entity.EPSILON * intersectionDetails.normalAtIntersection.y;
         intersectionDetails.intersectionPoint.z += Entity.EPSILON * intersectionDetails.normalAtIntersection.z;
+    }
+
+    @Override
+    protected void computeBoundingBox() {
+        return;
     }
 
 }
