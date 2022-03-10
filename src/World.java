@@ -3,18 +3,30 @@ import java.util.ArrayList;
 public class World {
     public static double EPSILON = 0.01;
 
+    private Voxel kdRoot = null;
+
     private Entity.BSDFTechnique techniqueToUse = Entity.BSDFTechnique.PHONG;
     BoundingBox boundingBox;
     private Camera camera;
 
     ArrayList<Entity> worldObjects;
+    ArrayList<Entity> worldObjectsXSorted;
+    ArrayList<Entity> worldObjectsYSorted;
+    ArrayList<Entity> worldObjectsZSorted;
     ArrayList<Light> lightSources;
     private int superSampleFactor;
 
     public World() {
         this.worldObjects = new ArrayList<>();
+        // TODO : optimization if you want to avoid making pointer copies al the voxels
+        // this.worldObjectsXSorted = new ArrayList<>();
+        // this.worldObjectsYSorted = new ArrayList<>();
+        // this.worldObjectsZSorted = new ArrayList<>();
         this.lightSources = new ArrayList<>();
         this.superSampleFactor = 1;
+
+        // Voxel.terminalCondition = Voxel.TerminalCondition.COUNT_ENTITIES;
+        // this.kdRoot = new Voxel(Voxel.Division.NONE, worldObjects);
     }
 
     public void setBSDFTechnique(Entity.BSDFTechnique technique) {
@@ -34,6 +46,8 @@ public class World {
     }
 
     public void simulate() {
+        this.kdRoot = Voxel.getNode(this.worldObjects, null);
+        System.out.println(Voxel.count + " " + Voxel.leafCount);
         this.camera.takeASnap(this.superSampleFactor);
         this.camera.applyToneMapping();
         // this.camera.denormalizeColors(); // use this as separate pass later
