@@ -1,9 +1,10 @@
 import java.util.ArrayList;
 import java.util.Comparator;
 
+
 public class Voxel {
 
-    private AABBPlane divisionPlane;
+    private AAPlane divisionPlane;
     private ArrayList<Entity> entities;
 
     private Voxel left;
@@ -29,7 +30,7 @@ public class Voxel {
         leafCount += 1;
     }
 
-    public Voxel(AABBPlane division, Voxel left, Voxel right, ArrayList<Entity> entities) {
+    public Voxel(AAPlane division, Voxel left, Voxel right, ArrayList<Entity> entities) {
         this.divisionPlane = division;
         this.entities = entities;
         this.left = left;
@@ -119,36 +120,57 @@ public class Voxel {
         }
     }
 
-    private static AABBPlane findPartitionPlane(AABBPlane.Alignment parentAlignment, ArrayList<Entity> entities) {
+    private static AAPlane findPartitionPlane(AAPlane.Alignment myAlignment, ArrayList<Entity> entities) {
+        Point pointOnPlane;
+        switch (myAlignment) {
+            case YZ:
+                double x = (entities.get(0).getPositionInCameraCoordinates().x
+                        + entities.get(entities.size() - 1).getPositionInCameraCoordinates().x) / 2;
+                pointOnPlane = new Point(x, 0, 0,
+                        Point.Space.CAMERA);
+                break;
+            case ZX:
+                double y = (entities.get(0).getPositionInCameraCoordinates().y
+                        + entities.get(entities.size() - 1).getPositionInCameraCoordinates().y) / 2;
+                pointOnPlane = new Point(0, y, 0,
+                        Point.Space.CAMERA);
+                break;
+            case XY:
+            default:
+                double z = (entities.get(0).getPositionInCameraCoordinates().z
+                        + entities.get(entities.size() - 1).getPositionInCameraCoordinates().z) / 2;
+                pointOnPlane = new Point(0, 0, z,
+                        Point.Space.CAMERA);
+                break;
+        }
         // Entity midEntity = entities.get(entities.size() / 2);
-        AABBPlane.Alignment alignment = getNextAlignment(parentAlignment);
 
-        return new AABBPlane(midEntity.getPositionInCameraCoordinates(), alignment);
+        return new AAPlane(pointOnPlane, myAlignment);
     }
 
-    public AABBPlane getDividingPlane() {
+    public AAPlane getDividingPlane() {
         return this.divisionPlane;
     }
 
-    private static AABBPlane.Alignment getNextAlignment(AABBPlane.Alignment previousAlignment) {
+    private static AAPlane.Alignment getNextAlignment(AAPlane.Alignment previousAlignment) {
         if (previousAlignment == null) {
-            return AABBPlane.Alignment.XY;
+            return AAPlane.Alignment.XY;
         }
         switch (previousAlignment) {
             case XY:
-                return AABBPlane.Alignment.YZ;
+                return AAPlane.Alignment.YZ;
             case YZ:
-                return AABBPlane.Alignment.ZX;
+                return AAPlane.Alignment.ZX;
             case ZX:
-                return AABBPlane.Alignment.XY;
+                return AAPlane.Alignment.XY;
             default:
-                return AABBPlane.Alignment.XY;
+                return AAPlane.Alignment.XY;
         }
 
     }
 
     public static Voxel getNode(ArrayList<Entity> entities,
-            AABBPlane.Alignment parentDividingPlane) {
+            AAPlane.Alignment parentDividingPlane) {
 
         // if (Terminal (L, V)) return new leaf node (L)
         if (isTerminal(entities)) {
@@ -160,8 +182,9 @@ public class Voxel {
         // AABBPlane divisionPlane = new AABBPlane(new Point(0, 0, 0,
         // Point.Space.CAMERA),
         // getNextAlignment(parentDividingPlane));
-        AABBPlane divisionPlane = findPartitionPlane(parentDividingPlane, entities);
-        sortEntitiesByAlignment(entities, divisionPlane.getAlignment());
+        AAPlane.Alignment alignment = getNextAlignment(parentDividingPlane);
+        sortEntitiesByAlignment(entities, alignment);
+        AAPlane divisionPlane = findPartitionPlane(alignment, entities);
 
         ArrayList<Entity> leftEntities = getLeftEntities(entities, divisionPlane);
         ArrayList<Entity> rightEntities = getRightEntities(entities, divisionPlane);
@@ -178,7 +201,7 @@ public class Voxel {
                 getNode(rightEntities, divisionPlane.getAlignment()), entities);
     }
 
-    private static void sortEntitiesByAlignment(ArrayList<Entity> entities, AABBPlane.Alignment alignment) {
+    private static void sortEntitiesByAlignment(ArrayList<Entity> entities, AAPlane.Alignment alignment) {
         switch (alignment) {
             case XY:
                 entities.sort(comparatorXY);
@@ -196,7 +219,7 @@ public class Voxel {
         }
     }
 
-    private static ArrayList<Entity> getRightEntities(ArrayList<Entity> parentEntities, AABBPlane dividingPlane) {
+    private static ArrayList<Entity> getRightEntities(ArrayList<Entity> parentEntities, AAPlane dividingPlane) {
         ArrayList<Entity> list = new ArrayList<>();
         for (Entity e : parentEntities) {
             Point entityPosition = e.getPositionInCameraCoordinates();
@@ -222,7 +245,7 @@ public class Voxel {
         return list;
     }
 
-    private static ArrayList<Entity> getLeftEntities(ArrayList<Entity> parentEntities, AABBPlane dividingPlane) {
+    private static ArrayList<Entity> getLeftEntities(ArrayList<Entity> parentEntities, AAPlane dividingPlane) {
         ArrayList<Entity> list = new ArrayList<>();
         for (Entity e : parentEntities) {
             Point entityPosition = e.getPositionInCameraCoordinates();
