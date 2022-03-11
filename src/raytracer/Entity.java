@@ -70,16 +70,6 @@ public abstract class Entity {
             return false;
 
         return true;
-
-        // this.getPositionInCameraCoordinates();
-        // BoundingBox otherBoundingBoxInThisFrame = new BoundingBox(
-        // other.boundingBox.xMin - this.cPosition.x,
-        // other.boundingBox.xMax - this.cPosition.x,
-        // other.boundingBox.yMin - this.cPosition.y,
-        // other.boundingBox.yMax - this.cPosition.y,
-        // other.boundingBox.zMin - this.cPosition.z,
-        // other.boundingBox.zMax - this.cPosition.z);
-        // return this.boundingBox.intersect(otherBoundingBoxInThisFrame);
     }
 
     protected abstract void computeBoundingBox();
