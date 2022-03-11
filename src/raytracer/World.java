@@ -1,4 +1,5 @@
 package raytracer;
+
 import raytracer.kdTree.*;
 
 import java.util.ArrayList;
@@ -76,20 +77,24 @@ public class World {
     }
 
     public void simulate() {
-        Point voxelPosition = this.getWorldVoxelOrigin();
-        Voxel worldVoxel = new Voxel(
-            new AAPlane(new Point(0,0,0,Point.Space.CAMERA), null), null, null, this.worldObjects, voxelPosition);
-        worldVoxel.boundingBox = new BoundingBox(
-            0.0, this.boundingBox.xMax - this.boundingBox.xMin,
-            0.0, this.boundingBox.yMax - this.boundingBox.yMin,
-            0.0, this.boundingBox.zMax - this.boundingBox.zMin
-        );
-        this.kdRoot = raytracer.kdTree.KDTree.getNode(this.worldObjects, worldVoxel);
-        System.out.println(Voxel.count + " " + Voxel.leafCount);
+        this.generateKDTree();
+
         this.camera.takeASnap(this.superSampleFactor);
         this.camera.applyToneMapping();
         // this.camera.denormalizeColors(); // use this as separate pass later
         this.camera.generateImage();
+    }
+
+    private void generateKDTree() {
+        Point voxelPosition = this.getWorldVoxelOrigin();
+        Voxel worldVoxel = new Voxel(
+                new AAPlane(new Point(0, 0, 0, Point.Space.CAMERA), null), null, null, this.worldObjects,
+                voxelPosition);
+        worldVoxel.boundingBox = new BoundingBox(
+                0.0, this.boundingBox.xMax - this.boundingBox.xMin,
+                0.0, this.boundingBox.yMax - this.boundingBox.yMin,
+                0.0, this.boundingBox.zMax - this.boundingBox.zMin);
+        this.kdRoot = raytracer.kdTree.KDTree.getNode(this.worldObjects, worldVoxel);
     }
 
     public void setCamera(Camera camera) {
@@ -98,7 +103,6 @@ public class World {
     }
 
     public MyColor getPixelIrradiance(Ray ray) {
-        // MyColor finalColor = new MyColor(128, 128, 128, false).normalize();
         MyColor finalColor = new MyColor(0, 0, 0, false).normalize();
 
         boolean didGetIlluminated = false;
@@ -135,15 +139,20 @@ public class World {
 
     public IntersectionDetails checkIntersection(Ray cRay) {
         Entity nearestEntity = null;
-        double nearestDistance = 100000000;
-        IntersectionDetails bestIntersection = new IntersectionDetails(100000000);
-        for (Entity entity : worldObjects) {
-            IntersectionDetails intersection = entity.intersect(cRay);
-            if (intersection.distance > EPSILON) {
-                if (intersection.distance < nearestDistance) {
-                    nearestEntity = entity;
-                    nearestDistance = intersection.distance;
-                    bestIntersection = intersection;
+        double nearestDistance = Double.MAX_VALUE;
+        IntersectionDetails bestIntersection = new IntersectionDetails(Double.MAX_VALUE);
+        ArrayList<Entity> intersectingEntities = this.getIntersectingEntities(cRay);
+
+        if (intersectingEntities != null && intersectingEntities.isEmpty()) {
+
+            for (Entity entity : intersectingEntities) {
+                IntersectionDetails intersection = entity.intersect(cRay);
+                if (intersection.distance > EPSILON) {
+                    if (intersection.distance < nearestDistance) {
+                        nearestEntity = entity;
+                        nearestDistance = intersection.distance;
+                        bestIntersection = intersection;
+                    }
                 }
             }
         }
@@ -155,5 +164,14 @@ public class World {
         } else {
             return null;
         }
+    }
+
+    private ArrayList<Entity> getIntersectingEntities(Ray cRay) {
+        if (this.kdRoot == null) {
+            return this.worldObjects;
+        }
+
+        double a, s, b;
+        return null;
     }
 }
