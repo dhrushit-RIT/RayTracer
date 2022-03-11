@@ -52,10 +52,6 @@ public class KDTree {
         leftVoxel.setPosition(leftVoxelPosition);
         rightVoxel.setPosition(rightVoxelPosition);
 
-        // compute the voxel start wrt camera so that that can be used to update the
-        // bounding box
-        // need the camera based position as point on plane is wrt camera
-
         switch (P.getAlignment()) {
             case XY:
                 leftVoxel.boundingBox.zMin = 0.0;
