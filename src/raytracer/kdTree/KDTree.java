@@ -16,19 +16,39 @@ public class KDTree {
             return new KDNode(L);
         }
 
-        AAPlane P = setPartitionPlanePoint(V); // plane wrt camera
         AAPlane.Alignment nextAlignment = getNextAlignment(V.getDividingPlane().getAlignment());
 
-        Voxel leftVoxel = new Voxel(new AAPlane(new Point(0, 0, 0, Point.Space.CAMERA), nextAlignment), null, null,
-                null, V.getPosition());
-        Voxel rightVoxel = new Voxel(new AAPlane(new Point(0, 0, 0, Point.Space.CAMERA), nextAlignment), null, null,
-                null, V.getPosition());
-
-        leftVoxel.boundingBox = new BoundingBox(V.boundingBox);
-        rightVoxel.boundingBox = new BoundingBox(V.boundingBox);
+        AAPlane P = setPartitionPlanePoint(V); // plane wrt camera
+        Voxel leftVoxel = getDefaultVoxel(nextAlignment, V);
+        Voxel rightVoxel = getDefaultVoxel(nextAlignment, V);
+        ArrayList<Entity> leftEntities = new ArrayList<>();
+        ArrayList<Entity> rightEntities = new ArrayList<>();
 
         // set the boundaries of the left and right voxels
-        Point pointOnPlane = P.getPointOnPlane(); // wrt camera
+        setVoxelPosition(leftVoxel, rightVoxel, P, V);
+        setVoxelBounds(P, V, leftVoxel, rightVoxel);
+
+        // populate left and right subvoxels
+        setEntitiesForSubVoxel(leftVoxel, leftEntities, rightVoxel, rightEntities, L);
+
+        return new KDNode(P, getNode(leftEntities, leftVoxel), getNode(rightEntities, rightVoxel));
+    }
+
+    private static void setEntitiesForSubVoxel(Voxel leftVoxel, ArrayList<Entity> leftEntities, Voxel rightVoxel,
+            ArrayList<Entity> rightEntities, ArrayList<Entity> L) {
+
+        for (Entity entity : L) {
+            if (entity.intersect(leftVoxel)) {
+                leftEntities.add(entity);
+            }
+
+            if (entity.intersect(rightVoxel)) {
+                rightEntities.add(entity);
+            }
+        }
+    }
+
+    private static void setVoxelPosition(Voxel leftVoxel, Voxel rightVoxel, AAPlane P, Voxel V) {
         Point leftVoxelPosition = new Point(V.getPosition());
         Point rightVoxelPosition = new Point(V.getPosition());
 
@@ -51,7 +71,17 @@ public class KDTree {
         rightVoxelPosition.updatePoint();
         leftVoxel.setPosition(leftVoxelPosition);
         rightVoxel.setPosition(rightVoxelPosition);
+    }
 
+    private static Voxel getDefaultVoxel(AAPlane.Alignment nextAlignment, Voxel V) {
+        Voxel voxel = new Voxel(new AAPlane(new Point(0, 0, 0, Point.Space.CAMERA), nextAlignment), null, null,
+                null, V.getPosition());
+
+        voxel.boundingBox = new BoundingBox(V.boundingBox);
+        return voxel;
+    }
+
+    private static void setVoxelBounds(AAPlane P, Voxel V, Voxel leftVoxel, Voxel rightVoxel) {
         switch (P.getAlignment()) {
             case XY:
                 leftVoxel.boundingBox.zMin = 0.0;
@@ -77,51 +107,30 @@ public class KDTree {
                 System.err.println("wrong voxel child");
         }
 
-        ArrayList<Entity> leftEntities = new ArrayList<>();
-        ArrayList<Entity> rightEntities = new ArrayList<>();
-
-        for (Entity entity : L) {
-            if (entity.intersect(leftVoxel)) {
-                leftEntities.add(entity);
-            }
-
-            if (entity.intersect(rightVoxel)) {
-                rightEntities.add(entity);
-            }
-        }
-
-        return new KDNode(P, getNode(leftEntities, leftVoxel), getNode(rightEntities, rightVoxel));
+        leftVoxel.updateComponents();
+        rightVoxel.updateComponents();
     }
 
     private static AAPlane setPartitionPlanePoint(Voxel v) {
         Point cPos = v.getPositionInCameraCoordinates();
+        double x = 0;
+        double y = 0;
+        double z = 0;
         switch (v.getDividingPlane().getAlignment()) {
             case YZ:
-                v.getDividingPlane().setPointOnPlane(
-                        new Point(
-                                cPos.x + (v.boundingBox.xMax - v.boundingBox.xMin) / 2,
-                                0.0,
-                                0.0,
-                                Point.Space.CAMERA));
+                x = cPos.x + (v.boundingBox.xMax - v.boundingBox.xMin) / 2;
                 break;
             case ZX:
-                v.getDividingPlane().setPointOnPlane(
-                        new Point(
-                                0.0,
-                                cPos.y + (v.boundingBox.yMax - v.boundingBox.yMin) / 2,
-                                0.0,
-                                Point.Space.CAMERA));
+                y = cPos.y + (v.boundingBox.yMax - v.boundingBox.yMin) / 2;
                 break;
             case XY:
             default:
-                v.getDividingPlane().setPointOnPlane(
-                        new Point(
-                                0.0,
-                                0.0,
-                                cPos.z + (v.boundingBox.zMax - v.boundingBox.zMin) / 2,
-                                Point.Space.CAMERA));
+                z = cPos.z + (v.boundingBox.zMax - v.boundingBox.zMin) / 2;
                 break;
         }
+
+        v.getDividingPlane().setPointOnPlane(new Point(x, y, z, Point.Space.CAMERA));
+        
         return v.getDividingPlane();
     }
 
