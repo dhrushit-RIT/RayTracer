@@ -1,3 +1,4 @@
+package raytracer;
 public class IntersectionDetails {
     public double distance;
     public Point intersectionPoint;

@@ -1,3 +1,6 @@
+package raytracer;
+
+import java.util.HashMap;
 
 public abstract class Entity {
 
@@ -14,6 +17,8 @@ public abstract class Entity {
     protected MyColor specularColor;
     protected MyColor diffusedColor;
     protected Point position;
+
+    protected HashMap<String, MyColor> entityColors;
 
     protected double ka = 0.1;
     protected double kd = 0.4;
@@ -102,6 +107,17 @@ public abstract class Entity {
         this.kd = kd;
         this.ks = ks;
         this.ke = ke;
+    }
+
+    // public HashMap<String, MyColor> getColors() {
+    //     HashMap<String, MyColor> entityColors = new HashMap<>();
+    // }
+
+    public MyColor getBaseColor(){
+
+        if (this.hasTexture) {
+            return this.computeBaseColor();
+        }
     }
 
     public void setColors(MyColor basecColor, MyColor speColor, MyColor diffuseColor) {

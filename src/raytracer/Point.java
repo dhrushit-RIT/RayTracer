@@ -1,3 +1,4 @@
+package raytracer;
 import org.ejml.simple.SimpleMatrix;
 
 public class Point {
