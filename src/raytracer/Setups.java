@@ -451,7 +451,7 @@ public class Setups {
             sphere2.setCoeffs(0.3, 0.5, 0.2, 180);
             application.getWorld().addEntity(sphere2);
 
-            Point triangle1Position = new Point(1, 0, 1, Point.Space.WORLD);
+            Point triangle1Position = new Point(0, 0, 0, Point.Space.WORLD);
             Point[] t1Vertices = new Point[] {
                     new Point(1.5, 0, 1.5, Point.Space.WORLD),
                     new Point(1.5, 0, -1.5, Point.Space.WORLD),
@@ -466,10 +466,11 @@ public class Setups {
             Triangle triangle1 = new Triangle(triangle1Color, triangle1Position, t1Vertices);
             triangle1.setCoeffs(0.3, 0.4, 0.3, 180);
             triangle1.setTextureCoordinates(t1TexCoords);
+            triangle1.setHasTexture(true);
 
             application.getWorld().addEntity(triangle1);
 
-            Point t2Position = new Point(1, 0, 1, Point.Space.WORLD);
+            Point t2Position = new Point(0, 0, 0, Point.Space.WORLD);
             Point[] t2Vertices = new Point[] {
                     new Point(-1.5, 0, 1.5, Point.Space.WORLD),
                     new Point(1.5, 0, -1.5, Point.Space.WORLD),
@@ -484,6 +485,8 @@ public class Setups {
             Triangle triangle2 = new Triangle(t2Color, t2Position, t2Vertices);
             triangle2.setCoeffs(0.3, 0.4, 0.2, 180);
             triangle2.setTextureCoordinates(t2texCoords);
+            triangle2.setHasTexture(true);
+
             application.getWorld().addEntity(triangle2);
 
             application.getWorld().setSuperSampleFactor(3);
