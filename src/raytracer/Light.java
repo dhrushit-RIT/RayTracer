@@ -1,3 +1,4 @@
+package raytracer;
 public class Light extends Entity {
 
     MyColor color;

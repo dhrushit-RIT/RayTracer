@@ -1,3 +1,4 @@
+package raytracer;
 public class Application {
 
     public Application() {

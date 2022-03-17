@@ -1,3 +1,4 @@
+package raytracer;
 import java.util.ArrayList;
 
 public class Pixel {

@@ -1,3 +1,4 @@
+package raytracer;
 public class MyColor {
     public double r;
     public double g;

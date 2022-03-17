@@ -1,3 +1,4 @@
+package raytracer;
 public class Ray {
 
     public Point origin;

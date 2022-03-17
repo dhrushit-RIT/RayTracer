@@ -1,3 +1,4 @@
+package raytracer;
 public class Sphere extends Entity {
     private double radius;
 

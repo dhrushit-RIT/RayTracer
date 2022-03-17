@@ -1,9 +1,13 @@
+package raytracer;
+
 import org.ejml.simple.SimpleMatrix;
 
 public class Triangle extends Entity {
 
     public Point wPosition;
     public Point[] verticePoints;
+
+    private Point[] textureCoordinates;
 
     private Vector e1;
     private Vector e2;
@@ -47,7 +51,7 @@ public class Triangle extends Entity {
                 { Util.dot(Q, e2) },
                 { Util.dot(P, T) },
                 { Util.dot(Q, ray.direction) } })
-                        .divide(Pe1);
+                .divide(Pe1);
 
         double w = wuv.get(0, 0);
         double u = wuv.get(1, 0);
@@ -75,6 +79,14 @@ public class Triangle extends Entity {
 
         }
         return intersection;
+    }
+
+    public Point[] getTextureCoordinates() {
+        return textureCoordinates;
+    }
+
+    public void setTextureCoordinates(Point[] textureCoordinates) {
+        this.textureCoordinates = textureCoordinates;
     }
 
 }
