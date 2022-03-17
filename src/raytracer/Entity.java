@@ -25,6 +25,8 @@ public abstract class Entity {
     protected double ks = 0.5;
     protected double ke = 180;
 
+    protected boolean hasTexture = false;
+
     public Entity(MyColor baseColor, Point position) {
         this.setBaseColor(baseColor);
 
@@ -58,7 +60,7 @@ public abstract class Entity {
 
         double specularFactor = ks * light.irradiance * Math.pow(normalDotHalf, ke);
 
-        MyColor ambient = Util.multColor(ambientFactor, baseColor);
+        MyColor ambient = Util.multColor(ambientFactor, getBaseColor(intersecPoint));
         MyColor diffuse = Util.multColor(diffuseFactor, diffusedColor);
         MyColor specular = Util.multColor(specularFactor, specularColor);
 
@@ -80,7 +82,7 @@ public abstract class Entity {
         double reflectDotView = Math.max(0.0, Util.dot(reflectVector, view));
         double specularFactor = ks * light.irradiance * Math.pow(reflectDotView, ke);
 
-        MyColor ambient = Util.multColor(ambientFactor, baseColor);
+        MyColor ambient = Util.multColor(ambientFactor, getBaseColor(intersecPoint));
         MyColor diffuse = Util.multColor(diffuseFactor, diffusedColor);
         MyColor specular = Util.multColor(specularFactor, specularColor);
 
@@ -110,14 +112,44 @@ public abstract class Entity {
     }
 
     // public HashMap<String, MyColor> getColors() {
-    //     HashMap<String, MyColor> entityColors = new HashMap<>();
+    // Map<String, MyColor> entityColors = new HashMap<>();
     // }
 
-    public MyColor getBaseColor(){
+    public MyColor getBaseColor(Point intersectionPoint) {
 
         if (this.hasTexture) {
-            return this.computeBaseColor();
+            return this.computeBaseColor(intersectionPoint);
         }
+        return this.baseColor;
+    }
+
+    // TODO: to be converted to entity space for actual working
+    public MyColor computeBaseColor(Point intersectionPoint) {
+        double u = intersectionPoint.z + 1.5;
+        double v = intersectionPoint.x + 1.5;
+        u /= 2;
+        v /= 2;
+
+        int row = (int) (u / 0.1);
+        int col = (int) (v / 0.1);
+        if (row % 2 == 0) {
+            if (col % 2 == 0) {
+                return new MyColor(1.0, 0.0, 0.0, true);
+            } else {
+                return new MyColor(1.0, 1.0, 0.0, true);
+            }
+        } else {
+            if (col % 2 == 0) {
+                return new MyColor(1.0, 1.0, 0.0, true);
+            } else {
+                return new MyColor(1.0, 0.0, 0.0, true);
+            }
+        }
+        // return new MyColor(1, 0, 0, true);
+    }
+
+    public void setHasTexture(boolean hasTexture) {
+        this.hasTexture = hasTexture;
     }
 
     public void setColors(MyColor basecColor, MyColor speColor, MyColor diffuseColor) {
