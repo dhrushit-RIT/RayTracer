@@ -10,6 +10,7 @@ public class Application {
         // Setups.setup5(this); // two light sources
         // Setups.setup6(this); // supersampling turned on
         Setups.setup7(this); // phong blinn
+        
     }
 
     private World world;
