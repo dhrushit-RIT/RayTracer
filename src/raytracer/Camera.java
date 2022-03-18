@@ -1,4 +1,5 @@
 package raytracer;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -109,9 +110,11 @@ public class Camera extends Entity {
                 Ray ray = new Ray(this.cPosition, dir);
                 color.addColor(this.world.getPixelIrradiance(ray));
             }
+
             color.r /= subPixelCountSquare;
             color.g /= subPixelCountSquare;
             color.b /= subPixelCountSquare;
+
             // Vector dir = new Vector(pixel.cPosition);
             // dir.normalize();
             // Ray ray = new Ray(this.cPosition, dir);
