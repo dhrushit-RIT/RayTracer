@@ -1,4 +1,5 @@
 package raytracer;
+
 public class Util {
 
     public static Vector subtract(Vector v1, Vector v2) {
@@ -96,7 +97,7 @@ public class Util {
     }
 
     public static MyColor multColor(double d, MyColor c) {
-        if(c.normalized == false){
+        if (c.normalized == false) {
             System.out.println("color is not normalized");
         }
         MyColor retColor = new MyColor(c);
@@ -136,5 +137,13 @@ public class Util {
         retColor.g = Math.max(0, Math.min(255, retColor.g));
         retColor.b = Math.max(0, Math.min(255, retColor.b));
         return retColor;
+    }
+
+    public static double distance(Point p1, Point p2) {
+        // TODO: check the space eace point belongs to before calculating the distance
+        double xDiff = p1.x - p2.x;
+        double yDiff = p1.y - p2.y;
+        double zDiff = p1.z - p2.z;
+        return Math.sqrt(xDiff * xDiff + yDiff * yDiff + zDiff * zDiff);
     }
 }
