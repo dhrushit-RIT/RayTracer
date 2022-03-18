@@ -90,7 +90,7 @@ public class World {
         Voxel worldVoxel = new Voxel(
                 new AAPlane(new Point(0, 0, 0, Point.Space.CAMERA), null), null, null, this.worldObjects,
                 voxelPosition);
-        worldVoxel.boundingBox = new BoundingBox(
+        worldVoxel.setBounds(
                 0.0, this.boundingBox.xMax - this.boundingBox.xMin,
                 0.0, this.boundingBox.yMax - this.boundingBox.yMin,
                 0.0, this.boundingBox.zMax - this.boundingBox.zMin);
@@ -171,7 +171,6 @@ public class World {
             return this.worldObjects;
         }
 
-        double a, s, b;
-        return null;
+        return KDTree.getEntityList(this.kdRoot, cRay);
     }
 }
