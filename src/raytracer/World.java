@@ -143,7 +143,7 @@ public class World {
         IntersectionDetails bestIntersection = new IntersectionDetails(Double.MAX_VALUE);
         ArrayList<Entity> intersectingEntities = this.getIntersectingEntities(cRay);
 
-        if (intersectingEntities != null && intersectingEntities.isEmpty()) {
+        if (intersectingEntities != null && !intersectingEntities.isEmpty()) {
 
             for (Entity entity : intersectingEntities) {
                 IntersectionDetails intersection = entity.intersect(cRay);
@@ -170,7 +170,7 @@ public class World {
         if (this.kdRoot == null) {
             return this.worldObjects;
         }
-
+        // return this.worldObjects;
         return KDTree.getEntityList(this.kdRoot, cRay);
     }
 }
