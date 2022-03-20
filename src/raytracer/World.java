@@ -171,6 +171,7 @@ public class World {
             return this.worldObjects;
         }
         // return this.worldObjects;
-        return KDTree.getEntityList(this.kdRoot, cRay);
+        ArrayList<Entity> intersectingEntities = KDTree.getEntityList(this.kdRoot, cRay);
+        return intersectingEntities;
     }
 }
