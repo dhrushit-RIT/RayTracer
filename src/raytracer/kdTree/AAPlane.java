@@ -58,4 +58,8 @@ public class AAPlane {
                 w * cRay.direction.z,
                 Point.Space.CAMERA);
     }
+
+    public String toString() {
+        return alignment + " | " + this.pointOnPlane;
+    }
 }
