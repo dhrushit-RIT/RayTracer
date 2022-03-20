@@ -117,24 +117,26 @@ public class KDTree {
     private static AAPlane setPartitionPlanePoint(Voxel v) {
         Point cPos = v.getPositionInCameraCoordinates();
 
-        double x = 0;
-        double y = 0;
-        double z = 0;
+        double x = cPos.x;
+        double y = cPos.y;
+        double z = cPos.z;
 
         switch (v.getDividingPlane().getAlignment()) {
             case YZ:
-                x = cPos.x + (v.xMax - v.xMin) / 2;
+                x += (v.xMax - v.xMin) / 2;
                 break;
             case ZX:
-                y = cPos.y + (v.yMax - v.yMin) / 2;
+                y += (v.yMax - v.yMin) / 2;
                 break;
             case XY:
             default:
-                z = cPos.z + (v.zMax - v.zMin) / 2;
+                z += (v.zMax - v.zMin) / 2;
                 break;
         }
 
-        v.getDividingPlane().setPointOnPlane(new Point(x, y, z, Point.Space.CAMERA));
+        Point pointOnPlane = new Point(x, y, z, Point.Space.CAMERA);
+        AAPlane dividingPlane = v.getDividingPlane();
+        dividingPlane.setPointOnPlane(pointOnPlane);
 
         return v.getDividingPlane();
     }
@@ -174,7 +176,8 @@ public class KDTree {
 
         ArrayList<Point> intersectionDetails = root.getVoxel().intersectVoxel(cRay);
         if (intersectionDetails.size() != 2) {
-            System.err.println("Error parsing the kd tree");
+            // System.err.println("Error parsing the kd tree");
+            return new ArrayList<>();
         }
 
         Point A = intersectionDetails.get(0);
@@ -212,22 +215,32 @@ public class KDTree {
         // algorithm to find the next root
         if (a < s) {
             if (b < s) {
+                return getEntityList(root.getLeft(), cRay);
                 // left node : N1, N2, N3, P5, Z3
             } else {
                 if (b == s) {
+                    return getEntityList(root.getLeft(), cRay);
                     // left or right node : Z2
                 } else {
+                    ArrayList<Entity> intersectingEntities = new ArrayList<>();
+                    intersectingEntities.addAll(getEntityList(root.getLeft(), cRay));
+                    intersectingEntities.addAll(getEntityList(root.getRight(), cRay));
+                    return intersectingEntities;
                     // left and right : N4
                 }
             }
         } else {
             if (b > s) {
                 // right node : P1, P2, P3, N5, Z1
+                return getEntityList(root.getRight(), cRay);
             } else {
                 // right and left : P4
+                ArrayList<Entity> intersectingEntities = new ArrayList<>();
+                intersectingEntities.addAll(getEntityList(root.getRight(), cRay));
+                intersectingEntities.addAll(getEntityList(root.getLeft(), cRay));
+                return intersectingEntities;
             }
         }
-        return getEntityList(root, cRay);
     }
 
 }
