@@ -88,15 +88,19 @@ public class Voxel extends BoundingBox implements ISpaceTransferable {
     }
 
     public ArrayList<Point> intersectVoxel(Ray cRay) {
+        // TODO: this is not generalised in the sense that if the camera is itself inside the voxel, it does not work.
+
         ArrayList<Point> intersections = new ArrayList<>();
 
         for (ComponentPlanes planeType : ComponentPlanes.values()) {
             AAPlane plane = this.components.get(planeType);
             Point intersectionPoint = plane.intersectPoint(cRay);
-            boolean isPointInVoxel = this.checkIntersectionIsInsideVoxel(intersectionPoint, plane);
-
-            if (isPointInVoxel) {
-                intersections.add(intersectionPoint);
+            if(intersectionPoint != null) {
+                boolean isPointInVoxel = this.checkIntersectionIsInsideVoxel(intersectionPoint, plane);
+                
+                if (isPointInVoxel) {
+                    intersections.add(intersectionPoint);
+                }
             }
         }
 
@@ -124,37 +128,38 @@ public class Voxel extends BoundingBox implements ISpaceTransferable {
         boolean yOutOfRange = false;
         boolean zOutOfRange = false;
 
+        double voxelXmin = this.xMin + this.cPosition.x;
+        double voxelXmax = this.xMax + this.cPosition.x;
+        double voxelYmin = this.yMin + this.cPosition.y;
+        double voxelYmax = this.yMax + this.cPosition.y;
+        double voxelZmin = this.zMin + this.cPosition.z;
+        double voxelZmax = this.zMax + this.cPosition.z;
+
         this.getPositionInCameraCoordinates();
         switch (plane.getAlignment()) {
             case XY:
-                xOutOfRange = intersectionPoint.x < this.xMin + this.cPosition.x
-                        || intersectionPoint.x > this.xMax + this.cPosition.x;
+                xOutOfRange = intersectionPoint.x < voxelXmin || intersectionPoint.x > voxelXmax;
                 if (xOutOfRange)
                     return false;
-                yOutOfRange = intersectionPoint.y < this.yMin + this.cPosition.y
-                        || intersectionPoint.y > this.yMax + this.cPosition.y;
+                yOutOfRange = intersectionPoint.y < voxelYmin || intersectionPoint.y > voxelYmax;
                 if (yOutOfRange)
                     return false;
                 break;
 
             case YZ:
-                zOutOfRange = intersectionPoint.z < this.zMin + this.cPosition.z
-                        || intersectionPoint.z > this.zMax + this.cPosition.z;
+                zOutOfRange = intersectionPoint.z < voxelZmin || intersectionPoint.z > voxelZmax;
                 if (zOutOfRange)
                     return false;
-                yOutOfRange = intersectionPoint.y < this.yMin + this.cPosition.y
-                        || intersectionPoint.y > this.yMax + this.cPosition.y;
+                yOutOfRange = intersectionPoint.y < voxelYmin || intersectionPoint.y > voxelYmax;
                 if (yOutOfRange)
                     return false;
                 break;
 
             case ZX:
-                zOutOfRange = intersectionPoint.z < this.zMin + this.cPosition.z
-                        || intersectionPoint.z > this.zMax + this.cPosition.z;
+                zOutOfRange = intersectionPoint.z < voxelZmin || intersectionPoint.z > voxelZmax;
                 if (zOutOfRange)
                     return false;
-                xOutOfRange = intersectionPoint.x < this.xMin + this.cPosition.x
-                        || intersectionPoint.x > this.xMax + this.cPosition.x;
+                xOutOfRange = intersectionPoint.x < voxelXmin || intersectionPoint.x > voxelXmax;
                 if (xOutOfRange)
                     return false;
                 break;
