@@ -77,7 +77,9 @@ public class World {
     }
 
     public void simulate() {
+        System.out.println("Starting to build the kd-Tree");
         this.generateKDTree();
+        System.out.println("kd-Tree building complete...");
 
         this.camera.takeASnap(this.superSampleFactor);
         this.camera.applyToneMapping();
@@ -94,7 +96,7 @@ public class World {
                 0.0, this.boundingBox.xMax - this.boundingBox.xMin,
                 0.0, this.boundingBox.yMax - this.boundingBox.yMin,
                 0.0, this.boundingBox.zMax - this.boundingBox.zMin);
-        this.kdRoot = raytracer.kdTree.KDTree.getNode(this.worldObjects, worldVoxel);
+        this.kdRoot = raytracer.kdTree.KDTree.getNode(this.worldObjects, worldVoxel, 0);
     }
 
     public void setCamera(Camera camera) {
