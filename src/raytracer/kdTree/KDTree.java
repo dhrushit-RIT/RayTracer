@@ -2,17 +2,19 @@ package raytracer.kdTree;
 
 import java.util.ArrayList;
 
-import raytracer.BoundingBox;
 import raytracer.Entity;
-import raytracer.IntersectionDetails;
 import raytracer.Point;
 import raytracer.Ray;
 
 public class KDTree {
     KDNode root;
 
-    public static KDNode getNode(ArrayList<Entity> L, Voxel V) {
-        if (isTerminal(L, V)) {
+    private static int MAX_DEPTH = 500;
+    private static int MAX_ENTITIES_IN_VOXEL = 2;
+
+    public static KDNode getNode(ArrayList<Entity> L, Voxel V, int depth) {
+        if (isTerminal(L, V) || depth > MAX_DEPTH) {
+            // System.out.println(L.size());
             return new KDNode(L, V);
         }
 
@@ -33,7 +35,8 @@ public class KDTree {
         // populate left and right subvoxels
         setEntitiesForSubVoxel(leftVoxel, leftEntities, rightVoxel, rightEntities, L);
 
-        return new KDNode(P, getNode(leftEntities, leftVoxel), getNode(rightEntities, rightVoxel), V);
+        return new KDNode(P, getNode(leftEntities, leftVoxel, depth + 1), getNode(rightEntities, rightVoxel, depth + 1),
+                V);
     }
 
     private static void setEntitiesForSubVoxel(Voxel leftVoxel, ArrayList<Entity> leftEntities, Voxel rightVoxel,
@@ -159,7 +162,7 @@ public class KDTree {
     }
 
     private static boolean isTerminal(ArrayList<Entity> l, Voxel v) {
-        if (l.size() < 3) {
+        if (l.size() < MAX_ENTITIES_IN_VOXEL) {
             return true;
         }
         return false;
