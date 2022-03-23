@@ -95,6 +95,7 @@ public class World {
                 0.0, this.boundingBox.yMax - this.boundingBox.yMin,
                 0.0, this.boundingBox.zMax - this.boundingBox.zMin);
         this.kdRoot = raytracer.kdTree.KDTree.getNode(this.worldObjects, worldVoxel);
+        System.out.println("kd leaves: " + Voxel.leafCount + " internal voxel count : " + Voxel.count);
     }
 
     public void setCamera(Camera camera) {
