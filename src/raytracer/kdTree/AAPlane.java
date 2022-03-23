@@ -37,26 +37,37 @@ public class AAPlane {
     }
 
     public Point intersectPoint(Ray cRay) {
+
+        // w = -1 * (cRay.origin.z + -1 * pointOnPlane.z) / cRay.direction.z;
+
         double w = 1;
         switch (alignment) {
             case XY:
-                w = pointOnPlane.z / cRay.direction.z;
+                w = -1 * (cRay.origin.z + -1 * pointOnPlane.z) / cRay.direction.z;
+                // w = pointOnPlane.z / cRay.direction.z;
                 break;
             case YZ:
-                w = pointOnPlane.x / cRay.direction.x;
+                w = -1 * (cRay.origin.x + -1 * pointOnPlane.x) / cRay.direction.x;
+                // w = pointOnPlane.x / cRay.direction.x;
                 break;
             case ZX:
-                w = pointOnPlane.y / cRay.direction.y;
+                w = -1 * (cRay.origin.y + -1 * pointOnPlane.y) / cRay.direction.y;
+                // w = pointOnPlane.y / cRay.direction.y;
                 break;
             default:
                 break;
         }
 
-        return new Point(
-                w * cRay.direction.x,
-                w * cRay.direction.y,
-                w * cRay.direction.z,
-                Point.Space.CAMERA);
+        // if (w > 0) {
+
+            return new Point(
+                    cRay.origin.x + w * cRay.direction.x,
+                    cRay.origin.y + w * cRay.direction.y,
+                    cRay.origin.z + w * cRay.direction.z,
+                    Point.Space.CAMERA);
+        // } else {
+            // return null;
+        // }
     }
 
     public String toString() {
