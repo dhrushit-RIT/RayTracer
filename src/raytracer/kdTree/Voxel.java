@@ -88,7 +88,6 @@ public class Voxel extends BoundingBox implements ISpaceTransferable {
     }
 
     public ArrayList<Point> intersectVoxel(Ray cRay) {
-        // TODO: this is not generalised in the sense that if the camera is itself inside the voxel, it does not work.
 
         ArrayList<Point> intersections = new ArrayList<>();
 
@@ -223,6 +222,7 @@ public class Voxel extends BoundingBox implements ISpaceTransferable {
         this.zMax = zMax;
 
         this.getPositionInCameraCoordinates();
+        
         this.components.get(ComponentPlanes.XY1).setPointOnPlane(
                 new Point(xMin + this.cPosition.x, yMin + this.cPosition.y, zMin + this.cPosition.z, Space.CAMERA));
         this.components.get(ComponentPlanes.XY2).setPointOnPlane(
