@@ -58,16 +58,26 @@ public class World {
         double yMax = -Double.MAX_VALUE;
         double zMax = -Double.MAX_VALUE;
 
+        // for (Entity entity : this.worldObjects) {
+        // // Point entityPosition = entity.position;
+        // xMin = Math.min(xMin, entity.getPosition().x + entity.boundingBox.xMin);
+        // yMin = Math.min(yMin, entity.getPosition().y + entity.boundingBox.yMin);
+        // zMin = Math.min(zMin, entity.getPosition().z + entity.boundingBox.zMin);
+        // xMax = Math.max(xMax, entity.getPosition().x + entity.boundingBox.xMax);
+        // yMax = Math.max(yMax, entity.getPosition().y + entity.boundingBox.yMax);
+        // zMax = Math.max(zMax, entity.getPosition().z + entity.boundingBox.zMax);
+        // }
         for (Entity entity : this.worldObjects) {
-            // Point entityPosition = entity.position;
-            xMin = Math.min(xMin, entity.getPosition().x + entity.boundingBox.xMin);
-            yMin = Math.min(yMin, entity.getPosition().y + entity.boundingBox.yMin);
-            zMin = Math.min(zMin, entity.getPosition().z + entity.boundingBox.zMin);
-            xMax = Math.max(xMax, entity.getPosition().x + entity.boundingBox.xMax);
-            yMax = Math.max(yMax, entity.getPosition().y + entity.boundingBox.yMax);
-            zMax = Math.max(zMax, entity.getPosition().z + entity.boundingBox.zMax);
+            Point cEntityPosition = entity.getPositionInCameraCoordinates();
+            xMin = Math.min(xMin, cEntityPosition.x + entity.boundingBox.xMin);
+            yMin = Math.min(yMin, cEntityPosition.y + entity.boundingBox.yMin);
+            zMin = Math.min(zMin, cEntityPosition.z + entity.boundingBox.zMin);
+            xMax = Math.max(xMax, cEntityPosition.x + entity.boundingBox.xMax);
+            yMax = Math.max(yMax, cEntityPosition.y + entity.boundingBox.yMax);
+            zMax = Math.max(zMax, cEntityPosition.z + entity.boundingBox.zMax);
         }
 
+        // TODO : xmin to 0 and xmax to xmax - xmin
         this.boundingBox = new BoundingBox(xMin, xMax, yMin, yMax, zMin, zMax);
     }
 
@@ -97,6 +107,7 @@ public class World {
                 0.0, this.boundingBox.yMax - this.boundingBox.yMin,
                 0.0, this.boundingBox.zMax - this.boundingBox.zMin);
         this.kdRoot = raytracer.kdTree.KDTree.getNode(this.worldObjects, worldVoxel, 0);
+        System.out.println(Voxel.count + " " + Voxel.leafCount);
     }
 
     public void setCamera(Camera camera) {
