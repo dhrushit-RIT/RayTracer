@@ -22,10 +22,6 @@ public class World {
 
     public World() {
         this.worldObjects = new ArrayList<>();
-        // TODO : optimization if you want to avoid making pointer copies al the voxels
-        // this.worldObjectsXSorted = new ArrayList<>();
-        // this.worldObjectsYSorted = new ArrayList<>();
-        // this.worldObjectsZSorted = new ArrayList<>();
         this.lightSources = new ArrayList<>();
         this.superSampleFactor = 1;
 
@@ -114,6 +110,7 @@ public class World {
                 || entityIntersectionDetails.intersectionPoint == null) {
             return new MyColor(Camera.DEFAULT_COLOR);
         }
+
         for (Light light : lightSources) {
             Ray shadowRay = new Ray(entityIntersectionDetails.intersectionPoint,
                     // TODO: create a to Entity space and to World space in util and use that during
@@ -133,7 +130,6 @@ public class World {
 
                 finalColor = Util.addColor(finalColor, tempColor);
             }
-
         }
 
         return finalColor;
