@@ -12,8 +12,10 @@ public class Application {
         // Setups.setup6(this); // supersampling turned on
         // Setups.setup7(this); // phong blinn
         // Setups.KDTree.setup0(this);
-        // Setups.KDTree.setup1(this);
-        Setups.KDTree.setup2(this);
+        Setups.KDTree.setup1(this);
+        // Setups.KDTree.setup2(this);
+        // Setups.KDTree.setup4(this);
+        // Setups.KDTree.setup5(this);
     }
 
     private World world;
