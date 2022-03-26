@@ -10,7 +10,7 @@ public class KDTree {
     KDNode root;
 
     private static int MAX_DEPTH = 500;
-    private static int MAX_ENTITIES_IN_VOXEL = 2;
+    private static int MAX_ENTITIES_IN_VOXEL = 10000;
 
     public static KDNode getNode(ArrayList<Entity> L, Voxel V, int depth) {
         if (isTerminal(L, V) || depth > MAX_DEPTH) {
@@ -35,8 +35,9 @@ public class KDTree {
         // populate left and right subvoxels
         setEntitiesForSubVoxel(leftVoxel, leftEntities, rightVoxel, rightEntities, L);
 
-        return new KDNode(P, getNode(leftEntities, leftVoxel, depth + 1), getNode(rightEntities, rightVoxel, depth + 1),
-                V);
+        KDNode leftNode = getNode(leftEntities, leftVoxel, depth + 1);
+        KDNode rightNode = getNode(rightEntities, rightVoxel, depth + 1);
+        return new KDNode(P, leftNode, rightNode, V);
     }
 
     private static void setEntitiesForSubVoxel(Voxel leftVoxel, ArrayList<Entity> leftEntities, Voxel rightVoxel,
@@ -118,7 +119,8 @@ public class KDTree {
     }
 
     private static AAPlane setPartitionPlanePoint(Voxel v) {
-        Point cPos = v.getPositionInCameraCoordinates();
+        // Point cPos = v.getPositionInCameraCoordinates();
+        Point cPos = v.getPosition(); // voxel is always in the camera coordinates
 
         double x = cPos.x;
         double y = cPos.y;
