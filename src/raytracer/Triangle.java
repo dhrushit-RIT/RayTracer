@@ -7,6 +7,8 @@ public class Triangle extends Entity {
     public Point wPosition;
     public Point[] verticePoints;
 
+    private Point[] textureCoordinates;
+
     private Vector e1;
     private Vector e2;
     private Vector T;
@@ -100,6 +102,12 @@ public class Triangle extends Entity {
 
     public String toString() {
         return this.verticePoints[0] + "\n" + this.verticePoints[1] + "\n" + this.verticePoints[2] + "\n\n";
+    public Point[] getTextureCoordinates() {
+        return textureCoordinates;
+    }
+
+    public void setTextureCoordinates(Point[] textureCoordinates) {
+        this.textureCoordinates = textureCoordinates;
     }
 
 }

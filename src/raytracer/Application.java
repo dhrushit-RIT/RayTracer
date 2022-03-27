@@ -1,4 +1,5 @@
 package raytracer;
+
 public class Application {
 
     public Application() {
@@ -16,6 +17,7 @@ public class Application {
         // Setups.KDTree.setup2(this);
         // Setups.KDTree.setup4(this);
         // Setups.KDTree.setup5(this);
+        // Setups.TextureCoordinates.setup1(this);
     }
 
     private World world;
