@@ -27,8 +27,8 @@ public abstract class Entity {
     public Entity(MyColor baseColor, Point position) {
         this.setBaseColor(baseColor);
 
-        this.specularColor = baseColor;
-        this.diffusedColor = baseColor;
+        this.specularColor = this.baseColor;
+        this.diffusedColor = this.baseColor;
         this.position = position;
     }
 

@@ -1,4 +1,5 @@
 package raytracer;
+
 import org.ejml.simple.SimpleMatrix;
 
 public class Triangle extends Entity {
@@ -95,6 +96,10 @@ public class Triangle extends Entity {
         double zMax = Math.max(this.verticePoints[0].z - this.position.z,
                 Math.max(this.verticePoints[1].z - this.position.z, this.verticePoints[2].z - this.position.z));
         this.boundingBox = new BoundingBox(xMin, xMax, yMin, yMax, zMin, zMax);
+    }
+
+    public String toString() {
+        return this.verticePoints[0] + "\n" + this.verticePoints[1] + "\n" + this.verticePoints[2] + "\n\n";
     }
 
 }

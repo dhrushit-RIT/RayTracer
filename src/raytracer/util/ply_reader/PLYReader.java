@@ -37,9 +37,9 @@ public class PLYReader {
 
                     if (numFaces > 0) {
                         int numVerts = Integer.parseInt(parts[0]);
-                        int firstVert = Integer.parseInt(parts[0]);
-                        int secondVert = Integer.parseInt(parts[1]);
-                        int thirdVert = Integer.parseInt(parts[2]);
+                        int firstVert = Integer.parseInt(parts[1]);
+                        int secondVert = Integer.parseInt(parts[2]);
+                        int thirdVert = Integer.parseInt(parts[3]);
                         fList.add(new Triangle(null, vList.get(firstVert), new Point[] {
                                 vList.get(firstVert),
                                 vList.get(secondVert),
