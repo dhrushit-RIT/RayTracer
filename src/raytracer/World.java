@@ -87,14 +87,22 @@ public class World {
     }
 
     public void simulate() {
+        long startTimeBuildKD = System.currentTimeMillis();
         System.out.println("Starting to build the kd-Tree");
         this.generateKDTree();
         System.out.println("kd-Tree building complete...");
+        long endTimeBuildKD = System.currentTimeMillis();
+
+        long startTime = System.currentTimeMillis();
 
         this.camera.takeASnap(this.superSampleFactor);
         this.camera.applyToneMapping();
         // this.camera.denormalizeColors(); // use this as separate pass later
         this.camera.generateImage();
+        long endTime = System.currentTimeMillis();
+
+        System.out.println("Time to build kd tree : " + (endTimeBuildKD - startTimeBuildKD) + "ms");
+        System.out.println("Time to render : " + (endTime - startTime) + "ms");
     }
 
     private void generateKDTree() {
@@ -184,7 +192,8 @@ public class World {
             return this.worldObjects;
         }
         // return this.worldObjects;
-        ArrayList<Entity> intersectingEntities = KDTree.getEntityList(this.kdRoot, cRay);
+        ArrayList<Entity> intersectingEntities = KDTree.getEntityList(this.kdRoot,
+                cRay);
         return intersectingEntities;
     }
 }
