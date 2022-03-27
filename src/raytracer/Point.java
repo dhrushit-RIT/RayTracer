@@ -69,6 +69,6 @@ public class Point {
     }
 
     public String toString() {
-        return "P: {" + this.x + " " + this.y + " " + this.z + "}";
+        return "P: {" + this.x + ", " + this.y + ", " + this.z + "}";
     }
 }
