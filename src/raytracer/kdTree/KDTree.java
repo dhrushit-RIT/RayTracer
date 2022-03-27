@@ -10,7 +10,7 @@ public class KDTree {
     KDNode root;
 
     private static int MAX_DEPTH = 500;
-    private static int MAX_ENTITIES_IN_VOXEL = 1000;
+    private static int MAX_ENTITIES_IN_VOXEL = 500;
 
     public static KDNode getNode(ArrayList<Entity> L, Voxel V, int depth) {
         if (isTerminal(L, V) || depth > MAX_DEPTH) {
@@ -218,7 +218,7 @@ public class KDTree {
         }
 
         // algorithm to find the next root
-        if (a < s) {
+        if (a <= s) {
             if (b < s) {
                 return getEntityList(root.getLeft(), cRay);
                 // left node : N1, N2, N3, P5, Z3
