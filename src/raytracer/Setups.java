@@ -608,10 +608,10 @@ public class Setups {
 			//
 			// set up Camera
 			//
-			Point cameraPosition = new Point(0, 0.6, 0.3, Point.Space.WORLD);
+			Point cameraPosition = new Point(0, 0.17, 0.17, Point.Space.WORLD);
 			Vector cameraUp = new Vector(0, 1, 0);
 			Point cameraLookAt = new Point(0, 0, 0, Point.Space.WORLD);
-			double cameraFocalLength = 8;
+			double cameraFocalLength = 3;
 			Camera camera = new Camera(cameraPosition, cameraUp, cameraLookAt, cameraFocalLength);
 			application.getWorld().setCamera(camera);
 
