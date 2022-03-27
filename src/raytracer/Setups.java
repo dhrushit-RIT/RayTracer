@@ -608,9 +608,9 @@ public class Setups {
 			//
 			// set up Camera
 			//
-			Point cameraPosition = new Point(0, 1.15, 3, Point.Space.WORLD);
+			Point cameraPosition = new Point(0, 0.6, 0.3, Point.Space.WORLD);
 			Vector cameraUp = new Vector(0, 1, 0);
-			Point cameraLookAt = new Point(0, 1.15, 0, Point.Space.WORLD);
+			Point cameraLookAt = new Point(0, 0, 0, Point.Space.WORLD);
 			double cameraFocalLength = 8;
 			Camera camera = new Camera(cameraPosition, cameraUp, cameraLookAt, cameraFocalLength);
 			application.getWorld().setCamera(camera);
@@ -619,11 +619,11 @@ public class Setups {
 			// Light
 			//
 			Light light1 = new Light(new MyColor(1, 1, 1, true), new Point(0, 5, 0, Point.Space.WORLD),
-					0.55);
+					0.35);
 			application.getWorld().addLightSource(light1);
 
 			Light light2 = new Light(new MyColor(1, 1, 1, true), new Point(2, 5, 5, Point.Space.WORLD),
-					0.55);
+					0.35);
 			application.getWorld().addLightSource(light2);
 
 			// ================================================================
@@ -633,7 +633,7 @@ public class Setups {
 			//
 			// set other configs
 			//
-			application.getWorld().setSuperSampleFactor(1);
+			application.getWorld().setSuperSampleFactor(3);
 			application.getWorld().setBSDFTechnique(Entity.BSDFTechnique.PHONG_BLINN);
 
 			//
@@ -644,8 +644,11 @@ public class Setups {
 			// String path = "src/raytracer/resources/ply_files/bunny_high_res.ply";
 			File file = new File(path);
 			ArrayList<Triangle> entities = PLYReader.loadModel(file.getAbsolutePath());
-			for (Entity entity : entities)
+			
+			for (Entity entity : entities){
+
 				application.getWorld().addEntity(entity);
+			}
 		}
 
 		// 4 spheres z up
