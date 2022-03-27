@@ -24,7 +24,7 @@ public class Camera extends Entity {
     private Point cLookAt;
     private Point cPosition = new Point(0, 0, 0, Point.Space.CAMERA);
 
-    private int scaleRatio = 40;
+    private int scaleRatio = 80;
 
     public Point getcPosition() {
         return cPosition;
