@@ -10,7 +10,7 @@ public class KDTree {
     KDNode root;
 
     private static int MAX_DEPTH = 500;
-    private static int MAX_ENTITIES_IN_VOXEL = 3;
+    private static int MAX_ENTITIES_IN_VOXEL = 100;
 
     public static KDNode getNode(ArrayList<Entity> L, Voxel V, int depth) {
         if (isTerminal(L, V) || depth > MAX_DEPTH) {
