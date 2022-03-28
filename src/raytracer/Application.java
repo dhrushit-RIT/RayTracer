@@ -12,7 +12,8 @@ public class Application {
         // Setups.setup5(this); // two light sources
         // Setups.setup6(this); // supersampling turned on
         // Setups.setup7(this); // phong blinn
-        Setups.TextureCoordinates.setup1(this);
+        // Setups.TextureCoordinates.setup1(this);
+        Setups.Reflection.setup0(this);
     }
 
     private World world;

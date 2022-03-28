@@ -25,6 +25,9 @@ public abstract class Entity {
     protected double ks = 0.5;
     protected double ke = 180;
 
+    protected double kr = 0;
+    protected double kt = 0;
+
     protected boolean hasTexture = false;
 
     public Entity(MyColor baseColor, Point position) {
@@ -156,6 +159,22 @@ public abstract class Entity {
         this.baseColor = basecColor.normalize();
         this.specularColor = speColor.normalize();
         this.diffusedColor = diffuseColor.normalize();
+    }
+
+    public void setTransmissiveCoeff(double kt) {
+        this.kt = kt;
+    }
+
+    public void setReflectiveCoeff(double kr) {
+        this.kr = kr;
+    }
+
+    public boolean isReflective() {
+        return this.kr > 0;
+    }
+
+    public boolean isTransmissive() {
+        return this.kt > 0;
     }
 
     public abstract IntersectionDetails intersect(Ray ray);

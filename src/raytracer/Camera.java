@@ -11,7 +11,7 @@ import org.ejml.simple.SimpleMatrix;
 
 public class Camera extends Entity {
 
-    static final MyColor DEFAULT_COLOR = new MyColor(191, 191, 191, false).normalize();
+    static final MyColor DEFAULT_COLOR = new MyColor(0, 0, 255, false).normalize();
 
     private static SimpleMatrix worldToNodeMatrix;
 
@@ -107,7 +107,8 @@ public class Camera extends Entity {
                 Vector dir = new Vector(subPixel.cPosition);
                 dir.normalize();
                 Ray ray = new Ray(this.cPosition, dir);
-                color.addColor(this.world.getPixelIrradiance(ray));
+                // color.addColor(this.world.getPixelIrradiance(ray));
+                color.addColor(this.world.illuminate(ray, 0));
             }
             color.r /= subPixelCountSquare;
             color.g /= subPixelCountSquare;
@@ -204,6 +205,10 @@ public class Camera extends Entity {
         sb.append("\tviewmatrix " + worldToNodeMatrix + "\n");
 
         return sb.toString();
+    }
+
+    public void setScaleRatio(int scale){
+        this.scaleRatio = scale;
     }
 
 }

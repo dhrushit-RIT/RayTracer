@@ -1,4 +1,5 @@
 package raytracer;
+
 public class Util {
 
     public static Vector subtract(Vector v1, Vector v2) {
@@ -96,7 +97,7 @@ public class Util {
     }
 
     public static MyColor multColor(double d, MyColor c) {
-        if(c.normalized == false){
+        if (c.normalized == false) {
             System.out.println("color is not normalized");
         }
         MyColor retColor = new MyColor(c);
@@ -135,6 +136,15 @@ public class Util {
         retColor.r = Math.max(0, Math.min(255, retColor.r));
         retColor.g = Math.max(0, Math.min(255, retColor.g));
         retColor.b = Math.max(0, Math.min(255, retColor.b));
+        return retColor;
+    }
+
+    public static MyColor scaleColor(double scaleFactor, MyColor color) {
+        MyColor retColor = new MyColor(color);
+        retColor.r *= scaleFactor;
+        retColor.g *= scaleFactor;
+        retColor.b *= scaleFactor;
+
         return retColor;
     }
 }
