@@ -6,6 +6,7 @@ public class Triangle extends Entity {
 
     public Point wPosition;
     public Point[] verticePoints;
+    public Point[] cVerticePoints;
 
     private Point[] textureCoordinates;
 
@@ -23,7 +24,17 @@ public class Triangle extends Entity {
         this.e1 = Util.subtract(verticePoints[1], verticePoints[0]);
         this.e2 = Util.subtract(verticePoints[2], verticePoints[0]);
 
+        this.computeVerticesInCamera();
         this.computeBoundingBox();
+    }
+
+    private void computeVerticesInCamera() {
+        this.getPositionInCameraCoordinates();
+        this.cVerticePoints = new Point[3];
+
+        this.cVerticePoints[0] = Camera.toCameraSpace(this.verticePoints[0]);
+        this.cVerticePoints[1] = Camera.toCameraSpace(this.verticePoints[1]);
+        this.cVerticePoints[2] = Camera.toCameraSpace(this.verticePoints[2]);
     }
 
     /**
@@ -85,18 +96,40 @@ public class Triangle extends Entity {
 
     @Override
     protected void computeBoundingBox() {
-        double xMin = Math.min(this.verticePoints[0].x - this.position.x,
-                Math.min(this.verticePoints[1].x - this.position.x, this.verticePoints[2].x - this.position.x));
-        double xMax = Math.max(this.verticePoints[0].x - this.position.x,
-                Math.max(this.verticePoints[1].x - this.position.x, this.verticePoints[2].x - this.position.x));
-        double yMin = Math.min(this.verticePoints[0].y - this.position.y,
-                Math.min(this.verticePoints[1].y - this.position.y, this.verticePoints[2].y - this.position.y));
-        double yMax = Math.max(this.verticePoints[0].y - this.position.y,
-                Math.max(this.verticePoints[1].y - this.position.y, this.verticePoints[2].y - this.position.y));
-        double zMin = Math.min(this.verticePoints[0].z - this.position.z,
-                Math.min(this.verticePoints[1].z - this.position.z, this.verticePoints[2].z - this.position.z));
-        double zMax = Math.max(this.verticePoints[0].z - this.position.z,
-                Math.max(this.verticePoints[1].z - this.position.z, this.verticePoints[2].z - this.position.z));
+        // this is in the world coords
+        // need to convert this to camera
+        // try figuring out a better way to generally compute the bb
+        // double xMin = Math.min(this.verticePoints[0].x - this.position.x,
+        // Math.min(this.verticePoints[1].x - this.position.x, this.verticePoints[2].x -
+        // this.position.x));
+        // double xMax = Math.max(this.verticePoints[0].x - this.position.x,
+        // Math.max(this.verticePoints[1].x - this.position.x, this.verticePoints[2].x -
+        // this.position.x));
+        // double yMin = Math.min(this.verticePoints[0].y - this.position.y,
+        // Math.min(this.verticePoints[1].y - this.position.y, this.verticePoints[2].y -
+        // this.position.y));
+        // double yMax = Math.max(this.verticePoints[0].y - this.position.y,
+        // Math.max(this.verticePoints[1].y - this.position.y, this.verticePoints[2].y -
+        // this.position.y));
+        // double zMin = Math.min(this.verticePoints[0].z - this.position.z,
+        // Math.min(this.verticePoints[1].z - this.position.z, this.verticePoints[2].z -
+        // this.position.z));
+        // double zMax = Math.max(this.verticePoints[0].z - this.position.z,
+        // Math.max(this.verticePoints[1].z - this.position.z, this.verticePoints[2].z -
+        // this.position.z));
+        double xMin = Math.min(this.cVerticePoints[0].x - this.cPosition.x,
+                Math.min(this.cVerticePoints[1].x - this.cPosition.x, this.cVerticePoints[2].x - this.cPosition.x));
+        double xMax = Math.max(this.cVerticePoints[0].x - this.cPosition.x,
+                Math.max(this.cVerticePoints[1].x - this.cPosition.x, this.cVerticePoints[2].x - this.cPosition.x));
+        double yMin = Math.min(this.cVerticePoints[0].y - this.cPosition.y,
+                Math.min(this.cVerticePoints[1].y - this.cPosition.y, this.cVerticePoints[2].y - this.cPosition.y));
+        double yMax = Math.max(this.cVerticePoints[0].y - this.cPosition.y,
+                Math.max(this.cVerticePoints[1].y - this.cPosition.y, this.cVerticePoints[2].y - this.cPosition.y));
+        double zMin = Math.min(this.cVerticePoints[0].z - this.cPosition.z,
+                Math.min(this.cVerticePoints[1].z - this.cPosition.z, this.cVerticePoints[2].z - this.cPosition.z));
+        double zMax = Math.max(this.cVerticePoints[0].z - this.cPosition.z,
+                Math.max(this.cVerticePoints[1].z - this.cPosition.z, this.cVerticePoints[2].z - this.cPosition.z));
+
         this.boundingBox = new BoundingBox(xMin, xMax, yMin, yMax, zMin, zMax);
     }
 
