@@ -89,6 +89,10 @@ public class Triangle extends Entity {
             intersection.intersectionPoint = new Point(pointVec.x, pointVec.y, pointVec.z, Point.Space.CAMERA);
             intersection.normalAtIntersection = Util.cross(e1, e2).normalize();
 
+        } else {
+            intersection.entity = null;
+            intersection.intersectionPoint = null;
+            intersection.normalAtIntersection = null;
         }
         return intersection;
     }
