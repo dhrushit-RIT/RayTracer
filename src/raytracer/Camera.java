@@ -166,9 +166,9 @@ public class Camera extends Entity {
 
     public void normalizeAcrossPixels() {
         for (Pixel pixel : filmPlane) {
-            pixel.color.r = Math.max(0, Math.min(1, pixel.color.r / Pixel.maxR));
-            pixel.color.g = Math.max(0, Math.min(1, pixel.color.g / Pixel.maxG));
-            pixel.color.b = Math.max(0, Math.min(1, pixel.color.b / Pixel.maxB));
+            pixel.color.r = Math.max(0, Math.min(1, pixel.color.r / Pixel.overallMax));
+            pixel.color.g = Math.max(0, Math.min(1, pixel.color.g / Pixel.overallMax));
+            pixel.color.b = Math.max(0, Math.min(1, pixel.color.b / Pixel.overallMax));
         }
     }
 
