@@ -13,7 +13,9 @@ public class Application {
         // Setups.setup6(this); // supersampling turned on
         // Setups.setup7(this); // phong blinn
         // Setups.TextureCoordinates.setup1(this);
-        Setups.Reflection.setup0(this);
+        // Setups.Reflection.setup0(this);
+        Setups.Reflection.setup1(this);
+        // Setups.Reflection.setup2(this);
     }
 
     private World world;
