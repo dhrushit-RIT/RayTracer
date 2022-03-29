@@ -5,6 +5,7 @@ import org.ejml.simple.SimpleMatrix;
 public class Triangle extends Entity {
 
     public Point wPosition;
+    public Point cPosition;
     public Point[] verticePoints;
     public Point[] cVerticePoints;
 
@@ -20,16 +21,27 @@ public class Triangle extends Entity {
         super(baseColor, position);
         this.wPosition = position;
         this.verticePoints = verticePoints;
+        this.computePositionInCameraSpace();
 
-        this.e1 = Util.subtract(verticePoints[1], verticePoints[0]);
-        this.e2 = Util.subtract(verticePoints[2], verticePoints[0]);
-
-        this.computeVerticesInCamera();
+        this.e1 = Util.subtract(cVerticePoints[1], cVerticePoints[0]);
+        this.e2 = Util.subtract(cVerticePoints[2], cVerticePoints[0]);
+        
+        // this.computeVerticesInCamera();
         this.computeBoundingBox();
     }
 
     private void computeVerticesInCamera() {
         this.getPositionInCameraCoordinates();
+        this.cVerticePoints = new Point[3];
+
+        this.cVerticePoints[0] = Camera.toCameraSpace(this.verticePoints[0]);
+        this.cVerticePoints[1] = Camera.toCameraSpace(this.verticePoints[1]);
+        this.cVerticePoints[2] = Camera.toCameraSpace(this.verticePoints[2]);
+    }
+
+    private void computePositionInCameraSpace() {
+        this.cPosition = Camera.toCameraSpace(this.wPosition);
+
         this.cVerticePoints = new Point[3];
 
         this.cVerticePoints[0] = Camera.toCameraSpace(this.verticePoints[0]);
@@ -48,7 +60,7 @@ public class Triangle extends Entity {
     public IntersectionDetails intersect(Ray ray) {
 
         if (this.T == null) {
-            this.T = Util.subtract(ray.origin, /* verticePoints[0] */Camera.toCameraSpace(verticePoints[0]));
+            this.T = Util.subtract(ray.origin, this.cVerticePoints[0]);///* verticePoints[0] */Camera.toCameraSpace(verticePoints[0]));
             this.Q = Util.cross(T, e1);
         }
 
@@ -81,15 +93,18 @@ public class Triangle extends Entity {
 
             // f(u,v)=(1−u−v)p0 + up1 + vp2
             Point camCenter = new Point(0, 0, 0, Point.Space.CAMERA);
-            Vector p0c = Util.subtract(Camera.toCameraSpace(verticePoints[0]), camCenter);
-            Vector p1c = Util.subtract(Camera.toCameraSpace(verticePoints[1]), camCenter);
-            Vector p2c = Util.subtract(Camera.toCameraSpace(verticePoints[2]), camCenter);
+            Vector p0c = Util.subtract(/* Camera.toCameraSpace(verticePoints[0]) */this.cVerticePoints[0], /* camCenter */ ray.origin);
+            Vector p1c = Util.subtract(/* Camera.toCameraSpace(verticePoints[1]) */this.cVerticePoints[1], /* camCenter */ ray.origin);
+            Vector p2c = Util.subtract(/* Camera.toCameraSpace(verticePoints[2]) */this.cVerticePoints[2], /* camCenter */ ray.origin);
             Vector pointVec = Util.add(Util.scale(1 - u - v, p0c), Util.scale(u, p1c), Util.scale(v, p2c));
 
             intersection.intersectionPoint = new Point(pointVec.x, pointVec.y, pointVec.z, Point.Space.CAMERA);
-            intersection.normalAtIntersection = Util.cross(e1, e2);
-            intersection.normalAtIntersection.normalize();
+            intersection.normalAtIntersection = Util.cross(e1, e2).normalize();
 
+        } else {
+            intersection.entity = null;
+            intersection.intersectionPoint = null;
+            intersection.normalAtIntersection = null;
         }
         return intersection;
     }
