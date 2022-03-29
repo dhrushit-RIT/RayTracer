@@ -132,6 +132,7 @@ public class Triangle extends Entity {
         // double zMax = Math.max(this.verticePoints[0].z - this.position.z,
         // Math.max(this.verticePoints[1].z - this.position.z, this.verticePoints[2].z -
         // this.position.z));
+        
         double xMin = Math.min(this.cVerticePoints[0].x - this.cPosition.x,
                 Math.min(this.cVerticePoints[1].x - this.cPosition.x, this.cVerticePoints[2].x - this.cPosition.x));
         double xMax = Math.max(this.cVerticePoints[0].x - this.cPosition.x,
