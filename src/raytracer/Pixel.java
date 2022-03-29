@@ -12,6 +12,10 @@ public class Pixel {
     public static double maxG = -1;
     public static double maxB = -1;
 
+    public static double minR = 1;
+    public static double minG = 1;
+    public static double minB = 1;
+
     // public Vector planePosition; // with respect to the origin of film plane
     public Vector cPosition; // with respect to the origin of world
 
@@ -28,6 +32,10 @@ public class Pixel {
         Pixel.maxR = Math.max(maxR, this.color.r);
         Pixel.maxG = Math.max(maxG, this.color.g);
         Pixel.maxB = Math.max(maxB, this.color.b);
+
+        Pixel.minR = Math.min(minR, this.color.r);
+        Pixel.minG = Math.min(minG, this.color.g);
+        Pixel.minB = Math.min(minB, this.color.b);
     }
 
     public void setWidth(float width) {
