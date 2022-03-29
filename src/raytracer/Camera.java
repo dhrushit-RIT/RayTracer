@@ -1,4 +1,5 @@
 package raytracer;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -24,7 +25,7 @@ public class Camera extends Entity {
     private Point cLookAt;
     private Point cPosition = new Point(0, 0, 0, Point.Space.CAMERA);
 
-    private int scaleRatio = 80;
+    public static int scaleRatio = 80;
 
     public Point getcPosition() {
         return cPosition;
@@ -167,9 +168,9 @@ public class Camera extends Entity {
 
     public void normalizeAcrossPixels() {
         for (Pixel pixel : filmPlane) {
-            pixel.color.r = Math.max(0, Math.min(1, pixel.color.r / Pixel.maxR));
-            pixel.color.g = Math.max(0, Math.min(1, pixel.color.g / Pixel.maxG));
-            pixel.color.b = Math.max(0, Math.min(1, pixel.color.b / Pixel.maxB));
+            pixel.color.r = Math.max(0, Math.min(1, (pixel.color.r - Pixel.minR) / (Pixel.maxR - Pixel.minR)));
+            pixel.color.g = Math.max(0, Math.min(1, (pixel.color.g - Pixel.minG) / (Pixel.maxG - Pixel.minG)));
+            pixel.color.b = Math.max(0, Math.min(1, (pixel.color.b - Pixel.minB) / (Pixel.maxB - Pixel.minB)));
         }
     }
 
@@ -207,7 +208,7 @@ public class Camera extends Entity {
         return sb.toString();
     }
 
-    public void setScaleRatio(int scale){
+    public void setScaleRatio(int scale) {
         this.scaleRatio = scale;
     }
 
