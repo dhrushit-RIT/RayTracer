@@ -9,6 +9,8 @@ public class World {
 
     private KDNode kdRoot = null;
 
+    private boolean withoutKDTree = false;
+
     private Entity.BSDFTechnique techniqueToUse = Entity.BSDFTechnique.PHONG;
     BoundingBox boundingBox;
     private Camera camera;
@@ -184,6 +186,9 @@ public class World {
     }
 
     private ArrayList<Entity> getIntersectingEntities(Ray cRay) {
+        if(this.withoutKDTree) {
+            return this.worldObjects;
+        }
         if (this.kdRoot == null) {
             return this.worldObjects;
         }
