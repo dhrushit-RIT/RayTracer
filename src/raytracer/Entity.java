@@ -133,8 +133,8 @@ public abstract class Entity {
         u /= 2;
         v /= 2;
 
-        int row = (int) (u / 0.1);
-        int col = (int) (v / 0.1);
+        int row = (int) (u / 0.2);
+        int col = (int) (v / 0.2);
         if (row % 2 == 0) {
             if (col % 2 == 0) {
                 return new MyColor(1.0, 0.0, 0.0, true);
