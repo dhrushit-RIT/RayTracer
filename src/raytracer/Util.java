@@ -16,7 +16,7 @@ public class Util {
 
     public static Vector subtract(Point p1, Point p2) {
         // if (p1.getSpace() != p2.getSpace()) {
-        //     System.out.println("unmatched spaces");
+        // System.out.println("unmatched spaces");
         // }
         return new Vector(p1.x - p2.x, p1.y - p2.y, p1.z - p2.z);
     }
