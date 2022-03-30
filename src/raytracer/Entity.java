@@ -12,7 +12,7 @@ public abstract class Entity {
     }
 
     protected static double EPSILON = 0.000001;
-    BoundingBox boundingBox;
+    public BoundingBox boundingBox;
     protected MyColor baseColor;
     protected MyColor specularColor;
     protected MyColor diffusedColor;
@@ -157,6 +157,8 @@ public abstract class Entity {
         this.specularColor = speColor.normalize();
         this.diffusedColor = diffuseColor.normalize();
     }
+
+    public abstract void computeBoundingBox();
 
     public abstract IntersectionDetails intersect(Ray ray);
 }

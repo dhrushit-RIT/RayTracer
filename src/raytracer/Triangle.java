@@ -6,6 +6,7 @@ public class Triangle extends Entity {
 
     public Point wPosition;
     public Point[] verticePoints;
+    public Point[] cVerticePoints;
 
     private Point[] textureCoordinates;
 
@@ -20,8 +21,16 @@ public class Triangle extends Entity {
         this.wPosition = position;
         this.verticePoints = verticePoints;
 
-        this.e1 = Util.subtract(verticePoints[1], verticePoints[0]);
-        this.e2 = Util.subtract(verticePoints[2], verticePoints[0]);
+        // compute the vertices in camera space
+        this.cVerticePoints = new Point[3];
+        this.cVerticePoints[0] = Camera.toCameraSpace(this.verticePoints[0]);
+        this.cVerticePoints[1] = Camera.toCameraSpace(this.verticePoints[1]);
+        this.cVerticePoints[2] = Camera.toCameraSpace(this.verticePoints[2]);
+        
+        this.e1 = Util.subtract(cVerticePoints[1], cVerticePoints[0]);
+        this.e2 = Util.subtract(cVerticePoints[2], cVerticePoints[0]);
+
+        this.computeBoundingBox();
     }
 
     /**
@@ -35,7 +44,7 @@ public class Triangle extends Entity {
     public IntersectionDetails intersect(Ray ray) {
 
         if (this.T == null) {
-            this.T = Util.subtract(ray.origin, /* verticePoints[0] */Camera.toCameraSpace(verticePoints[0]));
+            this.T = Util.subtract(ray.origin, cVerticePoints[0]);
             this.Q = Util.cross(T, e1);
         }
 
@@ -68,9 +77,9 @@ public class Triangle extends Entity {
 
             // f(u,v)=(1−u−v)p0 + up1 + vp2
             Point camCenter = new Point(0, 0, 0, Point.Space.CAMERA);
-            Vector p0c = Util.subtract(Camera.toCameraSpace(verticePoints[0]), camCenter);
-            Vector p1c = Util.subtract(Camera.toCameraSpace(verticePoints[1]), camCenter);
-            Vector p2c = Util.subtract(Camera.toCameraSpace(verticePoints[2]), camCenter);
+            Vector p0c = Util.subtract(cVerticePoints[0], camCenter);
+            Vector p1c = Util.subtract(cVerticePoints[1], camCenter);
+            Vector p2c = Util.subtract(cVerticePoints[2], camCenter);
             Vector pointVec = Util.add(Util.scale(1 - u - v, p0c), Util.scale(u, p1c), Util.scale(v, p2c));
 
             intersection.intersectionPoint = new Point(pointVec.x, pointVec.y, pointVec.z, Point.Space.CAMERA);
@@ -87,6 +96,17 @@ public class Triangle extends Entity {
 
     public void setTextureCoordinates(Point[] textureCoordinates) {
         this.textureCoordinates = textureCoordinates;
+    }
+
+    @Override
+    public void computeBoundingBox() {
+        double xMin = Math.min(this.cVerticePoints[0].x, Math.min(this.cVerticePoints[1].x, this.cVerticePoints[2].x));
+        double yMin = Math.min(this.cVerticePoints[0].y, Math.min(this.cVerticePoints[1].y, this.cVerticePoints[2].y));
+        double zMin = Math.min(this.cVerticePoints[0].z, Math.min(this.cVerticePoints[1].z, this.cVerticePoints[2].z));
+        double xMax = Math.max(this.cVerticePoints[0].x, Math.max(this.cVerticePoints[1].x, this.cVerticePoints[2].x));
+        double yMax = Math.max(this.cVerticePoints[0].y, Math.max(this.cVerticePoints[1].y, this.cVerticePoints[2].y));
+        double zMax = Math.max(this.cVerticePoints[0].z, Math.max(this.cVerticePoints[1].z, this.cVerticePoints[2].z));
+        this.boundingBox = new BoundingBox(xMin,);
     }
 
 }
