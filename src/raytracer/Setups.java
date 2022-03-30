@@ -607,7 +607,6 @@ public class Setups {
                         Point cameraLookAt = new Point(0, 1.15, 0, Point.Space.WORLD);
                         double cameraFocalLength = 8;
                         Camera camera = new Camera(cameraPosition, cameraUp, cameraLookAt, cameraFocalLength);
-                        camera.setScaleRatio(20);
                         application.getWorld().setCamera(camera);
 
                         //
