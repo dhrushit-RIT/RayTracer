@@ -1,10 +1,13 @@
 package raytracer;
+
 public class Sphere extends Entity {
     private double radius;
 
     public Sphere(Point sphereCenter, double sphereRadius, MyColor sphereColor) {
         super(sphereColor, sphereCenter);
         this.radius = sphereRadius;
+        this.cPosition = Camera.toCameraSpace(this.position);
+        this.computeBoundingBox();
     }
 
     @Override
@@ -71,6 +74,17 @@ public class Sphere extends Entity {
         intersectionDetails.intersectionPoint.x += Entity.EPSILON * intersectionDetails.normalAtIntersection.x;
         intersectionDetails.intersectionPoint.y += Entity.EPSILON * intersectionDetails.normalAtIntersection.y;
         intersectionDetails.intersectionPoint.z += Entity.EPSILON * intersectionDetails.normalAtIntersection.z;
+    }
+
+    @Override
+    public void computeBoundingBox() {
+        double xMin = this.cPosition.x - this.radius;
+        double yMin = this.cPosition.y - this.radius;
+        double zMin = this.cPosition.z - this.radius;
+        double xMax = this.cPosition.x + this.radius;
+        double yMax = this.cPosition.y + this.radius;
+        double zMax = this.cPosition.z + this.radius;
+        this.boundingBox = new BoundingBox(xMin, xMax, yMin, yMax, zMin, zMax);
     }
 
 }

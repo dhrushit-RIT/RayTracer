@@ -206,4 +206,10 @@ public class Camera extends Entity {
         return sb.toString();
     }
 
+    @Override
+    public void computeBoundingBox() {
+        // TODO Auto-generated method stub
+        
+    }
+
 }

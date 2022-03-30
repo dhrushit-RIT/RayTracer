@@ -26,7 +26,7 @@ public class Triangle extends Entity {
         this.cVerticePoints[0] = Camera.toCameraSpace(this.verticePoints[0]);
         this.cVerticePoints[1] = Camera.toCameraSpace(this.verticePoints[1]);
         this.cVerticePoints[2] = Camera.toCameraSpace(this.verticePoints[2]);
-        
+
         this.e1 = Util.subtract(cVerticePoints[1], cVerticePoints[0]);
         this.e2 = Util.subtract(cVerticePoints[2], cVerticePoints[0]);
 
@@ -106,7 +106,7 @@ public class Triangle extends Entity {
         double xMax = Math.max(this.cVerticePoints[0].x, Math.max(this.cVerticePoints[1].x, this.cVerticePoints[2].x));
         double yMax = Math.max(this.cVerticePoints[0].y, Math.max(this.cVerticePoints[1].y, this.cVerticePoints[2].y));
         double zMax = Math.max(this.cVerticePoints[0].z, Math.max(this.cVerticePoints[1].z, this.cVerticePoints[2].z));
-        this.boundingBox = new BoundingBox(xMin,);
+        this.boundingBox = new BoundingBox(xMin, xMax, yMin, yMax, zMin, zMax);
     }
 
 }
