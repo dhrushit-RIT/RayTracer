@@ -17,6 +17,7 @@ public abstract class Entity {
     protected MyColor specularColor;
     protected MyColor diffusedColor;
     protected Point position;
+    protected Point cPosition;
 
     protected HashMap<String, MyColor> entityColors;
 
