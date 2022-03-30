@@ -116,7 +116,8 @@ public class World {
             IntersectionDetails intersectingDetails = checkIntersection(shadowRay);
 
             if (intersectingDetails != null && intersectingDetails.entity != null) {
-                finalColor = new MyColor(0, 0, 0, true);
+                // finalColor = new MyColor(0, 0, 0, true);
+                continue;
             } else {
                 didGetIlluminated = true;
                 MyColor tempColor = entityIntersectionDetails.entity.getPixelIrradiance(

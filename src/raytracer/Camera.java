@@ -102,6 +102,12 @@ public class Camera extends Entity {
 
         for (Pixel pixel : filmPlane) {
 
+            if (pixel.row == 230 && pixel.col == 750) {
+                // pixel.setValue(new MyColor(1, 1, 1, true));
+                
+                System.out.println();
+                // continue;
+            }
             ArrayList<Pixel> subPixels = pixel.getSubPixels(subpixelsCount);
             MyColor color = new MyColor(0, 0, 0, true);
             for (Pixel subPixel : subPixels) {

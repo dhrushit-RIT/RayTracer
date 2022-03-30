@@ -52,6 +52,7 @@ public abstract class Entity {
         double ambientFactor = ka * light.irradiance;
         double diffuseFactor = kd * light.irradiance * Util.dot(lightDir, normal);
 
+        diffuseFactor = Math.max(0.0, diffuseFactor);
         normal.normalize();
 
         // Vector reflectVector = Util.reflect(lightDir, normal, intersecPoint);
