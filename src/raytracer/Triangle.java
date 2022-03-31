@@ -41,15 +41,15 @@ public class Triangle extends Entity {
      * f(u,v)=(1−u−v)p0 +up1 +vp2
      */
     @Override
-    public IntersectionDetails intersect(Ray ray) {
+    public IntersectionDetails<Entity> intersect(Ray ray) {
 
-        if (this.T == null) {
+        // if (this.T == null) {
             this.T = Util.subtract(ray.origin, cVerticePoints[0]);
             this.Q = Util.cross(T, e1);
-        }
+        // }
 
         Vector P = Util.cross(ray.direction, e2);
-        IntersectionDetails intersection = new IntersectionDetails(this);
+        IntersectionDetails<Entity> intersection = new IntersectionDetails<>(this);
         double Pe1 = Util.dot(P, e1);
 
         if (Pe1 == 0) {
@@ -62,9 +62,16 @@ public class Triangle extends Entity {
                 { Util.dot(Q, ray.direction) } })
                 .divide(Pe1);
 
-        double w = wuv.get(0, 0);
-        double u = wuv.get(1, 0);
-        double v = wuv.get(2, 0);
+        // double w = wuv.get(0, 0);
+        // double u = wuv.get(1, 0);
+        // double v = wuv.get(2, 0);
+
+        double QdotE2 = Util.dot(Q, e2);
+        double PdotT = Util.dot(P, T);
+        double QdotD = Util.dot(Q, ray.direction);
+        double w = QdotE2 / Pe1;
+        double u = PdotT / Pe1;
+        double v = QdotD / Pe1;
 
         if (w < 0) {
             w = -1;
@@ -83,8 +90,8 @@ public class Triangle extends Entity {
             Vector pointVec = Util.add(Util.scale(1 - u - v, p0c), Util.scale(u, p1c), Util.scale(v, p2c));
 
             intersection.intersectionPoint = new Point(pointVec.x, pointVec.y, pointVec.z, Point.Space.CAMERA);
-            intersection.normalAtIntersection = Util.cross(e1, e2);
-            intersection.normalAtIntersection.normalize();
+            intersection.normalAtIntersection = Util.cross(e1, e2).normalize();
+            // intersection.normalAtIntersection.normalize();
 
         }
         return intersection;
