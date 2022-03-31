@@ -8,7 +8,7 @@ import raytracer.kdtree.KDTree;
 import raytracer.kdtree.Voxel;
 
 public class World {
-    public static double EPSILON = 0.01;
+    // public static double EPSILON = 0.01;
 
     private Entity.BSDFTechnique techniqueToUse = Entity.BSDFTechnique.PHONG;
     BoundingBox boundingBox;
@@ -65,6 +65,7 @@ public class World {
     }
 
     public void simulate() {
+        System.out.println("entities per voxel : " + KDTree.MAX_ENTITIES_IN_VOXEL);
         this.worldVoxel = this.computeWorldVoxel();
         this.kdRoot = KDTree.getNode(this.worldObjects, this.worldVoxel, AAPlane.Alignment.XY);
         System.out.println("total voxels : " + Voxel.count + " leaf : " + Voxel.leaf);
@@ -125,7 +126,7 @@ public class World {
         IntersectionDetails<Entity> bestIntersection = new IntersectionDetails<>(Double.MAX_VALUE);
         for (Entity entity : intersectingEntities) {
             IntersectionDetails<Entity> intersection = entity.intersect(cRay);
-            if (intersection.distance > EPSILON) {
+            if (intersection.distance >= 0) {
                 if (intersection.distance < nearestDistance) {
                     nearestEntity = entity;
                     nearestDistance = intersection.distance;
