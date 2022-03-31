@@ -51,8 +51,10 @@ public class Voxel extends BoundingBox {
         return point.x >= xMin && point.x <= xMax && point.y >= yMin && point.y <= yMax && point.z >= zMin && point.z <= zMax;
     }
 
-    public ArrayList<IntersectionDetails<AAPlane>> intersect(Ray ray) {
-        ArrayList<IntersectionDetails<AAPlane>> intersections = new ArrayList<>();
+    public ArrayList<Point> intersect(Ray ray) {
+        ArrayList<IntersectionDetails<AAPlane>> intersectionsDetails = new ArrayList<>();
+        ArrayList<Point> intersections = new ArrayList<>();
+
 
         for (VoxelPlanesNames vpn: VoxelPlanesNames.values()){
 
@@ -63,11 +65,25 @@ public class Voxel extends BoundingBox {
             intersection = plane.intersect(ray);
             if(intersection != null) {
                 if(withinBounds(intersection.intersectionPoint)){
-                    intersections.add(intersection);
+                    intersectionsDetails.add(intersection);
                 }
             }
         }
 
+        intersectionsDetails.sort((IntersectionDetails<AAPlane> o1, IntersectionDetails<AAPlane> o2) -> {
+            double result = o1.distance - o2.distance;
+            if(result > 0) {
+                return 1;
+            }else if(result == 0 ){
+                return 0;
+            }else{
+                return -1;
+            }
+        });
+
+        for(IntersectionDetails<AAPlane> id:intersectionsDetails) {
+            intersections.add(id.intersectionPoint);
+        }
         return intersections;
     }
 }
