@@ -179,6 +179,21 @@ public class KDTree {
             return root.getEntities();
         }
 
+        // Point A;
+        // Point B;
+        // ArrayList<Point> intersectionDetails = root.getVoxel().intersectVoxel(cRay);
+        // if (intersectionDetails.size() < 1) {
+        //     // System.err.println("Error parsing the kd tree");
+        //     return new ArrayList<>();
+        // } else if (intersectionDetails.size() < 1) {
+        //     A = intersectionDetails.get(0);
+        //     B = intersectionDetails.get(0);
+        // } else {
+
+        //     A = intersectionDetails.get(0);
+        //     B = intersectionDetails.get(1);
+        // }
+
         ArrayList<Point> intersectionDetails = root.getVoxel().intersectVoxel(cRay);
         if (intersectionDetails.size() != 2) {
             // System.err.println("Error parsing the kd tree");
@@ -187,6 +202,7 @@ public class KDTree {
 
         Point A = intersectionDetails.get(0);
         Point B = intersectionDetails.get(1);
+
         Point S = root.getPartitioningPlane().intersectPoint(cRay);
 
         double a = 0;
