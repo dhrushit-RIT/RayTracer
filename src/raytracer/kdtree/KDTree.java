@@ -9,7 +9,7 @@ import raytracer.kdtree.AAPlane.Alignment;
 
 public class KDTree {
 
-    private static final int MAX_ENTITIES_IN_VOXEL = 3;
+    private static final int MAX_ENTITIES_IN_VOXEL = 100;
 
     public static KDNode getNode(ArrayList<Entity> L, Voxel V, AAPlane.Alignment divisionAlignment) {
         if (isTerminal(L, V)) {
