@@ -126,18 +126,31 @@ public class Triangle extends Entity {
         // try figuring out a better way to generally compute the bb
 
         double xMin = Math.min(this.cVerticePoints[0].x - this.cPosition.x,
-                Math.min(this.cVerticePoints[1].x - this.cPosition.x, this.cVerticePoints[2].x - this.cPosition.x));
+        Math.min(this.cVerticePoints[1].x - this.cPosition.x,
+        this.cVerticePoints[2].x - this.cPosition.x));
         double xMax = Math.max(this.cVerticePoints[0].x - this.cPosition.x,
-                Math.max(this.cVerticePoints[1].x - this.cPosition.x, this.cVerticePoints[2].x - this.cPosition.x));
+        Math.max(this.cVerticePoints[1].x - this.cPosition.x,
+        this.cVerticePoints[2].x - this.cPosition.x));
         double yMin = Math.min(this.cVerticePoints[0].y - this.cPosition.y,
-                Math.min(this.cVerticePoints[1].y - this.cPosition.y, this.cVerticePoints[2].y - this.cPosition.y));
+        Math.min(this.cVerticePoints[1].y - this.cPosition.y,
+        this.cVerticePoints[2].y - this.cPosition.y));
         double yMax = Math.max(this.cVerticePoints[0].y - this.cPosition.y,
-                Math.max(this.cVerticePoints[1].y - this.cPosition.y, this.cVerticePoints[2].y - this.cPosition.y));
+        Math.max(this.cVerticePoints[1].y - this.cPosition.y,
+        this.cVerticePoints[2].y - this.cPosition.y));
         double zMin = Math.min(this.cVerticePoints[0].z - this.cPosition.z,
-                Math.min(this.cVerticePoints[1].z - this.cPosition.z, this.cVerticePoints[2].z - this.cPosition.z));
+        Math.min(this.cVerticePoints[1].z - this.cPosition.z,
+        this.cVerticePoints[2].z - this.cPosition.z));
         double zMax = Math.max(this.cVerticePoints[0].z - this.cPosition.z,
-                Math.max(this.cVerticePoints[1].z - this.cPosition.z, this.cVerticePoints[2].z - this.cPosition.z));
+        Math.max(this.cVerticePoints[1].z - this.cPosition.z,
+        this.cVerticePoints[2].z - this.cPosition.z));
 
+        // double xMin = Math.min(this.cVerticePoints[0].x, Math.min(this.cVerticePoints[1].x, this.cVerticePoints[2].x));
+        // double yMin = Math.min(this.cVerticePoints[0].y, Math.min(this.cVerticePoints[1].y, this.cVerticePoints[2].y));
+        // double zMin = Math.min(this.cVerticePoints[0].z, Math.min(this.cVerticePoints[1].z, this.cVerticePoints[2].z));
+        // double xMax = Math.max(this.cVerticePoints[0].x, Math.max(this.cVerticePoints[1].x, this.cVerticePoints[2].x));
+        // double yMax = Math.max(this.cVerticePoints[0].y, Math.max(this.cVerticePoints[1].y, this.cVerticePoints[2].y));
+        // double zMax = Math.max(this.cVerticePoints[0].z, Math.max(this.cVerticePoints[1].z, this.cVerticePoints[2].z));
+        // this.boundingBox = new BoundingBox(xMin, xMax, yMin, yMax, zMin, zMax);
         this.boundingBox = new BoundingBox(xMin, xMax, yMin, yMax, zMin, zMax);
     }
 

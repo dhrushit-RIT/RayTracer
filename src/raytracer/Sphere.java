@@ -10,10 +10,9 @@ public class Sphere extends Entity {
     public Sphere(Point sphereCenter, double sphereRadius, MyColor sphereColor) {
         super(sphereColor, sphereCenter);
         this.radius = sphereRadius;
-        this.boundingBox = new BoundingBox(
-                -this.radius, this.radius,
-                -this.radius, this.radius,
-                -this.radius, this.radius);
+        this.getPositionInCameraCoordinates();
+        this.computeBoundingBox();
+
         // this.boundingBox = new BoundingBox(
         // 0.0, 2 * this.radius,
         // 0.0, 2 * this.radius,
@@ -22,15 +21,15 @@ public class Sphere extends Entity {
 
     // @Override
     // public boolean intersect(Entity other) {
-    //     this.getPositionInCameraCoordinates();
-    //     BoundingBox otherBoundingBoxInThisFrame = new BoundingBox(
-    //             other.boundingBox.xMin - this.cPosition.x,
-    //             other.boundingBox.xMax - this.cPosition.x,
-    //             other.boundingBox.yMin - this.cPosition.y,
-    //             other.boundingBox.yMax - this.cPosition.y,
-    //             other.boundingBox.zMin - this.cPosition.z,
-    //             other.boundingBox.zMax - this.cPosition.z);
-    //     return this.boundingBox.intersect(otherBoundingBoxInThisFrame);
+    // this.getPositionInCameraCoordinates();
+    // BoundingBox otherBoundingBoxInThisFrame = new BoundingBox(
+    // other.boundingBox.xMin - this.cPosition.x,
+    // other.boundingBox.xMax - this.cPosition.x,
+    // other.boundingBox.yMin - this.cPosition.y,
+    // other.boundingBox.yMax - this.cPosition.y,
+    // other.boundingBox.zMin - this.cPosition.z,
+    // other.boundingBox.zMax - this.cPosition.z);
+    // return this.boundingBox.intersect(otherBoundingBoxInThisFrame);
     // }
 
     @Override
@@ -102,7 +101,11 @@ public class Sphere extends Entity {
 
     @Override
     protected void computeBoundingBox() {
-        return;
+        this.boundingBox = new BoundingBox(
+                this.cPosition.x + (-this.radius), this.cPosition.x + this.radius,
+                this.cPosition.y + (-this.radius), this.cPosition.y + this.radius,
+                this.cPosition.z + (-this.radius), this.cPosition.z + this.radius);
+
     }
 
 }

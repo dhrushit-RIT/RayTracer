@@ -954,6 +954,7 @@ public class Setups {
 
 		public static void setup6(Application application) {
 
+			raytracer.kdTree.KDTree.MAX_ENTITIES_IN_VOXEL = 3;
 			//
 			// set up Camera
 			//
