@@ -9,7 +9,7 @@ import raytracer.kdtree.AAPlane.Alignment;
 
 public class KDTree {
 
-    private static final int MAX_ENTITIES_IN_VOXEL = 100;
+    public static int MAX_ENTITIES_IN_VOXEL = 100;
 
     public static KDNode getNode(ArrayList<Entity> L, Voxel V, AAPlane.Alignment divisionAlignment) {
         if (isTerminal(L, V)) {
@@ -138,13 +138,25 @@ public class KDTree {
         // System.out.println("here");
         ArrayList<Point> intersections = root.voxel.intersect(ray);
 
-        if (intersections.size() != 2) {
+        if (intersections.size() < 1) {
             return new ArrayList<Entity>();
         }
         // get intersections with voxel
         // get intersection with partition plane
-        Point A = intersections.get(0);
-        Point B = intersections.get(1);
+        Point A = null;
+        Point B = null;
+
+        if (intersections.size() == 1) {
+            A = intersections.get(0);
+            B = intersections.get(0);
+        } else {
+            A = intersections.get(0);
+            B = intersections.get(1);
+        }
+
+        if (A == null || B == null) {
+            return new ArrayList<Entity>();
+        }
         Point S = root.partition.intersect(ray).intersectionPoint;
         double a = Double.MAX_VALUE;
         double b = Double.MAX_VALUE;
@@ -181,12 +193,13 @@ public class KDTree {
                 return getEntities(root.left, ray);
             } else {
                 if (b == s) {
-                    return getEntities(root.left, ray);
+                    return getEntities(root.right, ray);
+                    // return getEntities(root.left, ray);
                 } else {
                     ArrayList<Entity> entities = new ArrayList<>();
                     ArrayList<Entity> entitiesLeft = getEntities(root.left, ray);
                     ArrayList<Entity> entitiesRight = getEntities(root.right, ray);
-                    
+
                     entities.addAll(entitiesLeft);
                     entities.addAll(entitiesRight);
                     return entities;
@@ -198,9 +211,9 @@ public class KDTree {
                 return getEntities(root.right, ray);
             } else {
                 ArrayList<Entity> entities = new ArrayList<>();
-                ArrayList<Entity> entitiesLeft = getEntities(root.left, ray);
                 ArrayList<Entity> entitiesRight = getEntities(root.right, ray);
-                
+                ArrayList<Entity> entitiesLeft = getEntities(root.left, ray);
+
                 entities.addAll(entitiesLeft);
                 entities.addAll(entitiesRight);
                 return entities;
