@@ -11,7 +11,7 @@ public class Sphere extends Entity {
     }
 
     @Override
-    public IntersectionDetails intersect(Ray cRay) {
+    public IntersectionDetails<Entity> intersect(Ray cRay) {
         Point rOrigin = cRay.getOrigin();
         // Point rOriginCamSpace = Camera.toCameraSpace(rOrigin);
         Point sphereCenterCamSpace = Camera.toCameraSpace(this.position);
@@ -30,7 +30,7 @@ public class Sphere extends Entity {
         double D = B * B - 4 * C;
         double w = -1;
 
-        IntersectionDetails intersectionDetails = new IntersectionDetails(this);
+        IntersectionDetails<Entity> intersectionDetails = new IntersectionDetails<>(this);
 
         if (D > 0) {
             D = Math.sqrt(D);
@@ -70,7 +70,7 @@ public class Sphere extends Entity {
         return intersectionDetails;
     }
 
-    private void addEpsilonDisplacementToIntersection(IntersectionDetails intersectionDetails) {
+    private void addEpsilonDisplacementToIntersection(IntersectionDetails<Entity> intersectionDetails) {
         intersectionDetails.intersectionPoint.x += Entity.EPSILON * intersectionDetails.normalAtIntersection.x;
         intersectionDetails.intersectionPoint.y += Entity.EPSILON * intersectionDetails.normalAtIntersection.y;
         intersectionDetails.intersectionPoint.z += Entity.EPSILON * intersectionDetails.normalAtIntersection.z;
