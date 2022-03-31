@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import raytracer.Entity;
 import raytracer.Point;
+import raytracer.Ray;
 import raytracer.kdtree.AAPlane.Alignment;
 
 public class KDTree {
@@ -12,23 +13,23 @@ public class KDTree {
 
     public static KDNode getNode(ArrayList<Entity> L, Voxel V, AAPlane.Alignment divisionAlignment) {
         if (isTerminal(L, V)) {
-            return new KDNode(L);
+            return new KDNode(L, V);
         }
 
         AAPlane P = findPartitionPlane(V, divisionAlignment);
-        System.out.println("partition: " + P);
+        // System.out.println("partition: " + P);
 
         Voxel left = getLeftVoxel(V, P);
         Voxel right = getRightVoxel(V, P);
-        System.out.println("left : \n" + left + "\n");
-        System.out.println("right : \n" + right + "\n");
+        // System.out.println("left : \n" + left + "\n");
+        // System.out.println("right : \n" + right + "\n");
 
         ArrayList<Entity> leftEntities = partitionEntitiesToVoxel(L, left);
         ArrayList<Entity> rightEntities = partitionEntitiesToVoxel(L, right);
 
         KDNode leftNode = getNode(leftEntities, left, nextAlignment(P.alignment));
         KDNode rightNode = getNode(rightEntities, right, nextAlignment(P.alignment));
-        return new KDNode(P, leftNode, rightNode);
+        return new KDNode(P, leftNode, rightNode, V);
     }
 
     private static Voxel getLeftVoxel(Voxel parent, AAPlane partition) {
@@ -127,6 +128,85 @@ public class KDTree {
                 return AAPlane.Alignment.XY;
 
         }
+    }
+
+    public static ArrayList<Entity> getEntities(KDNode root, Ray ray) {
+        if (root.isTerminal()) {
+            return root.entities;
+        }
+
+        // System.out.println("here");
+        ArrayList<Point> intersections = root.voxel.intersect(ray);
+
+        if (intersections.size() != 2) {
+            return new ArrayList<Entity>();
+        }
+        // get intersections with voxel
+        // get intersection with partition plane
+        Point A = intersections.get(0);
+        Point B = intersections.get(1);
+        Point S = root.partition.intersect(ray).intersectionPoint;
+        double a = Double.MAX_VALUE;
+        double b = Double.MAX_VALUE;
+        double s = Double.MAX_VALUE;
+        // decide a, b, s
+        switch (root.partition.alignment) {
+            case XY:
+                a = A.z;
+                b = B.z;
+                s = S.z;
+                break;
+            case YZ:
+                a = A.x;
+                b = B.x;
+                s = S.x;
+                break;
+            case ZX:
+                a = A.y;
+                b = B.y;
+                s = S.y;
+                break;
+
+            default:
+                break;
+        }
+
+        // the logic form the ppt
+
+        if (a == Double.MAX_VALUE || b == Double.MAX_VALUE || s == Double.MAX_VALUE) {
+            System.err.println("traversal error");
+        }
+        if (a <= s) {
+            if (b < s) {
+                return getEntities(root.left, ray);
+            } else {
+                if (b == s) {
+                    return getEntities(root.left, ray);
+                } else {
+                    ArrayList<Entity> entities = new ArrayList<>();
+                    ArrayList<Entity> entitiesLeft = getEntities(root.left, ray);
+                    ArrayList<Entity> entitiesRight = getEntities(root.right, ray);
+                    
+                    entities.addAll(entitiesLeft);
+                    entities.addAll(entitiesRight);
+                    return entities;
+
+                }
+            }
+        } else {
+            if (b > s) {
+                return getEntities(root.right, ray);
+            } else {
+                ArrayList<Entity> entities = new ArrayList<>();
+                ArrayList<Entity> entitiesLeft = getEntities(root.left, ray);
+                ArrayList<Entity> entitiesRight = getEntities(root.right, ray);
+                
+                entities.addAll(entitiesLeft);
+                entities.addAll(entitiesRight);
+                return entities;
+            }
+        }
+
     }
 
 }
