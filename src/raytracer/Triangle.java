@@ -56,16 +56,6 @@ public class Triangle extends Entity {
             intersection.distance = -1;
         }
 
-        SimpleMatrix wuv = new SimpleMatrix(new double[][] {
-                { Util.dot(Q, e2) },
-                { Util.dot(P, T) },
-                { Util.dot(Q, ray.direction) } })
-                .divide(Pe1);
-
-        // double w = wuv.get(0, 0);
-        // double u = wuv.get(1, 0);
-        // double v = wuv.get(2, 0);
-
         double QdotE2 = Util.dot(Q, e2);
         double PdotT = Util.dot(P, T);
         double QdotD = Util.dot(Q, ray.direction);
@@ -91,7 +81,6 @@ public class Triangle extends Entity {
 
             intersection.intersectionPoint = new Point(pointVec.x, pointVec.y, pointVec.z, Point.Space.CAMERA);
             intersection.normalAtIntersection = Util.cross(e1, e2).normalize();
-            // intersection.normalAtIntersection.normalize();
 
         }
         return intersection;
