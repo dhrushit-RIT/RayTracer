@@ -954,6 +954,7 @@ public class Setups {
 
 		public static void setup6(Application application) {
 
+			raytracer.kdtree.KDTree.MAX_ENTITIES_IN_VOXEL = 3;
 			//
 			// set up Camera
 			//
@@ -1010,6 +1011,7 @@ public class Setups {
 			//
 			// set up Camera
 			//
+			raytracer.kdtree.KDTree.MAX_ENTITIES_IN_VOXEL = 3;
 			Point cameraPosition = new Point(7, 7, -5, Point.Space.WORLD);
 			Vector cameraUp = new Vector(0, 1, 0);
 			Point cameraLookAt = new Point(7, 7, 1, Point.Space.WORLD);
