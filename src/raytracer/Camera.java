@@ -100,8 +100,13 @@ public class Camera extends Entity {
         subpixelsCount = Math.max(subpixelsCount, 1);
         int subPixelCountSquare = subpixelsCount * subpixelsCount;
 
+        int prev = -1;
         for (Pixel pixel : filmPlane) {
 
+            if(pixel.row % scaleRatio > prev) {
+                prev++;
+                System.out.println(prev + "/" + 10);
+            }
             int testrow = 470;
             int testcol = 600;
 
@@ -188,8 +193,8 @@ public class Camera extends Entity {
     }
 
     public void applyToneMapping() {
-        this.capToOne();
-        // this.normalizeAcrossPixels();
+        // this.capToOne();
+        this.normalizeAcrossPixels();
     }
 
     @Override
