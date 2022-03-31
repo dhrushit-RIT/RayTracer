@@ -57,7 +57,7 @@ public class Triangle extends Entity {
      * f(u,v)=(1−u−v)p0 +up1 +vp2
      */
     @Override
-    public IntersectionDetails intersect(Ray ray) {
+    public IntersectionDetails<Entity> intersect(Ray ray) {
 
         // if (this.T == null) {
         this.T = Util.subtract(ray.origin, this.cVerticePoints[0]);/// * verticePoints[0]
@@ -66,7 +66,7 @@ public class Triangle extends Entity {
         // }
 
         Vector P = Util.cross(ray.direction, e2);
-        IntersectionDetails intersection = new IntersectionDetails(this);
+        IntersectionDetails<Entity> intersection = new IntersectionDetails<Entity>(this);
         double Pe1 = Util.dot(P, e1);
 
         if (Pe1 == 0) {

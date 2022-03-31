@@ -211,5 +211,5 @@ public abstract class Entity {
         this.position = position;
     }
 
-    public abstract IntersectionDetails intersect(Ray ray);
+    public abstract IntersectionDetails<Entity> intersect(Ray ray);
 }

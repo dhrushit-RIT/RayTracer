@@ -125,7 +125,7 @@ public class World {
         MyColor finalColor = new MyColor(0, 0, 0, false).normalize();
 
         boolean didGetIlluminated = false;
-        IntersectionDetails entityIntersectionDetails = this.checkIntersection(ray);
+        IntersectionDetails<Entity> entityIntersectionDetails = this.checkIntersection(ray);
         if (entityIntersectionDetails == null || entityIntersectionDetails.entity == null
                 || entityIntersectionDetails.intersectionPoint == null) {
             return new MyColor(Camera.DEFAULT_COLOR);
@@ -136,7 +136,7 @@ public class World {
                     // TODO: create a to Entity space and to World space in util and use that during
                     // subtraction of points
                     Util.subtract(Camera.toCameraSpace(light.position), entityIntersectionDetails.intersectionPoint));
-            IntersectionDetails intersectingEntity = checkIntersection(shadowRay);
+            IntersectionDetails<Entity> intersectingEntity = checkIntersection(shadowRay);
             if (intersectingEntity != null || (intersectingEntity != null && intersectingEntity.entity != null)) {
                 finalColor = new MyColor(0, 0, 0, true);
             } else {
@@ -156,16 +156,16 @@ public class World {
 
     }
 
-    public IntersectionDetails checkIntersection(Ray cRay) {
+    public IntersectionDetails<Entity> checkIntersection(Ray cRay) {
         Entity nearestEntity = null;
         double nearestDistance = Double.MAX_VALUE;
-        IntersectionDetails bestIntersection = new IntersectionDetails(Double.MAX_VALUE);
+        IntersectionDetails<Entity> bestIntersection = new IntersectionDetails<>(Double.MAX_VALUE);
         ArrayList<Entity> intersectingEntities = this.getIntersectingEntities(cRay);
 
         if (intersectingEntities != null && !intersectingEntities.isEmpty()) {
 
             for (Entity entity : intersectingEntities) {
-                IntersectionDetails intersection = entity.intersect(cRay);
+                IntersectionDetails<Entity> intersection = entity.intersect(cRay);
                 if (intersection.distance > EPSILON) {
                     if (intersection.distance < nearestDistance) {
                         nearestEntity = entity;
