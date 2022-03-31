@@ -161,5 +161,5 @@ public abstract class Entity {
 
     public abstract void computeBoundingBox();
 
-    public abstract IntersectionDetails intersect(Ray ray);
+    public abstract IntersectionDetails<Entity> intersect(Ray ray);
 }
