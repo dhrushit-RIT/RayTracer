@@ -193,8 +193,8 @@ public class KDTree {
                 return getEntities(root.left, ray);
             } else {
                 if (b == s) {
-                    return getEntities(root.right, ray);
-                    // return getEntities(root.left, ray);
+                    // return getEntities(root.right, ray);
+                    return getEntities(root.left, ray);
                 } else {
                     ArrayList<Entity> entities = new ArrayList<>();
                     ArrayList<Entity> entitiesLeft = getEntities(root.left, ray);
