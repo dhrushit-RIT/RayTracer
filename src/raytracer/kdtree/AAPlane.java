@@ -3,6 +3,8 @@ package raytracer.kdtree;
 import raytracer.Point;
 import raytracer.Ray;
 
+import raytracer.IntersectionDetails;
+
 public class AAPlane {
 
     public enum Alignment {
@@ -37,7 +39,7 @@ public class AAPlane {
         return "AAP " + alignment + " | " + pointOnPlane;
     }
 
-    public Point intersect(Ray ray) {
+    public IntersectionDetails<AAPlane> intersect(Ray ray) {
         // Ax + By + Cz + F = 0
         // XY : Cz + F = 0
         // YZ : Ax + F = 0
@@ -63,9 +65,13 @@ public class AAPlane {
         double w = -1 * (A * ray.origin.x + B * ray.origin.y + C * ray.origin.z + F)
                 / (A * ray.direction.x + B * ray.direction.y + C * ray.direction.z);
 
-        // if(w > 0) {
-        return new Point(ray.origin.x + ray.direction.x * w, ray.origin.y + ray.direction.y * w,
+        IntersectionDetails<AAPlane> intersectionDetails = new IntersectionDetails<>(w);
+        intersectionDetails.entity = this;
+        intersectionDetails.intersectionPoint = new Point(ray.origin.x + ray.direction.x * w,
+                ray.origin.y + ray.direction.y * w,
                 ray.origin.z + ray.direction.z * w, Point.Space.CAMERA);
+        // if(w > 0) {
+        return intersectionDetails;
         // } else {
         // return null;
         // }

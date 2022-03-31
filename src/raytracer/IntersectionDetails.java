@@ -1,15 +1,15 @@
 package raytracer;
-public class IntersectionDetails {
+public class IntersectionDetails<E> {
     public double distance;
     public Point intersectionPoint;
     public Vector normalAtIntersection;
-    public Entity entity;
+    public E entity;
 
     public IntersectionDetails(double distance){
         this.distance = distance;
     }
 
-    public IntersectionDetails(Entity entity) {
+    public IntersectionDetails(E entity) {
         this.distance = -1;
         this.intersectionPoint = null;
         this.normalAtIntersection = null;
