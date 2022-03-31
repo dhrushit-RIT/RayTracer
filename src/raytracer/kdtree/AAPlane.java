@@ -52,13 +52,16 @@ public class AAPlane {
 
         switch (alignment) {
             case XY:
-                F = pointOnPlane.z;
+                C = 1;
+                F = -pointOnPlane.z;
                 break;
             case YZ:
-                F = pointOnPlane.x;
+                A = 1;
+                F = -pointOnPlane.x;
                 break;
             case ZX:
-                F = pointOnPlane.y;
+                B = 1;
+                F = -pointOnPlane.y;
                 break;
         }
 
