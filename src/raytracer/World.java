@@ -96,7 +96,8 @@ public class World {
                     Util.subtract(Camera.toCameraSpace(light.position), entityIntersectionDetails.intersectionPoint));
             IntersectionDetails<Entity> intersectingEntity = checkIntersection(shadowRay);
             if (intersectingEntity != null || (intersectingEntity != null && intersectingEntity.entity != null)) {
-                finalColor = new MyColor(0, 0, 0, true);
+                // finalColor = new MyColor(0, 0, 0, true);
+                continue;
             } else {
                 didGetIlluminated = true;
                 MyColor tempColor = entityIntersectionDetails.entity.getPixelIrradiance(
