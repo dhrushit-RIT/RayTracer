@@ -1,4 +1,5 @@
 package raytracer;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -11,7 +12,7 @@ import org.ejml.simple.SimpleMatrix;
 
 public class Camera extends Entity {
 
-    static final MyColor DEFAULT_COLOR = new MyColor(191, 191, 191, false).normalize();
+    static final MyColor DEFAULT_COLOR = new MyColor(255, 255, 255, false).normalize();
 
     private static SimpleMatrix worldToNodeMatrix;
 
@@ -101,6 +102,20 @@ public class Camera extends Entity {
 
         for (Pixel pixel : filmPlane) {
 
+            int testrow = 470;
+            int testcol = 600;
+
+            // if (pixel.row == testrow || pixel.col == testcol) {
+            //     pixel.setValue(new MyColor(1, 0, 0, true));
+            //     continue;
+            //     // System.out.println();
+            // }
+
+            if (pixel.row == testrow && pixel.col == testcol) {
+                System.out.println();
+            }
+
+
             ArrayList<Pixel> subPixels = pixel.getSubPixels(subpixelsCount);
             MyColor color = new MyColor(0, 0, 0, true);
             for (Pixel subPixel : subPixels) {
@@ -173,8 +188,8 @@ public class Camera extends Entity {
     }
 
     public void applyToneMapping() {
-        // this.capToOne();
-        this.normalizeAcrossPixels();
+        this.capToOne();
+        // this.normalizeAcrossPixels();
     }
 
     @Override
@@ -209,7 +224,7 @@ public class Camera extends Entity {
     @Override
     public void computeBoundingBox() {
         // TODO Auto-generated method stub
-        
+
     }
 
 }
