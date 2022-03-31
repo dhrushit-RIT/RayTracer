@@ -25,7 +25,7 @@ public class Triangle extends Entity {
 
         this.e1 = Util.subtract(cVerticePoints[1], cVerticePoints[0]);
         this.e2 = Util.subtract(cVerticePoints[2], cVerticePoints[0]);
-        
+
         // this.computeVerticesInCamera();
         this.computeBoundingBox();
     }
@@ -59,10 +59,11 @@ public class Triangle extends Entity {
     @Override
     public IntersectionDetails intersect(Ray ray) {
 
-        if (this.T == null) {
-            this.T = Util.subtract(ray.origin, this.cVerticePoints[0]);///* verticePoints[0] */Camera.toCameraSpace(verticePoints[0]));
-            this.Q = Util.cross(T, e1);
-        }
+        // if (this.T == null) {
+        this.T = Util.subtract(ray.origin, this.cVerticePoints[0]);/// * verticePoints[0]
+                                                                   /// */Camera.toCameraSpace(verticePoints[0]));
+        this.Q = Util.cross(T, e1);
+        // }
 
         Vector P = Util.cross(ray.direction, e2);
         IntersectionDetails intersection = new IntersectionDetails(this);
@@ -81,6 +82,12 @@ public class Triangle extends Entity {
         double w = wuv.get(0, 0);
         double u = wuv.get(1, 0);
         double v = wuv.get(2, 0);
+        // double QdotE2 = Util.dot(Q, e2);
+        // double PdotT = Util.dot(P, T);
+        // double QdotD = Util.dot(Q, ray.direction);
+        // double w = QdotE2 / Pe1;
+        // double u = PdotT / Pe1;
+        // double v = QdotD / Pe1;
 
         if (w < 0) {
             w = -1;
@@ -93,9 +100,12 @@ public class Triangle extends Entity {
 
             // f(u,v)=(1−u−v)p0 + up1 + vp2
             Point camCenter = new Point(0, 0, 0, Point.Space.CAMERA);
-            Vector p0c = Util.subtract(/* Camera.toCameraSpace(verticePoints[0]) */this.cVerticePoints[0], /* camCenter */ ray.origin);
-            Vector p1c = Util.subtract(/* Camera.toCameraSpace(verticePoints[1]) */this.cVerticePoints[1], /* camCenter */ ray.origin);
-            Vector p2c = Util.subtract(/* Camera.toCameraSpace(verticePoints[2]) */this.cVerticePoints[2], /* camCenter */ ray.origin);
+            Vector p0c = Util.subtract(/* Camera.toCameraSpace(verticePoints[0]) */this.cVerticePoints[0],
+                    /* camCenter */ ray.origin);
+            Vector p1c = Util.subtract(/* Camera.toCameraSpace(verticePoints[1]) */this.cVerticePoints[1],
+                    /* camCenter */ ray.origin);
+            Vector p2c = Util.subtract(/* Camera.toCameraSpace(verticePoints[2]) */this.cVerticePoints[2],
+                    /* camCenter */ ray.origin);
             Vector pointVec = Util.add(Util.scale(1 - u - v, p0c), Util.scale(u, p1c), Util.scale(v, p2c));
 
             intersection.intersectionPoint = new Point(pointVec.x, pointVec.y, pointVec.z, Point.Space.CAMERA);
@@ -132,7 +142,7 @@ public class Triangle extends Entity {
         // double zMax = Math.max(this.verticePoints[0].z - this.position.z,
         // Math.max(this.verticePoints[1].z - this.position.z, this.verticePoints[2].z -
         // this.position.z));
-        
+
         double xMin = Math.min(this.cVerticePoints[0].x - this.cPosition.x,
                 Math.min(this.cVerticePoints[1].x - this.cPosition.x, this.cVerticePoints[2].x - this.cPosition.x));
         double xMax = Math.max(this.cVerticePoints[0].x - this.cPosition.x,
@@ -152,6 +162,7 @@ public class Triangle extends Entity {
     public String toString() {
         return this.verticePoints[0] + "\n" + this.verticePoints[1] + "\n" + this.verticePoints[2] + "\n\n";
     }
+
     public Point[] getTextureCoordinates() {
         return textureCoordinates;
     }
