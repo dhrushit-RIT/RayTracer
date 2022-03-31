@@ -3,6 +3,7 @@ package raytracer;
 import java.util.ArrayList;
 
 import raytracer.kdtree.AAPlane;
+import raytracer.kdtree.KDNode;
 import raytracer.kdtree.KDTree;
 import raytracer.kdtree.Voxel;
 
@@ -19,7 +20,7 @@ public class World {
 
     private Voxel worldVoxel;
 
-    private Object kdRoot;
+    private KDNode kdRoot;
 
     public World() {
         this.worldObjects = new ArrayList<>();
@@ -83,7 +84,7 @@ public class World {
         MyColor finalColor = new MyColor(0, 0, 0, false).normalize();
 
         boolean didGetIlluminated = false;
-        IntersectionDetails entityIntersectionDetails = this.checkIntersection(ray);
+        IntersectionDetails<Entity> entityIntersectionDetails = this.checkIntersection(ray);
         if (entityIntersectionDetails == null || entityIntersectionDetails.entity == null
                 || entityIntersectionDetails.intersectionPoint == null) {
             return new MyColor(Camera.DEFAULT_COLOR);
@@ -93,7 +94,7 @@ public class World {
                     // TODO: create a to Entity space and to World space in util and use that during
                     // subtraction of points
                     Util.subtract(Camera.toCameraSpace(light.position), entityIntersectionDetails.intersectionPoint));
-            IntersectionDetails intersectingEntity = checkIntersection(shadowRay);
+            IntersectionDetails<Entity> intersectingEntity = checkIntersection(shadowRay);
             if (intersectingEntity != null || (intersectingEntity != null && intersectingEntity.entity != null)) {
                 finalColor = new MyColor(0, 0, 0, true);
             } else {
@@ -114,12 +115,15 @@ public class World {
 
     }
 
-    public IntersectionDetails checkIntersection(Ray cRay) {
+    public IntersectionDetails<Entity> checkIntersection(Ray cRay) {
         Entity nearestEntity = null;
-        double nearestDistance = 100000000;
-        IntersectionDetails bestIntersection = new IntersectionDetails(100000000);
-        for (Entity entity : worldObjects) {
-            IntersectionDetails intersection = entity.intersect(cRay);
+        double nearestDistance = Double.MAX_VALUE;
+        // ArrayList<Entity> intersectingEntities = this.worldObjects;
+        ArrayList<Entity> intersectingEntities = KDTree.getEntities(this.kdRoot,
+                cRay);
+        IntersectionDetails<Entity> bestIntersection = new IntersectionDetails<>(Double.MAX_VALUE);
+        for (Entity entity : intersectingEntities) {
+            IntersectionDetails<Entity> intersection = entity.intersect(cRay);
             if (intersection.distance > EPSILON) {
                 if (intersection.distance < nearestDistance) {
                     nearestEntity = entity;
