@@ -24,7 +24,7 @@ public class Camera extends Entity {
     private Point cLookAt;
     private Point cPosition = new Point(0, 0, 0, Point.Space.CAMERA);
 
-    private int scaleRatio = 80;
+    public static int SCALE_RATIO = 80;
 
     public Point getcPosition() {
         return cPosition;
@@ -70,7 +70,7 @@ public class Camera extends Entity {
 
         Vector filmPlanePosition = Util.scale(this.cLookAtDir, this.focalLength);
         // this.filmPlane = new FilmPlane(16, 10, 640, 400, filmPlanePosition);
-        this.filmPlane = new FilmPlane(16, 10, 16 * scaleRatio, 10 * scaleRatio, filmPlanePosition);
+        this.filmPlane = new FilmPlane(16, 10, 16 * SCALE_RATIO, 10 * SCALE_RATIO, filmPlanePosition);
 
         System.out.println(this);
     }
@@ -98,8 +98,24 @@ public class Camera extends Entity {
     public void takeASnap(int subpixelsCount) {
         subpixelsCount = Math.max(subpixelsCount, 1);
         int subPixelCountSquare = subpixelsCount * subpixelsCount;
+        int prev = -1;
 
         for (Pixel pixel : filmPlane) {
+            if(pixel.row / SCALE_RATIO > prev) {
+                prev++;
+                System.out.println(prev + "/" + 10);
+            }
+            int testrow = 251;
+            int testcol = 48;
+
+            // if (pixel.row == testrow && pixel.col == testcol) {
+            //     pixel.setValue(new MyColor(0, 0, 1, true));
+            //     continue;
+            // }
+
+            if (pixel.row == testrow && pixel.col == testcol) {
+                System.out.println();
+            }
 
             ArrayList<Pixel> subPixels = pixel.getSubPixels(subpixelsCount);
             MyColor color = new MyColor(0, 0, 0, true);

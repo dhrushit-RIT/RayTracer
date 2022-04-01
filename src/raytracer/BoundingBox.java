@@ -44,4 +44,8 @@ public class BoundingBox {
 
         return true;
     }
+
+    public String toString() {
+        return "x: " + xMin + " - " + xMax + "\ny: " + yMin + " - " + yMax + "\nz: " + zMin + " - " + zMax;
+    }
 }
