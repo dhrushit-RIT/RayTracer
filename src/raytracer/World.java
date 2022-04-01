@@ -85,6 +85,7 @@ public class World {
     }
 
     public void simulate() {
+        System.out.println("entities per voxel : " + KDTree.MAX_ENTITIES_IN_VOXEL);
         long startTimeBuildKD = System.currentTimeMillis();
         System.out.println("Starting to build the kd-Tree");
         this.generateKDTree();
