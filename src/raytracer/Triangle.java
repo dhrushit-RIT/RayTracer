@@ -74,9 +74,9 @@ public class Triangle extends Entity {
 
             // f(u,v)=(1−u−v)p0 + up1 + vp2
             Point camCenter = new Point(0, 0, 0, Point.Space.CAMERA);
-            Vector p0c = Util.subtract(cVerticePoints[0], camCenter);
-            Vector p1c = Util.subtract(cVerticePoints[1], camCenter);
-            Vector p2c = Util.subtract(cVerticePoints[2], camCenter);
+            Vector p0c = Util.subtract(cVerticePoints[0], ray.origin);
+            Vector p1c = Util.subtract(cVerticePoints[1], ray.origin);
+            Vector p2c = Util.subtract(cVerticePoints[2], ray.origin);
             Vector pointVec = Util.add(Util.scale(1 - u - v, p0c), Util.scale(u, p1c), Util.scale(v, p2c));
 
             intersection.intersectionPoint = new Point(pointVec.x, pointVec.y, pointVec.z, Point.Space.CAMERA);
