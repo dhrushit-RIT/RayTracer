@@ -103,7 +103,7 @@ public class Camera extends Entity {
         int prev = -1;
         for (Pixel pixel : filmPlane) {
 
-            if(pixel.row % scaleRatio > prev) {
+            if(pixel.row / scaleRatio > prev) {
                 prev++;
                 System.out.println(prev + "/" + 10);
             }
