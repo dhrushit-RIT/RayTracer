@@ -1011,6 +1011,8 @@ public class Setups {
 			//
 			// set up Camera
 			//
+			raytracer.Camera.SCALE_RATIO = 40;
+			raytracer.kdTree.KDTree.MAX_ENTITIES_IN_VOXEL = 3;
 			Point cameraPosition = new Point(7, 7, -5, Point.Space.WORLD);
 			Vector cameraUp = new Vector(0, 1, 0);
 			Point cameraLookAt = new Point(7, 7, 1, Point.Space.WORLD);
