@@ -976,22 +976,22 @@ public class Setups {
 			// Entities
 			// ================================================================
 
-			thousandSpheres(application);
+			sphereCube(application, 2);
 
 			application.getWorld().setSuperSampleFactor(1);
 			application.getWorld().setBSDFTechnique(Entity.BSDFTechnique.PHONG_BLINN);
 
 		}
 
-		private static void thousandSpheres(Application application) {
+		private static void sphereCube(Application application, int sideLen) {
 			MyColor basecColor = new MyColor(22, 183, 187, false).normalize();
 			MyColor diffuseColor = new MyColor(36, 199, 203, false).normalize();
 			MyColor specColor = new MyColor(123, 226, 236, false).normalize();
 			double gap = 0.5;
 			double sphereRadius = 0.5;
-			for (int i = 0; i < 10; i++) {
-				for (int j = 0; j < 10; j++) {
-					for (int k = 0; k < 10; k++) {
+			for (int i = 0; i < sideLen; i++) {
+				for (int j = 0; j < sideLen; j++) {
+					for (int k = 0; k < sideLen; k++) {
 						Sphere sphere = new Sphere(
 								new Point((gap + 2 * sphereRadius) * i + sphereRadius,
 										(gap + 2 * sphereRadius) * j + sphereRadius,
