@@ -152,10 +152,11 @@ public class Triangle extends Entity {
         // double zMax = Math.max(this.cVerticePoints[0].z, Math.max(this.cVerticePoints[1].z, this.cVerticePoints[2].z));
         // this.boundingBox = new BoundingBox(xMin, xMax, yMin, yMax, zMin, zMax);
         this.boundingBox = new BoundingBox(xMin, xMax, yMin, yMax, zMin, zMax);
+        // System.out.println(this + "\n" + this.boundingBox);
     }
 
     public String toString() {
-        return this.verticePoints[0] + "\n" + this.verticePoints[1] + "\n" + this.verticePoints[2] + "\n\n";
+        return this.verticePoints[0] + "\n" + this.verticePoints[1] + "\n" + this.verticePoints[2];
     }
 
     public Point[] getTextureCoordinates() {
