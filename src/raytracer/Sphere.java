@@ -94,7 +94,7 @@ public class Sphere extends Entity {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("----------------------------\n");
-        sb.append("Sphere :\n" + this.position + "\n" + this.cPosition + "\nBounds:\n" + this.boundingBox + "\n");
+        sb.append("Sphere :\n" + this.position + "\n" + this.cPosition + this.boundingBox + "\n");
         sb.append("----------------------------\n");
         return sb.toString();
     }
