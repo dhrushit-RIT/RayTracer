@@ -71,8 +71,10 @@ public class World {
         System.out.println("entities per voxel : " + KDTree.MAX_ENTITIES_IN_VOXEL);
         long startTimeBuildKD = System.currentTimeMillis();
         System.out.println("Starting to build the kd-Tree");
-        this.generateKDTree();
+        this.computeBoundingBox();
         System.out.println(this);
+
+        this.generateKDTree();
         System.out.println("kd-Tree building complete...");
         long endTimeBuildKD = System.currentTimeMillis();
 
@@ -90,7 +92,6 @@ public class World {
 
     private void generateKDTree() {
 
-        this.computeBoundingBox();
         Voxel worldVoxel = new Voxel(
                 this.boundingBox.xMin, this.boundingBox.xMax,
                 this.boundingBox.yMin, this.boundingBox.yMax,
