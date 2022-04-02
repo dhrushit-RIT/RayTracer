@@ -102,9 +102,9 @@ public class Sphere extends Entity {
     @Override
     protected void computeBoundingBox() {
         this.boundingBox = new BoundingBox(
-                this.cPosition.x + (-this.radius), this.cPosition.x + this.radius,
-                this.cPosition.y + (-this.radius), this.cPosition.y + this.radius,
-                this.cPosition.z + (-this.radius), this.cPosition.z + this.radius);
+                /* this.cPosition.x + */ (-this.radius), /* this.cPosition.x + */ this.radius,
+                /* this.cPosition.y + */ (-this.radius), /* this.cPosition.y + */ this.radius,
+                /* this.cPosition.z + */ (-this.radius), /* this.cPosition.z + */ this.radius);
 
     }
 
