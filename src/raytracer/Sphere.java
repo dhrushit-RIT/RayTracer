@@ -19,18 +19,6 @@ public class Sphere extends Entity {
         // 0.0, 2 * this.radius);
     }
 
-    // @Override
-    // public boolean intersect(Entity other) {
-    // this.getPositionInCameraCoordinates();
-    // BoundingBox otherBoundingBoxInThisFrame = new BoundingBox(
-    // other.boundingBox.xMin - this.cPosition.x,
-    // other.boundingBox.xMax - this.cPosition.x,
-    // other.boundingBox.yMin - this.cPosition.y,
-    // other.boundingBox.yMax - this.cPosition.y,
-    // other.boundingBox.zMin - this.cPosition.z,
-    // other.boundingBox.zMax - this.cPosition.z);
-    // return this.boundingBox.intersect(otherBoundingBoxInThisFrame);
-    // }
 
     @Override
     public IntersectionDetails<Entity> intersect(Ray cRay) {
