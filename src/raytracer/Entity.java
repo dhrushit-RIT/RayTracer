@@ -50,32 +50,32 @@ public abstract class Entity {
 
     // TODO: make the bounding boxes independent of the camera position
     public boolean intersect(Entity other) {
-        return this.boundingBox.intersect(other.boundingBox);
-        // double xMin = this.boundingBox.xMin + this.position.x;
-        // double xMax = this.boundingBox.xMax + this.position.x;
-        // double yMin = this.boundingBox.yMin + this.position.y;
-        // double yMax = this.boundingBox.yMax + this.position.y;
-        // double zMin = this.boundingBox.zMin + this.position.z;
-        // double zMax = this.boundingBox.zMax + this.position.z;
+        // return this.boundingBox.intersect(other.boundingBox);
+        double xMin = this.boundingBox.xMin + this.position.x;
+        double xMax = this.boundingBox.xMax + this.position.x;
+        double yMin = this.boundingBox.yMin + this.position.y;
+        double yMax = this.boundingBox.yMax + this.position.y;
+        double zMin = this.boundingBox.zMin + this.position.z;
+        double zMax = this.boundingBox.zMax + this.position.z;
 
-        // double oxMin = other.boundingBox.xMin + other.position.x;
-        // double oxMax = other.boundingBox.xMax + other.position.x;
-        // double oyMin = other.boundingBox.yMin + other.position.y;
-        // double oyMax = other.boundingBox.yMax + other.position.y;
-        // double ozMin = other.boundingBox.zMin + other.position.z;
-        // double ozMax = other.boundingBox.zMax + other.position.z;
+        double oxMin = other.boundingBox.xMin + other.position.x;
+        double oxMax = other.boundingBox.xMax + other.position.x;
+        double oyMin = other.boundingBox.yMin + other.position.y;
+        double oyMax = other.boundingBox.yMax + other.position.y;
+        double ozMin = other.boundingBox.zMin + other.position.z;
+        double ozMax = other.boundingBox.zMax + other.position.z;
 
-        // boolean xNotIntersecting = xMin > oxMax || oxMin > xMax;
-        // if (xNotIntersecting)
-        //     return false;
-        // boolean yNotIntersecting = yMin > oyMax || oyMin > yMax;
-        // if (yNotIntersecting)
-        //     return false;
-        // boolean zNotIntersecting = zMin > ozMax || ozMin > zMax;
-        // if (zNotIntersecting)
-        //     return false;
+        boolean xNotIntersecting = xMin > oxMax || oxMin > xMax;
+        if (xNotIntersecting)
+            return false;
+        boolean yNotIntersecting = yMin > oyMax || oyMin > yMax;
+        if (yNotIntersecting)
+            return false;
+        boolean zNotIntersecting = zMin > ozMax || ozMin > zMax;
+        if (zNotIntersecting)
+            return false;
 
-        // return true;
+        return true;
     }
 
     protected abstract void computeBoundingBox();
