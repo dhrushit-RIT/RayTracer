@@ -57,7 +57,7 @@ public class Voxel extends BoundingBox implements ISpaceTransferable {
         this.position = cPosition;
         this.entities = entities;
         this.divisionPlane = null;
-        leafCount += 1;
+        // leafCount += 1;
         this.setUpComponents();
 
     }

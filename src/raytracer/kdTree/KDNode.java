@@ -19,7 +19,7 @@ public class KDNode {
         this.left = left;
         this.right = right;
         this.voxel = voxel;
-        Voxel.count += 1;
+        // Voxel.count += 1;
         // System.out.println(Voxel.count);
     }
 
