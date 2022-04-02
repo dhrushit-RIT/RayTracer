@@ -27,8 +27,6 @@ public class World {
         this.lightSources = new ArrayList<>();
         this.superSampleFactor = 1;
 
-        // Voxel.terminalCondition = Voxel.TerminalCondition.COUNT_ENTITIES;
-        // this.kdRoot = new Voxel(Voxel.Division.NONE, worldObjects);
     }
 
     public void setBSDFTechnique(Entity.BSDFTechnique technique) {
@@ -56,32 +54,17 @@ public class World {
         double yMax = -Double.MAX_VALUE;
         double zMax = -Double.MAX_VALUE;
 
-        // for (Entity entity : this.worldObjects) {
-        // // Point entityPosition = entity.position;
-        // xMin = Math.min(xMin, entity.getPosition().x + entity.boundingBox.xMin);
-        // yMin = Math.min(yMin, entity.getPosition().y + entity.boundingBox.yMin);
-        // zMin = Math.min(zMin, entity.getPosition().z + entity.boundingBox.zMin);
-        // xMax = Math.max(xMax, entity.getPosition().x + entity.boundingBox.xMax);
-        // yMax = Math.max(yMax, entity.getPosition().y + entity.boundingBox.yMax);
-        // zMax = Math.max(zMax, entity.getPosition().z + entity.boundingBox.zMax);
-        // }
         for (Entity entity : this.worldObjects) {
-            Point cEntityPosition = entity.getPositionInCameraCoordinates();
-            xMin = Math.min(xMin, cEntityPosition.x + entity.boundingBox.xMin);
-            yMin = Math.min(yMin, cEntityPosition.y + entity.boundingBox.yMin);
-            zMin = Math.min(zMin, cEntityPosition.z + entity.boundingBox.zMin);
-            xMax = Math.max(xMax, cEntityPosition.x + entity.boundingBox.xMax);
-            yMax = Math.max(yMax, cEntityPosition.y + entity.boundingBox.yMax);
-            zMax = Math.max(zMax, cEntityPosition.z + entity.boundingBox.zMax);
+            xMin = Math.min(xMin, entity.boundingBox.xMin);
+            yMin = Math.min(yMin, entity.boundingBox.yMin);
+            zMin = Math.min(zMin, entity.boundingBox.zMin);
+            xMax = Math.max(xMax, entity.boundingBox.xMax);
+            yMax = Math.max(yMax, entity.boundingBox.yMax);
+            zMax = Math.max(zMax, entity.boundingBox.zMax);
         }
 
         // TODO : xmin to 0 and xmax to xmax - xmin
         this.boundingBox = new BoundingBox(xMin, xMax, yMin, yMax, zMin, zMax);
-    }
-
-    private Point getWorldVoxelOrigin() {
-        this.computeBoundingBox();
-        return new Point(this.boundingBox.xMin, this.boundingBox.yMin, this.boundingBox.zMin, Point.Space.WORLD);
     }
 
     public void simulate() {
@@ -89,6 +72,7 @@ public class World {
         long startTimeBuildKD = System.currentTimeMillis();
         System.out.println("Starting to build the kd-Tree");
         this.generateKDTree();
+        System.out.println(this);
         System.out.println("kd-Tree building complete...");
         long endTimeBuildKD = System.currentTimeMillis();
 
@@ -105,15 +89,14 @@ public class World {
     }
 
     private void generateKDTree() {
-        Point voxelPosition = this.getWorldVoxelOrigin();
+
+        this.computeBoundingBox();
         Voxel worldVoxel = new Voxel(
-                new AAPlane(new Point(0, 0, 0, Point.Space.CAMERA), null), null, null, this.worldObjects,
-                voxelPosition);
-        worldVoxel.setBounds(
-                0.0, this.boundingBox.xMax - this.boundingBox.xMin,
-                0.0, this.boundingBox.yMax - this.boundingBox.yMin,
-                0.0, this.boundingBox.zMax - this.boundingBox.zMin);
-        this.kdRoot = raytracer.kdTree.KDTree.getNode(this.worldObjects, worldVoxel, 0);
+                this.boundingBox.xMin, this.boundingBox.xMax,
+                this.boundingBox.yMin, this.boundingBox.yMax,
+                this.boundingBox.zMin, this.boundingBox.zMax);
+
+        this.kdRoot = raytracer.kdTree.KDTree.getNode(this.worldObjects, worldVoxel, AAPlane.Alignment.XY, 0);
         System.out.println(Voxel.count + " " + Voxel.leafCount);
     }
 
@@ -187,7 +170,7 @@ public class World {
     }
 
     private ArrayList<Entity> getIntersectingEntities(Ray cRay) {
-        if(this.withoutKDTree) {
+        if (this.withoutKDTree) {
             return this.worldObjects;
         }
         if (this.kdRoot == null) {
@@ -197,5 +180,13 @@ public class World {
         ArrayList<Entity> intersectingEntities = KDTree.getEntityList(this.kdRoot,
                 cRay);
         return intersectingEntities;
+    }
+
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("----------------------------\n");
+        sb.append("World:\n" + "Bounds:\n" + this.boundingBox + "\n");
+        sb.append("----------------------------\n");
+        return sb.toString();
     }
 }

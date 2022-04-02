@@ -12,8 +12,8 @@ public class Sphere extends Entity {
         this.radius = sphereRadius;
         this.getPositionInCameraCoordinates();
         this.computeBoundingBox();
+        System.out.println(this);
     }
-
 
     @Override
     public IntersectionDetails<Entity> intersect(Ray cRay) {
@@ -85,10 +85,18 @@ public class Sphere extends Entity {
     @Override
     protected void computeBoundingBox() {
         this.boundingBox = new BoundingBox(
-                /* this.cPosition.x + */ (-this.radius), /* this.cPosition.x + */ this.radius,
-                /* this.cPosition.y + */ (-this.radius), /* this.cPosition.y + */ this.radius,
-                /* this.cPosition.z + */ (-this.radius), /* this.cPosition.z + */ this.radius);
+                this.cPosition.x + (-this.radius), this.cPosition.x + this.radius,
+                this.cPosition.y + (-this.radius), this.cPosition.y + this.radius,
+                this.cPosition.z + (-this.radius), this.cPosition.z + this.radius);
 
+    }
+
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("----------------------------\n");
+        sb.append("Sphere :\n" + this.position + "\n" + this.cPosition + "\nBounds:\n" + this.boundingBox + "\n");
+        sb.append("----------------------------\n");
+        return sb.toString();
     }
 
 }

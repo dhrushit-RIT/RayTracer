@@ -50,26 +50,28 @@ public abstract class Entity {
 
     // TODO: make the bounding boxes independent of the camera position
     public boolean intersect(Entity other) {
-        double xMin = this.boundingBox.xMin + this.cPosition.x;
-        double xMax = this.boundingBox.xMax + this.cPosition.x;
-        double yMin = this.boundingBox.yMin + this.cPosition.y;
-        double yMax = this.boundingBox.yMax + this.cPosition.y;
-        double zMin = this.boundingBox.zMin + this.cPosition.z;
-        double zMax = this.boundingBox.zMax + this.cPosition.z;
+        double xMin = this.boundingBox.xMin;
+        double xMax = this.boundingBox.xMax;
+        double yMin = this.boundingBox.yMin;
+        double yMax = this.boundingBox.yMax;
+        double zMin = this.boundingBox.zMin;
+        double zMax = this.boundingBox.zMax;
 
-        double oxMin = other.boundingBox.xMin + other.cPosition.x;
-        double oxMax = other.boundingBox.xMax + other.cPosition.x;
-        double oyMin = other.boundingBox.yMin + other.cPosition.y;
-        double oyMax = other.boundingBox.yMax + other.cPosition.y;
-        double ozMin = other.boundingBox.zMin + other.cPosition.z;
-        double ozMax = other.boundingBox.zMax + other.cPosition.z;
+        double oxMin = other.boundingBox.xMin;
+        double oxMax = other.boundingBox.xMax;
+        double oyMin = other.boundingBox.yMin;
+        double oyMax = other.boundingBox.yMax;
+        double ozMin = other.boundingBox.zMin;
+        double ozMax = other.boundingBox.zMax;
 
         boolean xNotIntersecting = xMin > oxMax || oxMin > xMax;
         if (xNotIntersecting)
             return false;
+
         boolean yNotIntersecting = yMin > oyMax || oyMin > yMax;
         if (yNotIntersecting)
             return false;
+
         boolean zNotIntersecting = zMin > ozMax || ozMin > zMax;
         if (zNotIntersecting)
             return false;
@@ -100,8 +102,8 @@ public abstract class Entity {
         view.normalize();
         // double reflectDotView = Math.max(0.0, Util.dot(reflectVector, view));
         Vector halfway = Util.add(lightDir, view).normalize();
-        double normalDotHalf = Math.max(0.0, Util.dot(halfway, normal));
 
+        double normalDotHalf = Math.max(0.0, Util.dot(halfway, normal));
         double specularFactor = ks * light.irradiance * Math.pow(normalDotHalf, ke);
 
         MyColor ambient = Util.multColor(ambientFactor, getBaseColor(intersecPoint));
