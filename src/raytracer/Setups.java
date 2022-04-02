@@ -955,19 +955,19 @@ public class Setups {
 		public static void setup6(Application application) {
 
 			raytracer.kdTree.KDTree.MAX_ENTITIES_IN_VOXEL = 3;
-			//
+			// ================================================================
 			// set up Camera
-			//
-			Point cameraPosition = new Point(7, 7, -5, Point.Space.WORLD);
+			// ================================================================
+			Point cameraPosition = new Point(0, 0, -5, Point.Space.WORLD);
 			Vector cameraUp = new Vector(0, 1, 0);
-			Point cameraLookAt = new Point(7, 7, 1, Point.Space.WORLD);
+			Point cameraLookAt = new Point(0, 0, 1, Point.Space.WORLD);
 			double cameraFocalLength = 10;
 			Camera camera = new Camera(cameraPosition, cameraUp, cameraLookAt, cameraFocalLength);
 			application.getWorld().setCamera(camera);
 
-			//
+			// ================================================================
 			// Light
-			//
+			// ================================================================
 			Light light1 = new Light(new MyColor(1, 1, 1, true), new Point(7, 7, -6, Point.Space.WORLD),
 					0.55);
 			application.getWorld().addLightSource(light1);
@@ -976,27 +976,31 @@ public class Setups {
 			// Entities
 			// ================================================================
 
-			thousandSpheres(application);
+			sphereCube(application, 2);
 
 			application.getWorld().setSuperSampleFactor(1);
 			application.getWorld().setBSDFTechnique(Entity.BSDFTechnique.PHONG_BLINN);
 
 		}
 
-		private static void thousandSpheres(Application application) {
+		private static void sphereCube(Application application, int sideLen) {
 			MyColor basecColor = new MyColor(22, 183, 187, false).normalize();
 			MyColor diffuseColor = new MyColor(36, 199, 203, false).normalize();
 			MyColor specColor = new MyColor(123, 226, 236, false).normalize();
 			double gap = 0.5;
 			double sphereRadius = 0.5;
-			for (int i = 0; i < 10; i++) {
-				for (int j = 0; j < 10; j++) {
-					for (int k = 0; k < 10; k++) {
+			for (int i = -sideLen / 2; i < sideLen / 2; i++) {
+				for (int j = -sideLen / 2; j < sideLen / 2; j++) {
+					for (int k = -sideLen / 2; k < sideLen / 2; k++) {
+						Point center = new Point(
+								(gap + 2 * sphereRadius) * i + sphereRadius,
+								(gap + 2 * sphereRadius) * j + sphereRadius,
+								(gap + 2 * sphereRadius) * k + sphereRadius,
+								Point.Space.WORLD);
 						Sphere sphere = new Sphere(
-								new Point((gap + 2 * sphereRadius) * i + sphereRadius,
-										(gap + 2 * sphereRadius) * j + sphereRadius,
-										(gap + 2 * sphereRadius) * k + sphereRadius, Point.Space.WORLD),
+								center,
 								sphereRadius, null);
+						// System.out.println("S" + i + j + k + center);
 						sphere.setCoeffs(0.3, 0.5, 0.2, 180);
 						sphere.setColors(basecColor, specColor, diffuseColor);
 
