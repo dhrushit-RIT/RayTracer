@@ -154,7 +154,7 @@ public class KDTree {
         // if (intersectionDetails.size() < 1) {
         // // System.err.println("Error parsing the kd tree");
         // return new ArrayList<>();
-        // } else if (intersectionDetails.size() < 1) {
+        // } else if (intersectionDetails.size() == 1) {
         // A = intersectionDetails.get(0);
         // B = intersectionDetails.get(0);
         // } else {
@@ -174,9 +174,9 @@ public class KDTree {
 
         Point S = root.getPartitioningPlane().intersect(cRay);
 
-        double a = 0;
-        double b = 0;
-        double s = 0;
+        double a = Double.MAX_VALUE;
+        double b = Double.MAX_VALUE;
+        double s = Double.MAX_VALUE;
 
         switch (root.getPartitioningPlane().getAlignment()) {
             case XY:
