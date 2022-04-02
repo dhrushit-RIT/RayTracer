@@ -1,8 +1,8 @@
 package raytracer.kdTree;
 
+import raytracer.IntersectionDetails;
 import raytracer.Point;
 import raytracer.Ray;
-import raytracer.Point.Space;
 
 public class AAPlane {
     public enum Alignment {
@@ -36,38 +36,48 @@ public class AAPlane {
         this.alignment = alignment;
     }
 
-    public Point intersectPoint(Ray cRay) {
+    public Point intersect(Ray ray) {
+        // Ax + By + Cz + F = 0
+        // XY : Cz + F = 0
+        // YZ : Ax + F = 0
+        // ZX : By + F = 0
+        // w = -1 * (Axo + Byo + Czo + F) / (Adx + Bdy + Cdz)
+        double A = 0;
+        double B = 0;
+        double C = 0;
+        double F = 0;
 
-        // w = -1 * (cRay.origin.z + -1 * pointOnPlane.z) / cRay.direction.z;
-
-        double w = 1;
         switch (alignment) {
             case XY:
-                w = -1 * (cRay.origin.z + -1 * pointOnPlane.z) / cRay.direction.z;
-                // w = pointOnPlane.z / cRay.direction.z;
+                C = 1;
+                F = -pointOnPlane.z;
                 break;
             case YZ:
-                w = -1 * (cRay.origin.x + -1 * pointOnPlane.x) / cRay.direction.x;
-                // w = pointOnPlane.x / cRay.direction.x;
+                A = 1;
+                F = -pointOnPlane.x;
                 break;
             case ZX:
-                w = -1 * (cRay.origin.y + -1 * pointOnPlane.y) / cRay.direction.y;
-                // w = pointOnPlane.y / cRay.direction.y;
-                break;
-            default:
+                B = 1;
+                F = -pointOnPlane.y;
                 break;
         }
 
-        // if (w > 0) {
+        double w = -1 * (A * ray.origin.x + B * ray.origin.y + C * ray.origin.z + F)
+                / (A * ray.direction.x + B * ray.direction.y + C * ray.direction.z);
 
-            return new Point(
-                    cRay.origin.x + w * cRay.direction.x,
-                    cRay.origin.y + w * cRay.direction.y,
-                    cRay.origin.z + w * cRay.direction.z,
-                    Point.Space.CAMERA);
+        IntersectionDetails<AAPlane> intersectionDetails = new IntersectionDetails<>(w);
+        intersectionDetails.entity = this;
+        intersectionDetails.intersectionPoint = new Point(
+                ray.origin.x + w * ray.direction.x,
+                ray.origin.y + w * ray.direction.y,
+                ray.origin.z + w * ray.direction.z,
+                Point.Space.CAMERA);
+        // if(w > 0) {
+        return intersectionDetails.intersectionPoint;
         // } else {
-            // return null;
+        // return null;
         // }
+
     }
 
     public String toString() {
