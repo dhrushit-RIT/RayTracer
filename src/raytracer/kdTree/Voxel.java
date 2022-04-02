@@ -279,8 +279,9 @@ public class Voxel extends BoundingBox {
         StringBuilder sb = new StringBuilder();
         sb.append("----------------------------\n");
         sb.append("Voxel : \n");
-        sb.append("Bounds:\n x: " + xMin + " - " + xMax + "\ny: " + yMin + " - " + yMax + "\nz: " + zMin + " - " + zMax
-                + "\n");
+        sb.append(super.toString() + "\n");
+        // sb.append("Bounds:\nx: " + xMin + " - " + xMax + "\ny: " + yMin + " - " + yMax + "\nz: " + zMin + " - " + zMax
+        //         + "\n");
         sb.append("----------------------------\n");
         return sb.toString();
     }
