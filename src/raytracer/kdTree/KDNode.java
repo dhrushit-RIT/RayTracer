@@ -29,7 +29,7 @@ public class KDNode {
         this.right = null;
         this.left = null;
         this.voxel = voxel;
-        // System.out.println(this);
+        System.out.println(this.voxel + this.entities.toString() + "\n");
         Voxel.leafCount += 1;
     }
 
