@@ -12,11 +12,6 @@ public class Sphere extends Entity {
         this.radius = sphereRadius;
         this.getPositionInCameraCoordinates();
         this.computeBoundingBox();
-
-        // this.boundingBox = new BoundingBox(
-        // 0.0, 2 * this.radius,
-        // 0.0, 2 * this.radius,
-        // 0.0, 2 * this.radius);
     }
 
 
