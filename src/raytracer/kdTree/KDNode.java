@@ -29,6 +29,7 @@ public class KDNode {
         this.left = null;
         this.voxel = voxel;
         Voxel.leafCount += 1;
+        System.out.println(this);
     }
 
     public boolean isTerminal() {
@@ -80,7 +81,7 @@ public class KDNode {
 
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("End Node : " + Voxel.leafCount + " " + this.entities);
+        sb.append("KDNode: " + this.entities.size() + "\n" + this.voxel.toString());
         return sb.toString();
     }
 
