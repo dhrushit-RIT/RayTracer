@@ -42,12 +42,21 @@ public class Sphere extends Entity {
             double w0 = (-B + D) / 2; // Note : A = 1 is assumed
             double w1 = (-B - D) / 2;
 
+            double twoEpsilon = 2 * Entity.EPSILON;
             if (w0 < 0) {
                 w = w1;
             } else if (w1 < 0) {
                 w = w0;
             } else {
-                w = Math.min(w0, w1);
+                if (w0 < twoEpsilon && w1 < twoEpsilon) {
+                    w = -1;
+                } else if (w1 < twoEpsilon) {
+                    w = w0;
+                } else if (w0 < twoEpsilon) {
+                    w = w1;
+                } else {
+                    w = Math.min(w0, w1);
+                }
             }
             if (w > 0) {
 
