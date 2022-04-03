@@ -11,12 +11,12 @@ public class BoundingBox {
     private static double EPSILON = 0.0;
 
     public BoundingBox(double xMin, double xMax, double yMin, double yMax, double zMin, double zMax) {
-        this.xMin = xMin /* - EPSILON */;
-        this.xMax = xMax /* + EPSILON */;
-        this.yMin = yMin /* - EPSILON */;
-        this.yMax = yMax /* + EPSILON */;
-        this.zMin = zMin /* - EPSILON */;
-        this.zMax = zMax /* + EPSILON */;
+        this.xMin = xMin;
+        this.xMax = xMax;
+        this.yMin = yMin;
+        this.yMax = yMax;
+        this.zMin = zMin;
+        this.zMax = zMax;
     }
 
     public BoundingBox(BoundingBox other) {
@@ -36,11 +36,14 @@ public class BoundingBox {
      */
     public boolean intersect(BoundingBox other) {
         boolean xNotIntersecting = this.xMin > other.xMax || other.xMin > this.xMax;
-        if(xNotIntersecting) return false;
+        if (xNotIntersecting)
+            return false;
         boolean yNotIntersecting = this.yMin > other.yMax || other.yMin > this.yMax;
-        if(yNotIntersecting) return false;
+        if (yNotIntersecting)
+            return false;
         boolean zNotIntersecting = this.zMin > other.zMax || other.zMin > this.zMax;
-        if(zNotIntersecting) return false;
+        if (zNotIntersecting)
+            return false;
 
         return true;
     }
