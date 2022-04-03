@@ -272,6 +272,7 @@ public class World {
         Ray transmittedRay;
         if (D < 0) {
             // total internal reflection
+            normal = Util.scale(normal, -1);
             transmittedVector = Util.reflect(dOpp.direction, normal,
                     entityIntersectionDetails.intersectionPoint).normalize();
             transmittedRay = new Ray(entityIntersectionDetails.intersectionPoint, transmittedVector,
