@@ -23,7 +23,8 @@ public class Voxel extends BoundingBox implements ISpaceTransferable {
     }
 
     private Space voxelSpace = Space.CAMERA;
-    private Point position; // in camera coordinate  TODO: try to make this independent of the context in which we are calculating
+    private Point position; // in camera coordinate TODO: try to make this independent of the context in
+                            // which we are calculating
     private Point cPosition;
 
     private AAPlane divisionPlane;
@@ -101,9 +102,9 @@ public class Voxel extends BoundingBox implements ISpaceTransferable {
         for (ComponentPlanes planeType : ComponentPlanes.values()) {
             AAPlane plane = this.components.get(planeType);
             Point intersectionPoint = plane.intersectPoint(cRay);
-            if(intersectionPoint != null) {
+            if (intersectionPoint != null) {
                 boolean isPointInVoxel = this.checkIntersectionIsInsideVoxel(intersectionPoint, plane);
-                
+
                 if (isPointInVoxel) {
                     intersections.add(intersectionPoint);
                 }
@@ -135,12 +136,12 @@ public class Voxel extends BoundingBox implements ISpaceTransferable {
         boolean zOutOfRange = false;
 
         this.getPositionInCameraCoordinates();
-        double voxelXmin = this.xMin + this.cPosition.x;
-        double voxelXmax = this.xMax + this.cPosition.x;
-        double voxelYmin = this.yMin + this.cPosition.y;
-        double voxelYmax = this.yMax + this.cPosition.y;
-        double voxelZmin = this.zMin + this.cPosition.z;
-        double voxelZmax = this.zMax + this.cPosition.z;
+        double voxelXmin = this.xMin;
+        double voxelXmax = this.xMax;
+        double voxelYmin = this.yMin;
+        double voxelYmax = this.yMax;
+        double voxelZmin = this.zMin;
+        double voxelZmax = this.zMax;
 
         switch (plane.getAlignment()) {
             case XY:
@@ -187,22 +188,22 @@ public class Voxel extends BoundingBox implements ISpaceTransferable {
     public void updateBounds() {
         this.getPositionInCameraCoordinates();
         this.components.get(ComponentPlanes.XY1).setPointOnPlane(
-                new Point(this.xMin + this.cPosition.x, this.yMin + this.cPosition.y, this.zMin + this.cPosition.z,
+                new Point(this.xMin, this.yMin, this.zMin,
                         Point.Space.CAMERA));
         this.components.get(ComponentPlanes.XY2).setPointOnPlane(
-                new Point(this.xMax + this.cPosition.x, this.yMax + this.cPosition.y, this.zMax + this.cPosition.z,
+                new Point(this.xMax, this.yMax, this.zMax,
                         Point.Space.CAMERA));
         this.components.get(ComponentPlanes.YZ1).setPointOnPlane(
-                new Point(this.xMin + this.cPosition.x, this.yMin + this.cPosition.y, this.zMin + this.cPosition.z,
+                new Point(this.xMin, this.yMin, this.zMin,
                         Point.Space.CAMERA));
         this.components.get(ComponentPlanes.YZ2).setPointOnPlane(
-                new Point(this.xMax + this.cPosition.x, this.yMax + this.cPosition.y, this.zMax + this.cPosition.z,
+                new Point(this.xMax, this.yMax, this.zMax,
                         Point.Space.CAMERA));
         this.components.get(ComponentPlanes.ZX1).setPointOnPlane(
-                new Point(this.xMin + this.cPosition.x, this.yMin + this.cPosition.y, this.zMin + this.cPosition.z,
+                new Point(this.xMin, this.yMin, this.zMin,
                         Point.Space.CAMERA));
         this.components.get(ComponentPlanes.ZX2).setPointOnPlane(
-                new Point(this.xMax + this.cPosition.x, this.yMax + this.cPosition.y, this.zMax + this.cPosition.z,
+                new Point(this.xMax, this.yMax, this.zMax,
                         Point.Space.CAMERA));
 
     }
@@ -229,19 +230,25 @@ public class Voxel extends BoundingBox implements ISpaceTransferable {
         this.zMax = zMax;
 
         this.getPositionInCameraCoordinates();
-        
+
         this.components.get(ComponentPlanes.XY1).setPointOnPlane(
-                new Point(xMin + this.cPosition.x, yMin + this.cPosition.y, zMin + this.cPosition.z, Point.Space.CAMERA));
+                new Point(xMin, yMin, zMin,
+                        Point.Space.CAMERA));
         this.components.get(ComponentPlanes.XY2).setPointOnPlane(
-                new Point(xMax + this.cPosition.x, yMax + this.cPosition.y, zMax + this.cPosition.z, Point.Space.CAMERA));
+                new Point(xMax, yMax, zMax,
+                        Point.Space.CAMERA));
         this.components.get(ComponentPlanes.YZ1).setPointOnPlane(
-                new Point(xMin + this.cPosition.x, yMin + this.cPosition.y, zMin + this.cPosition.z, Point.Space.CAMERA));
+                new Point(xMin, yMin, zMin,
+                        Point.Space.CAMERA));
         this.components.get(ComponentPlanes.YZ2).setPointOnPlane(
-                new Point(xMax + this.cPosition.x, yMax + this.cPosition.y, zMax + this.cPosition.z, Point.Space.CAMERA));
+                new Point(xMax, yMax, zMax,
+                        Point.Space.CAMERA));
         this.components.get(ComponentPlanes.ZX1).setPointOnPlane(
-                new Point(xMin + this.cPosition.x, yMin + this.cPosition.y, zMin + this.cPosition.z, Point.Space.CAMERA));
+                new Point(xMin, yMin, zMin,
+                        Point.Space.CAMERA));
         this.components.get(ComponentPlanes.ZX2).setPointOnPlane(
-                new Point(xMax + this.cPosition.x, yMax + this.cPosition.y, zMax + this.cPosition.z, Point.Space.CAMERA));
+                new Point(xMax, yMax, zMax,
+                        Point.Space.CAMERA));
 
     }
 
@@ -261,21 +268,20 @@ public class Voxel extends BoundingBox implements ISpaceTransferable {
     public boolean isEntityInsideVoxel(Entity entity) {
 
         this.getPositionInCameraCoordinates();
-        Point entityCamPos = entity.getPositionInCameraCoordinates();
 
-        double voxelXmin = this.cPosition.x + this.xMin;
-        double voxelXmax = this.cPosition.x + this.xMax;
-        double voxelYmin = this.cPosition.y + this.yMin;
-        double voxelYmax = this.cPosition.y + this.yMax;
-        double voxelZmin = this.cPosition.z + this.zMin;
-        double voxelZmax = this.cPosition.z + this.zMax;
+        double voxelXmin = this.xMin;
+        double voxelXmax = this.xMax;
+        double voxelYmin = this.yMin;
+        double voxelYmax = this.yMax;
+        double voxelZmin = this.zMin;
+        double voxelZmax = this.zMax;
 
-        double entityXmin = entityCamPos.x + entity.boundingBox.xMin;
-        double entityXmax = entityCamPos.x + entity.boundingBox.xMax;
-        double entityYmin = entityCamPos.y + entity.boundingBox.yMin;
-        double entityYmax = entityCamPos.y + entity.boundingBox.yMax;
-        double entityZmin = entityCamPos.z + entity.boundingBox.zMin;
-        double entityZmax = entityCamPos.z + entity.boundingBox.zMax;
+        double entityXmin = entity.boundingBox.xMin;
+        double entityXmax = entity.boundingBox.xMax;
+        double entityYmin = entity.boundingBox.yMin;
+        double entityYmax = entity.boundingBox.yMax;
+        double entityZmin = entity.boundingBox.zMin;
+        double entityZmax = entity.boundingBox.zMax;
 
         boolean xNotIntersecting = voxelXmin > entityXmax || voxelXmax < entityXmin;
         if (xNotIntersecting)

@@ -19,7 +19,6 @@ public class Sphere extends Entity {
         // 0.0, 2 * this.radius);
     }
 
-
     @Override
     public IntersectionDetails<Entity> intersect(Ray cRay) {
         Point rOrigin = cRay.getOrigin();
@@ -90,10 +89,18 @@ public class Sphere extends Entity {
     @Override
     protected void computeBoundingBox() {
         this.boundingBox = new BoundingBox(
-                /* this.cPosition.x + */ (-this.radius), /* this.cPosition.x + */ this.radius,
-                /* this.cPosition.y + */ (-this.radius), /* this.cPosition.y + */ this.radius,
-                /* this.cPosition.z + */ (-this.radius), /* this.cPosition.z + */ this.radius);
+                this.cPosition.x + (-this.radius), this.cPosition.x + this.radius,
+                this.cPosition.y + (-this.radius), this.cPosition.y + this.radius,
+                this.cPosition.z + (-this.radius), this.cPosition.z + this.radius);
 
+    }
+
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("----------------------------\n");
+        sb.append("Sphere :\n" + this.position + "\n" + this.cPosition + this.boundingBox + "\n");
+        sb.append("----------------------------\n");
+        return sb.toString();
     }
 
 }

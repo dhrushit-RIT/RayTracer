@@ -91,23 +91,29 @@ public class KDTree {
     private static void setVoxelBounds(AAPlane P, Voxel V, Voxel leftVoxel, Voxel rightVoxel) {
         switch (P.getAlignment()) {
             case XY:
-                leftVoxel.zMin = 0.0;
-                rightVoxel.zMin = 0.0;
-                leftVoxel.zMax = (V.zMax - V.zMin) / 2;
-                rightVoxel.zMax = (V.zMax - V.zMin) / 2;
+
+                leftVoxel.zMin = V.zMin;
+                leftVoxel.zMax = (V.zMax + V.zMin) / 2;
+
+                rightVoxel.zMin = (V.zMax + V.zMin) / 2;
+                rightVoxel.zMax = V.zMax;
                 break;
             case YZ:
-                leftVoxel.xMin = 0.0;
-                rightVoxel.xMin = 0.0;
-                leftVoxel.xMax = (V.xMax - V.xMin) / 2;
-                rightVoxel.xMax = (V.xMax - V.xMin) / 2;
+
+                leftVoxel.xMin = V.xMin;
+                leftVoxel.xMax = (V.xMax + V.xMin) / 2;
+
+                rightVoxel.xMin = (V.xMax + V.xMin) / 2;
+                rightVoxel.xMax = V.xMax;
 
                 break;
             case ZX:
-                leftVoxel.yMin = 0.0;
-                rightVoxel.yMin = 0.0;
-                leftVoxel.yMax = (V.yMax - V.yMin) / 2;
-                rightVoxel.yMax = (V.yMax - V.yMin) / 2;
+
+                leftVoxel.yMin = V.yMin;
+                leftVoxel.yMax = (V.yMax + V.yMin) / 2;
+
+                rightVoxel.yMin = (V.yMax + V.yMin) / 2;
+                rightVoxel.yMax = V.yMax;
 
                 break;
             default:
@@ -122,20 +128,20 @@ public class KDTree {
         // Point cPos = v.getPositionInCameraCoordinates();
         Point cPos = v.getPosition(); // voxel is always in the camera coordinates
 
-        double x = cPos.x;
-        double y = cPos.y;
-        double z = cPos.z;
+        double x = v.xMin;
+        double y = v.yMin;
+        double z = v.zMin;
 
         switch (v.getDividingPlane().getAlignment()) {
             case YZ:
-                x += (v.xMax - v.xMin) / 2;
+                x = (v.xMax + v.xMin) / 2;
                 break;
             case ZX:
-                y += (v.yMax - v.yMin) / 2;
+                y = (v.yMax + v.yMin) / 2;
                 break;
             case XY:
             default:
-                z += (v.zMax - v.zMin) / 2;
+                z = (v.zMax + v.zMin) / 2;
                 break;
         }
 
