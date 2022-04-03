@@ -87,10 +87,9 @@ public class Setups {
 			MyColor t2Color = new MyColor(238, 50, 51, false).normalize();
 			Triangle triangle2 = new Triangle(t2Color, t2Position, t2Vertices);
 			triangle2.setCoeffs(0.3, 0.4, 0.2, 180);
-			triangle2.setHasTexture(true);
 			application.getWorld().addEntity(triangle2);
 
-			application.getWorld().setSuperSampleFactor(3);
+			application.getWorld().setSuperSampleFactor(1);
 			application.getWorld().setBSDFTechnique(Entity.BSDFTechnique.PHONG_BLINN);
 
 		}

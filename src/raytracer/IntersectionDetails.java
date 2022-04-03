@@ -15,4 +15,9 @@ public class IntersectionDetails<E> {
         this.normalAtIntersection = null;
         this.entity = entity;
     }
+
+    public static boolean noIntersections(IntersectionDetails entityIntersectionDetails){
+        return entityIntersectionDetails == null || entityIntersectionDetails.entity == null
+        || entityIntersectionDetails.intersectionPoint == null;
+    }
 }
