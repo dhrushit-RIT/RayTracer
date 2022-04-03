@@ -1000,6 +1000,7 @@ public class Setups {
 						Sphere sphere = new Sphere(
 								center,
 								sphereRadius, null);
+						// System.out.println("S" + i + j + k + center);
 						sphere.setCoeffs(0.3, 0.5, 0.2, 180);
 						sphere.setColors(basecColor, specColor, diffuseColor);
 

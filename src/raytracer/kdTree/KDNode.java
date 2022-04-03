@@ -81,7 +81,7 @@ public class KDNode {
 
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("KDNode: " + this.entities.size() + "\n" + this.voxel.toString());
+        sb.append("KDNode: " + this.entities.size() + "\n" + this.voxel.toString() + "\n");
         return sb.toString();
     }
 
