@@ -1,4 +1,5 @@
 package raytracer;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -11,7 +12,7 @@ import org.ejml.simple.SimpleMatrix;
 
 public class Camera extends Entity {
 
-    static final MyColor DEFAULT_COLOR = new MyColor(191, 191, 191, false).normalize();
+    static final MyColor DEFAULT_COLOR = new MyColor(0, 0, 255, false).normalize();
 
     private static SimpleMatrix worldToNodeMatrix;
 
@@ -101,7 +102,7 @@ public class Camera extends Entity {
         int prev = -1;
 
         for (Pixel pixel : filmPlane) {
-            if(pixel.row / SCALE_RATIO > prev) {
+            if (pixel.row / SCALE_RATIO > prev) {
                 prev++;
                 System.out.println(prev + "/" + 10);
             }
@@ -109,21 +110,28 @@ public class Camera extends Entity {
             int testcol = 48;
 
             // if (pixel.row == testrow && pixel.col == testcol) {
-            //     pixel.setValue(new MyColor(0, 0, 1, true));
-            //     continue;
+            // pixel.setValue(new MyColor(0, 0, 1, true));
+            // continue;
             // }
 
             if (pixel.row == testrow && pixel.col == testcol) {
                 System.out.println();
             }
 
+            if (pixel.row == 230 && pixel.col == 750) {
+                // pixel.setValue(new MyColor(1, 1, 1, true));
+
+                System.out.println();
+                // continue;
+            }
             ArrayList<Pixel> subPixels = pixel.getSubPixels(subpixelsCount);
             MyColor color = new MyColor(0, 0, 0, true);
             for (Pixel subPixel : subPixels) {
                 Vector dir = new Vector(subPixel.cPosition);
                 dir.normalize();
                 Ray ray = new Ray(this.cPosition, dir);
-                color.addColor(this.world.getPixelIrradiance(ray));
+                // color.addColor(this.world.getPixelIrradiance(ray));
+                color.addColor(this.world.illuminate(ray, 0));
             }
             color.r /= subPixelCountSquare;
             color.g /= subPixelCountSquare;
@@ -224,7 +232,7 @@ public class Camera extends Entity {
 
     @Override
     protected void computeBoundingBox() {
-        this.boundingBox = null;        
+        this.boundingBox = null;
     }
 
 }

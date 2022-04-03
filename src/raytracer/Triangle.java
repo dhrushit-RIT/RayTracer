@@ -49,10 +49,8 @@ public class Triangle extends Entity {
     @Override
     public IntersectionDetails<Entity> intersect(Ray ray) {
 
-        // if (this.T == null) {
         this.T = Util.subtract(ray.origin, this.cVerticePoints[0]);
         this.Q = Util.cross(T, e1);
-        // }
 
         Vector P = Util.cross(ray.direction, e2);
         IntersectionDetails<Entity> intersection = new IntersectionDetails<Entity>(this);

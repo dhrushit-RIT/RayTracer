@@ -27,6 +27,9 @@ public abstract class Entity {
     protected double ks = 0.5;
     protected double ke = 180;
 
+    protected double kr = 0;
+    protected double kt = 0;
+
     protected boolean hasTexture = false;
 
     public Entity(MyColor baseColor, Point position) {
@@ -95,6 +98,7 @@ public abstract class Entity {
         double ambientFactor = ka * light.irradiance;
         double diffuseFactor = kd * light.irradiance * Util.dot(lightDir, normal);
 
+        diffuseFactor = Math.max(0.0, diffuseFactor);
         normal.normalize();
 
         // Vector reflectVector = Util.reflect(lightDir, normal, intersecPoint);
@@ -176,8 +180,8 @@ public abstract class Entity {
         u /= 2;
         v /= 2;
 
-        int row = (int) (u / 0.1);
-        int col = (int) (v / 0.1);
+        int row = (int) (u / 0.2);
+        int col = (int) (v / 0.2);
         if (row % 2 == 0) {
             if (col % 2 == 0) {
                 return new MyColor(1.0, 0.0, 0.0, true);
@@ -213,4 +217,21 @@ public abstract class Entity {
     }
 
     public abstract IntersectionDetails<Entity> intersect(Ray ray);
+
+    public void setTransmissiveCoeff(double kt) {
+        this.kt = kt;
+    }
+
+    public void setReflectiveCoeff(double kr) {
+        this.kr = kr;
+    }
+
+    public boolean isReflective() {
+        return this.kr > 0;
+    }
+
+    public boolean isTransmissive() {
+        return this.kt > 0;
+    }
+
 }

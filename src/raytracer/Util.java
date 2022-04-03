@@ -15,6 +15,9 @@ public class Util {
     }
 
     public static Vector subtract(Point p1, Point p2) {
+        // if (p1.getSpace() != p2.getSpace()) {
+        // System.out.println("unmatched spaces");
+        // }
         return new Vector(p1.x - p2.x, p1.y - p2.y, p1.z - p2.z);
     }
 
@@ -46,7 +49,6 @@ public class Util {
 
     public static Vector cross(Vector a, Vector b) {
         return new Vector(
-                // 0,0,1 x 1,0,0
                 a.y * b.z - a.z * b.y,
                 a.z * b.x - a.x * b.z,
                 a.x * b.y - a.y * b.x);
@@ -85,7 +87,10 @@ public class Util {
         // normal is from intersection point towards away from object
         // reflected ray is from intersection point towards away from normal
 
-        double nDotL = Util.dot(lightDir, normal);
+        Vector normalDir = new Vector(normal);
+        // normalDir = Util.scale(normalDir, -1);
+
+        double nDotL = Util.dot(lightDir, normalDir);
 
         Vector ret = new Vector(subtract(
                 Util.scale(normal, 2 * nDotL),
@@ -145,5 +150,14 @@ public class Util {
         double yDiff = p1.y - p2.y;
         double zDiff = p1.z - p2.z;
         return Math.sqrt(xDiff * xDiff + yDiff * yDiff + zDiff * zDiff);
+    }
+
+    public static MyColor scaleColor(double scaleFactor, MyColor color) {
+        MyColor retColor = new MyColor(color);
+        retColor.r *= scaleFactor;
+        retColor.g *= scaleFactor;
+        retColor.b *= scaleFactor;
+
+        return retColor;
     }
 }
