@@ -21,10 +21,10 @@ public class Setups {
 			//
 			// Light
 			//
-			Light light1 = new Light(new MyColor(1, 1, 1, true), new Point(0, 5, 0, Point.Space.WORLD), 0.55);
+			Light light1 = new Light(new MyColor(1, 1, 1, true), new Point(0, 5, 0, Point.Space.WORLD), 0.65);
 			application.getWorld().addLightSource(light1);
 
-			Light light2 = new Light(new MyColor(1, 1, 1, true), new Point(2, 5, 5, Point.Space.WORLD), 0.55);
+			Light light2 = new Light(new MyColor(1, 1, 1, true), new Point(2, 5, 5, Point.Space.WORLD), 0.65);
 			application.getWorld().addLightSource(light2);
 
 			// ================================================================
@@ -43,13 +43,15 @@ public class Setups {
 			Sphere sphere1 = new Sphere(sphere1Center, sphere1Radius, basecColorS1);
 			sphere1.setColors(basecColorS1, specColorS1, diffuseColorS1);
 			sphere1.setCoeffs(0.3, 0.6, 0.1, 160);
+			sphere1.setTransmissiveCoeff(0.5);
+			sphere1.setRefractiveIndex(1.12);
 			application.getWorld().addEntity(sphere1);
 
 			//
 			// Sphere 2
 			//
 			Point sphere2Center = new Point(0.6, 0.8, -0.6, Point.Space.WORLD);
-			double sphere2Radius = 0.6;
+			double sphere2Radius = 0.5;
 			MyColor basecColorS2 = new MyColor(22, 183, 187, false).normalize();
 			MyColor diffuseColorS2 = new MyColor(36, 199, 203, false).normalize();
 			MyColor specColorS2 = new MyColor(123, 226, 236, false).normalize();
@@ -57,6 +59,7 @@ public class Setups {
 			Sphere sphere2 = new Sphere(sphere2Center, sphere2Radius, basecColorS2);
 			sphere2.setColors(basecColorS2, specColorS2, diffuseColorS2);
 			sphere2.setCoeffs(0.3, 0.5, 0.2, 180);
+			sphere2.setReflectiveCoeff(0.5);
 			application.getWorld().addEntity(sphere2);
 
 			//
@@ -72,21 +75,22 @@ public class Setups {
 			Triangle triangle1 = new Triangle(triangle1Color, triangle1Position, t1Vertices);
 			triangle1.setCoeffs(0.3, 0.4, 0.3, 180);
 			triangle1.setHasTexture(true);
-
+			
 			application.getWorld().addEntity(triangle1);
-
+			
 			//
 			// Triangle 2
 			//
 			Point t2Position = new Point(1, 0, 1, Point.Space.WORLD);
 			Point[] t2Vertices = new Point[] {
-					new Point(-1.5, 0, 1.5, Point.Space.WORLD),
-					new Point(1.5, 0, -1.5, Point.Space.WORLD),
-					new Point(-1.5, 0, -1.5, Point.Space.WORLD)
+				new Point(-1.5, 0, 1.5, Point.Space.WORLD),
+				new Point(1.5, 0, -1.5, Point.Space.WORLD),
+				new Point(-1.5, 0, -1.5, Point.Space.WORLD)
 			};
 			MyColor t2Color = new MyColor(238, 50, 51, false).normalize();
 			Triangle triangle2 = new Triangle(t2Color, t2Position, t2Vertices);
 			triangle2.setCoeffs(0.3, 0.4, 0.2, 180);
+			triangle2.setHasTexture(true);
 			application.getWorld().addEntity(triangle2);
 
 			application.getWorld().setSuperSampleFactor(1);
