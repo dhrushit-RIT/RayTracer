@@ -110,7 +110,6 @@ public class KDTree {
 
         Point pointOnPlane = new Point(x, y, z, Point.Space.CAMERA);
         AAPlane dividingPlane = new AAPlane(pointOnPlane, alignment);
-        dividingPlane.setPointOnPlane(pointOnPlane);
 
         return dividingPlane;
     }
