@@ -1,14 +1,22 @@
 package raytracer;
+
+/**
+ * bounding box is assumed to be centered at the center of the sphere
+ * bounding box is assumed to be in context of the entity
+ */
 public class Sphere extends Entity {
     private double radius;
 
     public Sphere(Point sphereCenter, double sphereRadius, MyColor sphereColor) {
         super(sphereColor, sphereCenter);
         this.radius = sphereRadius;
+        this.getPositionInCameraCoordinates();
+        this.computeBoundingBox();
+        System.out.println(this);
     }
 
     @Override
-    public IntersectionDetails intersect(Ray cRay) {
+    public IntersectionDetails<Entity> intersect(Ray cRay) {
         Point rOrigin = cRay.getOrigin();
         // Point rOriginCamSpace = Camera.toCameraSpace(rOrigin);
         Point sphereCenterCamSpace = Camera.toCameraSpace(this.position);
@@ -27,7 +35,7 @@ public class Sphere extends Entity {
         double D = B * B - 4 * C;
         double w = -1;
 
-        IntersectionDetails intersectionDetails = new IntersectionDetails(this);
+        IntersectionDetails<Entity> intersectionDetails = new IntersectionDetails<Entity>(this);
 
         if (D > 0) {
             D = Math.sqrt(D);
@@ -67,10 +75,28 @@ public class Sphere extends Entity {
         return intersectionDetails;
     }
 
-    private void addEpsilonDisplacementToIntersection(IntersectionDetails intersectionDetails) {
+    private void addEpsilonDisplacementToIntersection(IntersectionDetails<Entity> intersectionDetails) {
         intersectionDetails.intersectionPoint.x += Entity.EPSILON * intersectionDetails.normalAtIntersection.x;
         intersectionDetails.intersectionPoint.y += Entity.EPSILON * intersectionDetails.normalAtIntersection.y;
         intersectionDetails.intersectionPoint.z += Entity.EPSILON * intersectionDetails.normalAtIntersection.z;
+        intersectionDetails.intersectionPoint.updatePoint();
+    }
+
+    @Override
+    protected void computeBoundingBox() {
+        this.boundingBox = new BoundingBox(
+                this.cPosition.x + (-this.radius), this.cPosition.x + this.radius,
+                this.cPosition.y + (-this.radius), this.cPosition.y + this.radius,
+                this.cPosition.z + (-this.radius), this.cPosition.z + this.radius);
+
+    }
+
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("----------------------------\n");
+        sb.append("Sphere :\n" + this.position + "\n" + this.cPosition + this.boundingBox + "\n");
+        sb.append("----------------------------\n");
+        return sb.toString();
     }
 
 }

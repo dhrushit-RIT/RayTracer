@@ -12,12 +12,14 @@ public abstract class Entity {
     }
 
     protected static double EPSILON = 0.000001;
-    BoundingBox boundingBox;
+    public BoundingBox boundingBox;
+    BoundingBox cBoundingBox;
     protected MyColor baseColor;
     protected MyColor specularColor;
     protected MyColor diffusedColor;
     protected Point position;
 
+    protected Point cPosition;
     protected HashMap<String, MyColor> entityColors;
 
     protected double ka = 0.1;
@@ -30,10 +32,54 @@ public abstract class Entity {
     public Entity(MyColor baseColor, Point position) {
         this.setBaseColor(baseColor);
 
-        this.specularColor = baseColor;
-        this.diffusedColor = baseColor;
+        this.specularColor = this.baseColor;
+        this.diffusedColor = this.baseColor;
         this.position = position;
     }
+
+    public Point getPositionInCameraCoordinates() {
+        if (this.cPosition == null) {
+            this.computeCPosition();
+        }
+        return this.cPosition;
+    }
+
+    private void computeCPosition() {
+        this.cPosition = Camera.toCameraSpace(position);
+    }
+
+    // TODO: make the bounding boxes independent of the camera position
+    public boolean intersect(Entity other) {
+        double xMin = this.boundingBox.xMin;
+        double xMax = this.boundingBox.xMax;
+        double yMin = this.boundingBox.yMin;
+        double yMax = this.boundingBox.yMax;
+        double zMin = this.boundingBox.zMin;
+        double zMax = this.boundingBox.zMax;
+
+        double oxMin = other.boundingBox.xMin;
+        double oxMax = other.boundingBox.xMax;
+        double oyMin = other.boundingBox.yMin;
+        double oyMax = other.boundingBox.yMax;
+        double ozMin = other.boundingBox.zMin;
+        double ozMax = other.boundingBox.zMax;
+
+        boolean xNotIntersecting = xMin > oxMax || oxMin > xMax;
+        if (xNotIntersecting)
+            return false;
+
+        boolean yNotIntersecting = yMin > oyMax || oyMin > yMax;
+        if (yNotIntersecting)
+            return false;
+
+        boolean zNotIntersecting = zMin > ozMax || ozMin > zMax;
+        if (zNotIntersecting)
+            return false;
+
+        return true;
+    }
+
+    protected abstract void computeBoundingBox();
 
     protected void setBaseColor(MyColor baseColor) {
         if (baseColor == null) {
@@ -56,8 +102,8 @@ public abstract class Entity {
         view.normalize();
         // double reflectDotView = Math.max(0.0, Util.dot(reflectVector, view));
         Vector halfway = Util.add(lightDir, view).normalize();
-        double normalDotHalf = Math.max(0.0, Util.dot(halfway, normal));
 
+        double normalDotHalf = Math.max(0.0, Util.dot(halfway, normal));
         double specularFactor = ks * light.irradiance * Math.pow(normalDotHalf, ke);
 
         MyColor ambient = Util.multColor(ambientFactor, getBaseColor(intersecPoint));
@@ -158,5 +204,13 @@ public abstract class Entity {
         this.diffusedColor = diffuseColor.normalize();
     }
 
-    public abstract IntersectionDetails intersect(Ray ray);
+    public Point getPosition() {
+        return position;
+    }
+
+    public void setPosition(Point position) {
+        this.position = position;
+    }
+
+    public abstract IntersectionDetails<Entity> intersect(Ray ray);
 }

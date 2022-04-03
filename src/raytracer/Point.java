@@ -15,6 +15,10 @@ public class Point {
 
     private SimpleMatrix matrix;
 
+    public void updatePoint() {
+        this.matrix = new SimpleMatrix(1, 4, true, new double[] { x, y, z, 1.0 });
+    }
+
     public SimpleMatrix getMatrix() {
         return matrix;
     }
@@ -48,7 +52,7 @@ public class Point {
         this.z = z;
         this.space = space;
 
-        this.matrix = new SimpleMatrix(1, 4, true, new double[] { x, y, z, 1.0 });
+        this.updatePoint();// this.matrix = new SimpleMatrix(1, 4, true, new double[] { x, y, z, 1.0 });
     }
 
     public static Point getPointFromMatrix(SimpleMatrix matrix) {
@@ -65,6 +69,6 @@ public class Point {
     }
 
     public String toString() {
-        return "P: {" + this.x + " " + this.y + " " + this.z + "}";
+        return "P: {" + this.x + ", " + this.y + ", " + this.z + "}";
     }
 }

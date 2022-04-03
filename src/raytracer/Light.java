@@ -15,4 +15,10 @@ public class Light extends Entity {
         return new IntersectionDetails(this);
     }
 
+    @Override
+    protected void computeBoundingBox() {
+        
+        
+    }
+
 }
