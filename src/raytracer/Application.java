@@ -4,22 +4,7 @@ public class Application {
 
     public Application() {
         this.world = new World();
-        // Setups.setup0(this); // should not see anything
-        // Setups.setup1(this); // sphere at the center
-        // Setups.setup2(this); // // should not see anything
-        // Setups.setup3(this);
-        // Setups.setup4(this);
-        // Setups.setup5(this); // two light sources
-        // Setups.setup6(this); // supersampling turned on
-        // Setups.setup7(this); // phong blinn
-        // Setups.KDTree.setup0(this);
-        // Setups.KDTree.setup1(this);
-        // Setups.KDTree.setup2(this);
-        // Setups.KDTree.setup4(this);
-        // Setups.KDTree.setup5(this);
-        Setups.KDTree.setup6(this);
-        // Setups.KDTree.setup7(this);
-        // Setups.TextureCoordinates.setup1(this);
+        Setups.Refraction.setup0(this);
     }
 
     private World world;
