@@ -113,9 +113,9 @@ public class Camera extends Entity {
             //     continue;
             // }
 
-            if (pixel.row == testrow && pixel.col == testcol) {
-                System.out.println();
-            }
+            // if (pixel.row == testrow && pixel.col == testcol) {
+            //     System.out.println();
+            // }
 
             ArrayList<Pixel> subPixels = pixel.getSubPixels(subpixelsCount);
             MyColor color = new MyColor(0, 0, 0, true);
