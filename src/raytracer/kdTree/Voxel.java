@@ -81,12 +81,12 @@ public class Voxel extends BoundingBox {
     public void computePlanes() {
         if (this.components == null)
             this.components = new HashMap<>();
-        this.components.put(ComponentPlanes.XY1, new AAPlane(new Point(0, 0, 0, Point.Space.CAMERA), Alignment.XY));
-        this.components.put(ComponentPlanes.XY2, new AAPlane(new Point(0, 0, 0, Point.Space.CAMERA), Alignment.XY));
-        this.components.put(ComponentPlanes.YZ1, new AAPlane(new Point(0, 0, 0, Point.Space.CAMERA), Alignment.YZ));
-        this.components.put(ComponentPlanes.YZ2, new AAPlane(new Point(0, 0, 0, Point.Space.CAMERA), Alignment.YZ));
-        this.components.put(ComponentPlanes.ZX1, new AAPlane(new Point(0, 0, 0, Point.Space.CAMERA), Alignment.ZX));
-        this.components.put(ComponentPlanes.ZX2, new AAPlane(new Point(0, 0, 0, Point.Space.CAMERA), Alignment.ZX));
+        this.components.put(ComponentPlanes.XY1, new AAPlane(new Point(xMin, yMin, zMin, Point.Space.CAMERA), Alignment.XY));
+        this.components.put(ComponentPlanes.XY2, new AAPlane(new Point(xMax, yMax, zMax, Point.Space.CAMERA), Alignment.XY));
+        this.components.put(ComponentPlanes.YZ1, new AAPlane(new Point(xMin, yMin, zMin, Point.Space.CAMERA), Alignment.YZ));
+        this.components.put(ComponentPlanes.YZ2, new AAPlane(new Point(xMax, yMax, zMax, Point.Space.CAMERA), Alignment.YZ));
+        this.components.put(ComponentPlanes.ZX1, new AAPlane(new Point(xMin, yMin, zMin, Point.Space.CAMERA), Alignment.ZX));
+        this.components.put(ComponentPlanes.ZX2, new AAPlane(new Point(xMax, yMax, zMax, Point.Space.CAMERA), Alignment.ZX));
     }
 
     public static enum TerminalCondition {
@@ -280,8 +280,6 @@ public class Voxel extends BoundingBox {
         sb.append("----------------------------\n");
         sb.append("Voxel : \n");
         sb.append(super.toString() + "\n");
-        // sb.append("Bounds:\nx: " + xMin + " - " + xMax + "\ny: " + yMin + " - " + yMax + "\nz: " + zMin + " - " + zMax
-        //         + "\n");
         sb.append("----------------------------\n");
         return sb.toString();
     }
