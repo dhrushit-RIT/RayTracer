@@ -5,8 +5,8 @@ import raytracer.kdTree.*;
 import java.util.ArrayList;
 
 public class World {
-    public static double EPSILON = 0.01;
-    public static double MAX_DEPTH = 3;
+    public static double EPSILON = 0.001;
+    public static int MAX_DEPTH = 3;
 
     private KDNode kdRoot = null;
 
@@ -107,106 +107,106 @@ public class World {
         this.camera.setWorld(this);
     }
 
-    public MyColor getPixelIrradiance(Ray ray) {
-        MyColor finalColor = new MyColor(0, 0, 0, false).normalize();
+    // public MyColor getPixelIrradiance(Ray ray) {
+    // MyColor finalColor = new MyColor(0, 0, 0, false).normalize();
 
-        boolean didGetIlluminated = false;
-        IntersectionDetails<Entity> entityIntersectionDetails = this.checkIntersection(ray);
-        if (entityIntersectionDetails == null || entityIntersectionDetails.entity == null
-                || entityIntersectionDetails.intersectionPoint == null) {
-            return new MyColor(Camera.DEFAULT_COLOR);
-        }
+    // boolean didGetIlluminated = false;
+    // IntersectionDetails<Entity> entityIntersectionDetails =
+    // this.checkIntersection(ray);
+    // if (entityIntersectionDetails == null || entityIntersectionDetails.entity ==
+    // null
+    // || entityIntersectionDetails.intersectionPoint == null) {
+    // return new MyColor(Camera.DEFAULT_COLOR);
+    // }
 
-        for (Light light : lightSources) {
-            Ray shadowRay = new Ray(entityIntersectionDetails.intersectionPoint,
-                    // TODO: create a to Entity space and to World space in util and use that during
-                    // subtraction of points
-                    Util.subtract(Camera.toCameraSpace(light.position), entityIntersectionDetails.intersectionPoint));
-            IntersectionDetails<Entity> intersectingEntity = checkIntersection(shadowRay);
-            if (intersectingEntity != null || (intersectingEntity != null && intersectingEntity.entity != null)) {
-                finalColor = new MyColor(0, 0, 0, true);
-            } else {
-                didGetIlluminated = true;
-                MyColor tempColor = entityIntersectionDetails.entity.getPixelIrradiance(
-                        light,
-                        camera,
-                        entityIntersectionDetails.intersectionPoint,
-                        entityIntersectionDetails.normalAtIntersection,
-                        this.techniqueToUse);
+    // for (Light light : lightSources) {
+    // Ray shadowRay = new Ray(entityIntersectionDetails.intersectionPoint,
+    // // TODO: create a to Entity space and to World space in util and use that
+    // during
+    // // subtraction of points
+    // Util.subtract(Camera.toCameraSpace(light.position),
+    // entityIntersectionDetails.intersectionPoint));
+    // IntersectionDetails<Entity> intersectingEntity =
+    // checkIntersection(shadowRay);
+    // if (intersectingEntity != null || (intersectingEntity != null &&
+    // intersectingEntity.entity != null)) {
+    // finalColor = new MyColor(0, 0, 0, true);
+    // } else {
+    // didGetIlluminated = true;
+    // MyColor tempColor = entityIntersectionDetails.entity.getPixelIrradiance(
+    // light,
+    // camera,
+    // entityIntersectionDetails.intersectionPoint,
+    // entityIntersectionDetails.normalAtIntersection,
+    // this.techniqueToUse);
 
-                finalColor = Util.addColor(finalColor, tempColor);
-            }
-        }
+    // finalColor = Util.addColor(finalColor, tempColor);
+    // }
+    // }
 
-        return finalColor;
+    // return finalColor;
 
-    }
+    // }
 
     public MyColor illuminate(Ray ray, int depth) {
-        // MyColor finalColor = new MyColor(128, 128, 128, false).normalize();
         MyColor finalColor = new MyColor(0, 0, 0, false).normalize();
 
-        IntersectionDetails<Entity> entityIntersectionDetails = this.checkIntersection(ray);
+        IntersectionDetails<Entity> entityIntersectionDetails = this.checkIntersection(ray, false);
+
+        // no entities intersected
+        // return the background color
         if (IntersectionDetails.noIntersections(entityIntersectionDetails)) {
             return new MyColor(Camera.DEFAULT_COLOR);
         }
 
+        // ray hit some entitiy
+        // get irradiance from brdf
         finalColor = getColorFromIllumination(entityIntersectionDetails, ray, depth);
 
         return finalColor;
 
     }
 
-    private MyColor getColorFromIllumination(IntersectionDetails<Entity> entityIntersectionDetails, Ray ray, int depth) {
-        MyColor finalColor = new MyColor(0, 0, 0, false).normalize();
-        boolean didGetIlluminated = false;
+    private MyColor getColorFromIllumination(IntersectionDetails<Entity> entityIntersectionDetails, Ray ray,
+            int depth) {
+        MyColor finalColor = new MyColor(0, 0, 0, true);
 
         for (Light light : lightSources) {
-            // TODO: create a to Entity space and to World
-            // space in util and use that during
-            // subtraction of points
 
             // intersectionPoint ----> light
             Vector shadowRayDir = Util.subtract(
                     Camera.toCameraSpace(light.position),
-                    entityIntersectionDetails.intersectionPoint);
+                    entityIntersectionDetails.intersectionPoint).normalize();
             Ray shadowRay = new Ray(entityIntersectionDetails.intersectionPoint, shadowRayDir);
-            IntersectionDetails<Entity> intersectingDetails = checkIntersection(shadowRay);
 
+            // check if shadow ray hits the light or some other entity
+            IntersectionDetails<Entity> intersectingDetails = checkIntersection(shadowRay, true);
+
+            // if entity is hit, the irradiance does not get updated
             if (intersectingDetails != null && intersectingDetails.entity != null) {
-                // finalColor = new MyColor(0, 0, 0, true);
                 continue;
             } else {
-                didGetIlluminated = true;
-                MyColor tempColor = entityIntersectionDetails.entity.getPixelIrradiance(
-                        light,
-                        camera,
-                        entityIntersectionDetails.intersectionPoint,
-                        entityIntersectionDetails.normalAtIntersection,
-                        this.techniqueToUse);
+                // if no entities are hit then ray reaches light
+                // get irradiance from brdf
+                Entity entity = entityIntersectionDetails.entity;
+                MyColor colorFromLightSource = entityIntersectionDetails.entity
+                        .getPixelIrradiance(light, camera, entityIntersectionDetails.intersectionPoint,
+                                entityIntersectionDetails.normalAtIntersection, this.techniqueToUse);
 
-                finalColor = Util.addColor(finalColor, tempColor);
+                finalColor = Util.addColor(finalColor, colorFromLightSource);
 
                 if (depth < MAX_DEPTH) {
                     // reflection
-                    Entity entity = entityIntersectionDetails.entity;
                     if (entity.isReflective()) {
-                        Vector fromIntersectionTowardsRayOrigin = Util
-                                .subtract(ray.origin, entityIntersectionDetails.intersectionPoint)
-                                .normalize();
-                        Vector reflectedDirection = Util.reflect(
-                                fromIntersectionTowardsRayOrigin,
-                                entityIntersectionDetails.normalAtIntersection,
-                                entityIntersectionDetails.intersectionPoint);
-                        Ray reflectionRay = new Ray(
-                                entityIntersectionDetails.intersectionPoint, reflectedDirection);
-                        MyColor reflectedColor = Util.scaleColor(entity.kr, illuminate(reflectionRay, depth + 1));
+                        MyColor reflectedColor = doReflection(entityIntersectionDetails, ray, depth);
                         finalColor = Util.addColor(finalColor, reflectedColor);
+
                     }
 
                     // transmission
                     if (entity.isTransmissive()) {
-
+                        MyColor triansmittedColor = doTransmission(entityIntersectionDetails, ray, depth);
+                        finalColor = Util.addColor(finalColor, triansmittedColor);
                     }
                 }
             }
@@ -216,7 +216,84 @@ public class World {
         return finalColor;
     }
 
-    public IntersectionDetails<Entity> checkIntersection(Ray cRay) {
+    private MyColor doReflection(IntersectionDetails<Entity> entityIntersectionDetails, Ray ray, int depth) {
+        Vector fromIntersectionTowardsRayOrigin = Util
+                .subtract(ray.origin, entityIntersectionDetails.intersectionPoint)
+                .normalize();
+        Vector reflectedDirection = Util.reflect(
+                fromIntersectionTowardsRayOrigin,
+                entityIntersectionDetails.normalAtIntersection,
+                entityIntersectionDetails.intersectionPoint);
+        Ray reflectionRay = new Ray(
+                entityIntersectionDetails.intersectionPoint, reflectedDirection);
+        MyColor reflectionColor = illuminate(reflectionRay, depth + 1);
+        MyColor reflectedColor = Util.scaleColor(entityIntersectionDetails.entity.kr, reflectionColor);
+        return reflectedColor;
+    }
+
+    private MyColor doTransmission(IntersectionDetails<Entity> entityIntersectionDetails, Ray ray, int depth) {
+
+        // firstTerm = ni * (d - n * (d.n)) / nt
+        // second term = n * (sqrt( 1 - (ni*ni*(1 - (d.n)^2))/nt/nt ))
+        // if second term D > 0
+        // t = first term + second term
+        // otherwise
+        // t = reflected ray
+
+        double ni = 1.0;
+        double nt = 1.0;
+
+        Ray d = new Ray(ray);
+        Ray dOpp = new Ray(new Point(ray.origin), Util.scale(ray.direction, -1), ray.originEntity);
+
+        Entity originEntity = ray.originEntity;
+        if (originEntity != null && originEntity != entityIntersectionDetails.entity) {
+            ni = originEntity.getRefractiveIndex();
+            nt = entityIntersectionDetails.entity.getRefractiveIndex();
+        } else if (originEntity != null) {
+            ni = originEntity.getRefractiveIndex();
+            nt = originEntity.nParent;
+        } else {
+            ni = 1.0;
+            nt = entityIntersectionDetails.entity.getRefractiveIndex();
+        }
+
+        double scaleFactor = ni / nt;
+        double dDotN = Util.dot(dOpp.direction, entityIntersectionDetails.normalAtIntersection);
+        double D = 1 - (scaleFactor * scaleFactor * (1 - (dDotN * dDotN)));
+
+        Vector normal = new Vector(entityIntersectionDetails.normalAtIntersection);
+        // if (dDotN < 0) {
+        //     normal = Util.scale(normal, -1);
+        //     // System.out.println("TIR");
+        // }
+
+        Vector transmittedVector;
+        Ray transmittedRay;
+        if (D < 0) {
+            // total internal reflection
+            transmittedVector = Util.reflect(dOpp.direction, normal,
+                    entityIntersectionDetails.intersectionPoint).normalize();
+            transmittedRay = new Ray(entityIntersectionDetails.intersectionPoint, transmittedVector,
+                    ray.originEntity);
+        } else {
+            D = Math.sqrt(D);
+            Vector firstTerm = Util.scale(normal, D);
+            Vector secondTerm = Util.scale(scaleFactor, Util.subtract(d.direction, Util.scale(normal, dDotN)));
+
+            transmittedVector = Util.add(firstTerm, secondTerm).normalize();
+            Point intersectionPoint = new Point(entityIntersectionDetails.intersectionPoint);
+            transmittedRay = new Ray(intersectionPoint, transmittedVector,
+                    entityIntersectionDetails.entity);
+        }
+
+        MyColor transmittedColor = illuminate(transmittedRay, depth + 1);
+        MyColor finalTransmittedColor = Util.scaleColor(entityIntersectionDetails.entity.kt, transmittedColor);
+
+        return finalTransmittedColor;
+    }
+
+    public IntersectionDetails<Entity> checkIntersection(Ray cRay, boolean ignoreTransparentObjects) {
 
         Entity nearestEntity = null;
         double nearestDistance = Double.MAX_VALUE;
@@ -228,6 +305,9 @@ public class World {
             for (Entity entity : intersectingEntities) {
                 IntersectionDetails<Entity> intersection = entity.intersect(cRay);
                 if (intersection.distance > EPSILON) {
+                    if(ignoreTransparentObjects && entity.isTransmissive()){
+                        continue;
+                    }
                     if (intersection.distance < nearestDistance) {
                         nearestEntity = entity;
                         nearestDistance = intersection.distance;
