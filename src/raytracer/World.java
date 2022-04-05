@@ -145,14 +145,14 @@ public class World {
 
             // if entity is hit, the irradiance does not get updated
             if (intersectingDetails != null && intersectingDetails.entity != null) {
-                // MyColor colorFromLightSource = entityIntersectionDetails.entity
-                // .getPixelIrradiance(light, camera,
-                // entityIntersectionDetails.intersectionPoint,
-                // entityIntersectionDetails.normalAtIntersection, this.techniqueToUse, true);
+                MyColor colorFromLightSource = entityIntersectionDetails.entity
+                .getPixelIrradiance(light, camera,
+                entityIntersectionDetails.intersectionPoint,
+                entityIntersectionDetails.normalAtIntersection, this.techniqueToUse, true);
 
-                // finalColor = Util.addColor(finalColor, colorFromLightSource);
+                finalColor = Util.addColor(finalColor, colorFromLightSource);
 
-                continue;
+                // continue;
 
             } else {
                 // if no entities are hit then ray reaches light
