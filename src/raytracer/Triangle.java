@@ -27,6 +27,7 @@ public class Triangle extends Entity {
         this.e2 = Util.subtract(cVerticePoints[2], cVerticePoints[0]);
 
         this.computeBoundingBox();
+        this.name = "Triangle";
     }
 
     private void computePositionInCameraSpace() {
@@ -86,9 +87,10 @@ public class Triangle extends Entity {
         if (w > 0) {
 
             // f(u,v)=(1−u−v)p0 + up1 + vp2
-            Vector p0c = Util.subtract(this.cVerticePoints[0], ray.origin);
-            Vector p1c = Util.subtract(this.cVerticePoints[1], ray.origin);
-            Vector p2c = Util.subtract(this.cVerticePoints[2], ray.origin);
+            Point cameraOrigin = new Point(0, 0, 0, Point.Space.CAMERA);
+            Vector p0c = Util.subtract(this.cVerticePoints[0], cameraOrigin);
+            Vector p1c = Util.subtract(this.cVerticePoints[1], cameraOrigin);
+            Vector p2c = Util.subtract(this.cVerticePoints[2], cameraOrigin);
             Vector pointVec = Util.add(Util.scale(1 - u - v, p0c), Util.scale(u, p1c), Util.scale(v, p2c));
 
             intersection.intersectionPoint = new Point(pointVec.x, pointVec.y, pointVec.z, Point.Space.CAMERA);
@@ -120,7 +122,7 @@ public class Triangle extends Entity {
     }
 
     public String toString() {
-        return this.verticePoints[0] + "\n" + this.verticePoints[1] + "\n" + this.verticePoints[2];
+        return "Triangle" + this.verticePoints[0] + "\n" + this.verticePoints[1] + "\n" + this.verticePoints[2];
     }
 
     public Point[] getTextureCoordinates() {
