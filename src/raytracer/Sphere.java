@@ -42,17 +42,17 @@ public class Sphere extends Entity {
             double w0 = (-B + D) / 2; // Note : A = 1 is assumed
             double w1 = (-B - D) / 2;
 
-            double twoEpsilon = 2 * Entity.EPSILON;
+            double mindiff = 10 * Entity.EPSILON;
             if (w0 < 0) {
                 w = w1;
             } else if (w1 < 0) {
                 w = w0;
             } else {
-                if (w0 < twoEpsilon && w1 < twoEpsilon) {
+                if (w0 < mindiff && w1 < mindiff) {
                     w = -1;
-                } else if (w1 < twoEpsilon) {
+                } else if (w1 < mindiff) {
                     w = w0;
-                } else if (w0 < twoEpsilon) {
+                } else if (w0 < mindiff) {
                     w = w1;
                 } else {
                     w = Math.min(w0, w1);
@@ -71,7 +71,7 @@ public class Sphere extends Entity {
                         intersectionDetails.intersectionPoint.y - sphereCenterCamSpace.y,
                         intersectionDetails.intersectionPoint.z - sphereCenterCamSpace.z).normalize();
 
-                this.addEpsilonDisplacementToIntersection(intersectionDetails);
+                // this.addEpsilonDisplacementToIntersection(intersectionDetails);
             } else {
                 intersectionDetails.intersectionPoint = null;
                 intersectionDetails.normalAtIntersection = null;
@@ -84,11 +84,12 @@ public class Sphere extends Entity {
         return intersectionDetails;
     }
 
-    private void addEpsilonDisplacementToIntersection(IntersectionDetails<Entity> intersectionDetails) {
-        intersectionDetails.intersectionPoint.x += Entity.EPSILON * intersectionDetails.normalAtIntersection.x;
-        intersectionDetails.intersectionPoint.y += Entity.EPSILON * intersectionDetails.normalAtIntersection.y;
-        intersectionDetails.intersectionPoint.z += Entity.EPSILON * intersectionDetails.normalAtIntersection.z;
-        intersectionDetails.intersectionPoint.updatePoint();
+    public static Point addEpsilonDisplacementToIntersection(Point intersectionPoint, Vector normalAtIntersection) {
+        intersectionPoint.x += 3 * Entity.EPSILON * normalAtIntersection.x;
+        intersectionPoint.y += 3 * Entity.EPSILON * normalAtIntersection.y;
+        intersectionPoint.z += 3 * Entity.EPSILON * normalAtIntersection.z;
+        intersectionPoint.updatePoint();
+        return intersectionPoint;
     }
 
     @Override
