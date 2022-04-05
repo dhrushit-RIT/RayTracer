@@ -101,6 +101,27 @@ public class Util {
         return ret;
     }
 
+    public static Vector reflect2(Vector incomingVector, Vector normal, Point intersectionPoint) {
+        // TODO: optimize this by setting the vectors to always be wrt camera and
+        // normalized so you do not have to do that separately
+
+        // assumptions:
+        // light direction is from intersection point to light light ------> vPos
+        // normal is from intersection point towards away from object
+        // reflected ray is from intersection point towards away from normal
+
+        Vector normalDir = new Vector(normal);
+
+        double nDotL = Util.dot(incomingVector, normalDir);
+
+        Vector ret = new Vector(subtract(
+            incomingVector, Util.scale(normal, 2 * nDotL)));
+
+        ret.normalize();
+
+        return ret;
+    }
+
     public static MyColor multColor(double d, MyColor c) {
         if (c.normalized == false) {
             System.out.println("color is not normalized");
