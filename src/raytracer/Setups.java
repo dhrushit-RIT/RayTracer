@@ -129,7 +129,7 @@ public class Setups {
 			sphere1.setColors(basecColorS1, specColorS1, diffuseColorS1);
 			sphere1.setCoeffs(0.3, 0.6, 0.1, 160);
 			sphere1.setTransmissiveCoeff(1);
-			sphere1.setRefractiveIndex(1.33);
+			sphere1.setRefractiveIndex(1.5);
 			application.getWorld().addEntity(sphere1);
 
 			//
@@ -150,11 +150,12 @@ public class Setups {
 			//
 			// Triangle 1
 			//
+			double sideLength = 3;
 			Point triangle1Position = new Point(1, 0, 1, Point.Space.WORLD);
 			Point[] t1Vertices = new Point[] {
-					new Point(1.5, 0, 1.5, Point.Space.WORLD),
-					new Point(1.5, 0, -1.5, Point.Space.WORLD),
-					new Point(-1.5, 0, 1.5, Point.Space.WORLD)
+					new Point(sideLength, 0, sideLength, Point.Space.WORLD),
+					new Point(sideLength, 0, -sideLength, Point.Space.WORLD),
+					new Point(-sideLength, 0, sideLength, Point.Space.WORLD)
 			};
 			MyColor triangle1Color = new MyColor(238, 50, 51, false).normalize();
 			Triangle triangle1 = new Triangle(triangle1Color, triangle1Position, t1Vertices);
@@ -168,9 +169,9 @@ public class Setups {
 			//
 			Point t2Position = new Point(1, 0, 1, Point.Space.WORLD);
 			Point[] t2Vertices = new Point[] {
-					new Point(-1.5, 0, 1.5, Point.Space.WORLD),
-					new Point(1.5, 0, -1.5, Point.Space.WORLD),
-					new Point(-1.5, 0, -1.5, Point.Space.WORLD)
+					new Point(-sideLength, 0, sideLength, Point.Space.WORLD),
+					new Point(sideLength, 0, -sideLength, Point.Space.WORLD),
+					new Point(-sideLength, 0, -sideLength, Point.Space.WORLD)
 			};
 			MyColor t2Color = new MyColor(238, 50, 51, false).normalize();
 			Triangle triangle2 = new Triangle(t2Color, t2Position, t2Vertices);
@@ -178,7 +179,7 @@ public class Setups {
 			triangle2.setHasTexture(true);
 			application.getWorld().addEntity(triangle2);
 
-			application.getWorld().setSuperSampleFactor(1);
+			application.getWorld().setSuperSampleFactor(3);
 			application.getWorld().setBSDFTechnique(Entity.BSDFTechnique.PHONG_BLINN);
 
 		}
