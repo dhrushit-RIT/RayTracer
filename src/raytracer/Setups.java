@@ -129,7 +129,7 @@ public class Setups {
 			sphere1.setColors(basecColorS1, specColorS1, diffuseColorS1);
 			sphere1.setCoeffs(0.3, 0.6, 0.1, 160);
 			sphere1.setTransmissiveCoeff(1);
-			sphere1.setRefractiveIndex(1.5);
+			sphere1.setRefractiveIndex(1.03);
 			application.getWorld().addEntity(sphere1);
 
 			//
