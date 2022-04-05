@@ -8,7 +8,7 @@ public class World {
 
     public static boolean DEBUG_FLAG = false;
     public static double EPSILON = 0.001;
-    public static int MAX_DEPTH = 3;
+    public static int MAX_DEPTH = 10;
 
     private KDNode kdRoot = null;
 
@@ -146,9 +146,9 @@ public class World {
             // if entity is hit, the irradiance does not get updated
             if (intersectingDetails != null && intersectingDetails.entity != null) {
                 MyColor colorFromLightSource = entityIntersectionDetails.entity
-                .getPixelIrradiance(light, camera,
-                entityIntersectionDetails.intersectionPoint,
-                entityIntersectionDetails.normalAtIntersection, this.techniqueToUse, true);
+                        .getPixelIrradiance(light, camera,
+                                entityIntersectionDetails.intersectionPoint,
+                                entityIntersectionDetails.normalAtIntersection, this.techniqueToUse, true);
 
                 finalColor = Util.addColor(finalColor, colorFromLightSource);
 
@@ -164,10 +164,11 @@ public class World {
 
                 finalColor = Util.addColor(finalColor, colorFromLightSource);
 
-                if (World.DEBUG_FLAG)
-                    System.out.println("origin: " + ray.origin + "\nintersection: "
-                            + entityIntersectionDetails.intersectionPoint + "\nray: " + ray.direction
-                            + "\n\n");
+                // if (World.DEBUG_FLAG)
+                // System.out.println("origin: " + ray.origin + "\nintersection: "
+                // + entityIntersectionDetails.intersectionPoint + "\nray: " + ray.direction
+                // + "\nentity: " + entityIntersectionDetails.entity.name
+                // + "\n\n");
 
                 if (depth < MAX_DEPTH) {
                     // reflection
@@ -219,7 +220,6 @@ public class World {
 
         Vector normal = new Vector(entityIntersectionDetails.normalAtIntersection);
         Ray d = new Ray(ray);
-        Ray dOpp = new Ray(new Point(ray.origin), Util.scale(ray.direction, -1), ray.originEntity);
 
         Entity originEntity = ray.originEntity;
         if (originEntity != null && originEntity != entityIntersectionDetails.entity) {
@@ -233,23 +233,31 @@ public class World {
             nt = entityIntersectionDetails.entity.getRefractiveIndex();
         }
 
-        double scaleFactor = ni / nt;
-        double dDotN = Util.dot(dOpp.direction, normal);
-        double D = 1 - (scaleFactor * scaleFactor * (1 - (dDotN * dDotN)));
-
+        double dDotN = Util.dot(d.direction, normal);
+        
         if (dDotN < 0) {
             normal = Util.scale(normal, -1);
-            dDotN = Util.dot(dOpp.direction, normal);
+            dDotN = Util.dot(d.direction, normal);
             // System.out.println("TIR");
         }
-
+        
+        double scaleFactor = ni / nt;
+        double D = 1 - (scaleFactor * scaleFactor * (1 - (dDotN * dDotN)));
+        
         Vector transmittedVector;
         Ray transmittedRay;
+        
         if (D < 0) {
             // total internal reflection
             // normal = Util.scale(normal, -1);
-            transmittedVector = Util.reflect(dOpp.direction, normal,
+            transmittedVector = Util.reflect2(d.direction, normal,
                     entityIntersectionDetails.intersectionPoint).normalize();
+            if (World.DEBUG_FLAG)
+                System.out.println("TIR\n" + "origin: " + ray.origin + "\nintersection: "
+                        + entityIntersectionDetails.intersectionPoint + "\nray: " + ray.direction + "\ntransmitted: " + transmittedVector
+                        + "\nnormal: " + entityIntersectionDetails.normalAtIntersection
+                        + "\nentity: " + entityIntersectionDetails.entity.name
+                        + "\n\n");
             transmittedRay = new Ray(entityIntersectionDetails.intersectionPoint, transmittedVector,
                     ray.originEntity);
         } else {
@@ -260,9 +268,10 @@ public class World {
 
             transmittedVector = Util.add(firstTerm, secondTerm).normalize();
             if (World.DEBUG_FLAG)
-                System.out.println("origin: " + ray.origin + "\nintersection: "
+                System.out.println("Refraction\n"+"origin: " + ray.origin + "\nintersection: "
                         + entityIntersectionDetails.intersectionPoint + "\nft: " + firstTerm
                         + "\nst: " + secondTerm + "\nray: " + ray.direction + "\ntransmitted: " + transmittedVector
+                        + "\nentity: " + entityIntersectionDetails.entity.name
                         + "\n\n");
             Point intersectionPoint = new Point(entityIntersectionDetails.intersectionPoint);
             transmittedRay = new Ray(intersectionPoint, transmittedVector,
