@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 public abstract class Entity {
 
+    public String name;
     public enum BSDFTechnique {
         PHONG,
         PHONG_BLINN,

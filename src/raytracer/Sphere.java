@@ -13,6 +13,7 @@ public class Sphere extends Entity {
         this.getPositionInCameraCoordinates();
         this.computeBoundingBox();
         System.out.println(this);
+        this.name = "Sphere";
     }
 
     @Override
