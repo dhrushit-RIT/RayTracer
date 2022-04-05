@@ -1,7 +1,7 @@
 package raytracer;
 
 public class Setups {
-	public class DefaultSetups {
+	public static class DefaultSetups {
 		public static void setup0(Application application) {
 			//
 			// set up Camera
@@ -91,7 +91,7 @@ public class Setups {
 
 		}
 	}
-	public class Refraction {
+	public static class Refraction {
 		public static void setup0(Application application) {
 			//
 			// set up Camera
@@ -129,7 +129,7 @@ public class Setups {
 			sphere1.setColors(basecColorS1, specColorS1, diffuseColorS1);
 			sphere1.setCoeffs(0.3, 0.6, 0.1, 160);
 			sphere1.setTransmissiveCoeff(1);
-			sphere1.setRefractiveIndex(1);
+			sphere1.setRefractiveIndex(1.33);
 			application.getWorld().addEntity(sphere1);
 
 			//
@@ -145,7 +145,7 @@ public class Setups {
 			sphere2.setColors(basecColorS2, specColorS2, diffuseColorS2);
 			sphere2.setCoeffs(0.3, 0.5, 0.2, 180);
 			sphere2.setReflectiveCoeff(0.5);
-			// application.getWorld().addEntity(sphere2);
+			application.getWorld().addEntity(sphere2);
 
 			//
 			// Triangle 1
