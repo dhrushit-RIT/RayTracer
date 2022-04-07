@@ -214,13 +214,14 @@ public abstract class Entity {
     // TODO: to be converted to entity space for actual working
     public MyColor computeBaseColor(Point intersectionPoint) {
         Point intersectionWorld = Camera.toWorldSpace(intersectionPoint);
-        double u = intersectionWorld.z + 1.5;
-        double v = intersectionWorld.x + 1.5;
+        double u = intersectionWorld.z;
+        double v = intersectionWorld.x;
+        // if(u < 0) u = u - 1;
         u /= 2;
         v /= 2;
 
-        int row = (int) (u / 0.2);
-        int col = (int) (v / 0.2);
+        int row = (int) Math.floor(u / 0.2);
+        int col = (int) Math.floor(v / 0.2);
         if (row % 2 == 0) {
             if (col % 2 == 0) {
                 return new MyColor(1.0, 0.0, 0.0, true);
