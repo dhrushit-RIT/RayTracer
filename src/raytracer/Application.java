@@ -4,7 +4,8 @@ public class Application {
 
     public Application() {
         this.world = new World();
-        Setups.Reflection.setup1(this);
+        // Setups.DefaultSetups.setup0(this);
+        Setups.Refraction.setup0(this);
     }
 
     private World world;

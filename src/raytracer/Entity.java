@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 public abstract class Entity {
 
+    public String name;
     public enum BSDFTechnique {
         PHONG,
         PHONG_BLINN,
@@ -30,6 +31,9 @@ public abstract class Entity {
     protected double kr = 0;
     protected double kt = 0;
 
+    protected double n = 1.0;
+    protected double nParent = 1.0;
+
     protected boolean hasTexture = false;
 
     public Entity(MyColor baseColor, Point position) {
@@ -38,6 +42,14 @@ public abstract class Entity {
         this.specularColor = this.baseColor;
         this.diffusedColor = this.baseColor;
         this.position = position;
+    }
+
+    public double getRefractiveIndex() {
+        return this.n;
+    }
+
+    public void setRefractiveIndex(double n) {
+        this.n = n;
     }
 
     public Point getPositionInCameraCoordinates() {
@@ -92,13 +104,13 @@ public abstract class Entity {
         }
     }
 
-    public MyColor phongBlinn(Light light, Camera camera, Point intersecPoint, Vector normal) {
+    public MyColor phongBlinn(Light light, Camera camera, Point intersecPoint, Vector normal, boolean onlyAmbient) {
         Vector lightDir = Util.subtract(Camera.toCameraSpace(light.position), intersecPoint);
         lightDir.normalize();
         double ambientFactor = ka * light.irradiance;
         double diffuseFactor = kd * light.irradiance * Util.dot(lightDir, normal);
 
-        diffuseFactor = Math.max(0.0, diffuseFactor);
+        // diffuseFactor = Math.max(0.0, diffuseFactor);
         normal.normalize();
 
         // Vector reflectVector = Util.reflect(lightDir, normal, intersecPoint);
@@ -111,14 +123,19 @@ public abstract class Entity {
         double specularFactor = ks * light.irradiance * Math.pow(normalDotHalf, ke);
 
         MyColor ambient = Util.multColor(ambientFactor, getBaseColor(intersecPoint));
-        MyColor diffuse = Util.multColor(diffuseFactor, diffusedColor);
-        MyColor specular = Util.multColor(specularFactor, specularColor);
+        MyColor diffuse = Util.multColor(diffuseFactor, getDiffuseColor(intersecPoint));
+        MyColor specular = Util.multColor(specularFactor, getSpecColor(intersecPoint));
 
-        MyColor finalColor = Util.addColor(ambient, diffuse, specular);
+        MyColor finalColor = Util.addColor(ambient);
+        if (onlyAmbient) {
+            return finalColor;
+        }
+
+        finalColor = Util.addColor(finalColor, diffuse, specular);
         return finalColor;
     }
 
-    public MyColor phong(Light light, Camera camera, Point intersecPoint, Vector normal) {
+    public MyColor phong(Light light, Camera camera, Point intersecPoint, Vector normal, boolean onlyAmbient) {
         Vector lightDir = Util.subtract(Camera.toCameraSpace(light.position), intersecPoint);
         lightDir.normalize();
         double ambientFactor = ka * light.irradiance;
@@ -133,22 +150,27 @@ public abstract class Entity {
         double specularFactor = ks * light.irradiance * Math.pow(reflectDotView, ke);
 
         MyColor ambient = Util.multColor(ambientFactor, getBaseColor(intersecPoint));
-        MyColor diffuse = Util.multColor(diffuseFactor, diffusedColor);
-        MyColor specular = Util.multColor(specularFactor, specularColor);
+        MyColor diffuse = Util.multColor(diffuseFactor, getDiffuseColor(intersecPoint));
+        MyColor specular = Util.multColor(specularFactor, getSpecColor(intersecPoint));
 
-        MyColor finalColor = Util.addColor(ambient, diffuse, specular);
+        MyColor finalColor = Util.addColor(ambient);
+        if (onlyAmbient) {
+            return finalColor;
+        }
+
+        finalColor = Util.addColor(finalColor, diffuse, specular);
         return finalColor;
     }
 
     public MyColor getPixelIrradiance(Light light, Camera camera, Point intersection, Vector normal,
-            BSDFTechnique technique) {
+            BSDFTechnique technique, boolean onlyAmbient) {
         MyColor retColor = new MyColor(0, 0, 0, true);
         switch (technique) {
             case PHONG_BLINN:
-                retColor = this.phongBlinn(light, camera, intersection, normal);
+                retColor = this.phongBlinn(light, camera, intersection, normal, onlyAmbient);
                 break;
             default:
-                retColor = this.phong(light, camera, intersection, normal);
+                retColor = this.phong(light, camera, intersection, normal, onlyAmbient);
                 break;
         }
         return retColor;
@@ -173,15 +195,33 @@ public abstract class Entity {
         return this.baseColor;
     }
 
+    public MyColor getDiffuseColor(Point intersectionPoint) {
+
+        if (this.hasTexture) {
+            return this.computeBaseColor(intersectionPoint);
+        }
+        return this.diffusedColor;
+    }
+
+    public MyColor getSpecColor(Point intersectionPoint) {
+
+        if (this.hasTexture) {
+            return this.computeBaseColor(intersectionPoint);
+        }
+        return this.specularColor;
+    }
+
     // TODO: to be converted to entity space for actual working
     public MyColor computeBaseColor(Point intersectionPoint) {
-        double u = intersectionPoint.z + 1.5;
-        double v = intersectionPoint.x + 1.5;
+        Point intersectionWorld = Camera.toWorldSpace(intersectionPoint);
+        double u = intersectionWorld.z;
+        double v = intersectionWorld.x;
+        // if(u < 0) u = u - 1;
         u /= 2;
         v /= 2;
 
-        int row = (int) (u / 0.2);
-        int col = (int) (v / 0.2);
+        int row = (int) Math.floor(u / 0.2);
+        int col = (int) Math.floor(v / 0.2);
         if (row % 2 == 0) {
             if (col % 2 == 0) {
                 return new MyColor(1.0, 0.0, 0.0, true);

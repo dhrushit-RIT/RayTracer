@@ -12,9 +12,10 @@ import org.ejml.simple.SimpleMatrix;
 
 public class Camera extends Entity {
 
-    static final MyColor DEFAULT_COLOR = new MyColor(0, 0, 255, false).normalize();
+    static final MyColor DEFAULT_COLOR = new MyColor(128, 128, 128, false).normalize();
 
     private static SimpleMatrix worldToNodeMatrix;
+    private static SimpleMatrix nodeToWorldMatrix;
 
     public Vector n;
     public Vector u;
@@ -65,6 +66,8 @@ public class Camera extends Entity {
                         Util.dot(wCameraPos, n), 1 }
         });
 
+        Camera.nodeToWorldMatrix = new SimpleMatrix(Camera.worldToNodeMatrix.invert());
+
         this.cLookAt = toCameraSpace(wLookAt);
         this.cPosition = toCameraSpace(this.position);
         this.cLookAtDir = Util.subtract(cLookAt, cPosition).normalize();
@@ -74,11 +77,18 @@ public class Camera extends Entity {
         this.filmPlane = new FilmPlane(16, 10, 16 * SCALE_RATIO, 10 * SCALE_RATIO, filmPlanePosition);
 
         System.out.println(this);
+        System.out.println(toWorldSpace(this.cLookAt));
     }
 
     //
     // static methods
     //
+
+    public static Point toWorldSpace(Point p) {
+        Point point = Point.getPointFromMatrix(p.getMatrix().copy().mult(Camera.nodeToWorldMatrix));
+        point.setSpace(Point.Space.CAMERA);
+        return point;
+    }
 
     public static Vector toCameraSpace(Vector v) {
         Vector vector = Vector.getVectorFromMatrix(v.getMatrix().copy().mult(Camera.worldToNodeMatrix));
@@ -106,28 +116,26 @@ public class Camera extends Entity {
                 prev++;
                 System.out.println(prev + "/" + 10);
             }
-            int testrow = 251;
-            int testcol = 48;
+            int testrow = 200;
+            int testcol = 600;
 
-            // if (pixel.row == testrow && pixel.col == testcol) {
-            // pixel.setValue(new MyColor(0, 0, 1, true));
-            // continue;
+            // if (pixel.row == testrow || pixel.col == testcol) {
+            //     pixel.setValue(new MyColor(0, 0, 1, true));
+            //     continue;
             // }
 
             if (pixel.row == testrow && pixel.col == testcol) {
-                System.out.println();
+                System.out.println("here");
+                World.DEBUG_FLAG = true;
+            } else {
+                World.DEBUG_FLAG = false;
             }
 
-            if (pixel.row == 230 && pixel.col == 750) {
-                // pixel.setValue(new MyColor(1, 1, 1, true));
-
-                System.out.println();
-                // continue;
-            }
             ArrayList<Pixel> subPixels = pixel.getSubPixels(subpixelsCount);
             MyColor color = new MyColor(0, 0, 0, true);
             for (Pixel subPixel : subPixels) {
                 Vector dir = new Vector(subPixel.cPosition);
+                // dir = new Vector(0, 0, -1);
                 dir.normalize();
                 Ray ray = new Ray(this.cPosition, dir);
                 // color.addColor(this.world.getPixelIrradiance(ray));

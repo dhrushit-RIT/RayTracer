@@ -1,4 +1,5 @@
 package raytracer;
+
 import org.ejml.simple.SimpleMatrix;
 
 public class Vector {
@@ -72,5 +73,14 @@ public class Vector {
 
     public String toString() {
         return "V: (" + this.x + ", " + this.y + ", " + this.z + ")";
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof Vector){
+            Vector other = (Vector)obj;
+            return this.x == other.x && this.y == other.y && this.z == other.z && this.magnitude == other.magnitude;
+        }
+        return false;
     }
 }
