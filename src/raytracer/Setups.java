@@ -106,11 +106,14 @@ public class Setups {
 			//
 			// Light
 			//
-			Light light1 = new Light(new MyColor(1, 1, 1, true), new Point(0, 5, 0, Point.Space.WORLD), 0.65);
-			// application.getWorld().addLightSource(light1);
-
+			Light light1 = new Light(new MyColor(1, 1, 1, true), new Point(-2, 5, -5, Point.Space.WORLD), 0.65);
+			application.getWorld().addLightSource(light1);
+			
 			Light light2 = new Light(new MyColor(1, 1, 1, true), new Point(2, 5, 5, Point.Space.WORLD), 0.65);
 			application.getWorld().addLightSource(light2);
+
+			Light light3 = new Light(new MyColor(1, 1, 1, true), new Point(5, 4, -3, Point.Space.WORLD), 0.65);
+			application.getWorld().addLightSource(light3);
 
 			// ================================================================
 			// Entities
@@ -119,24 +122,24 @@ public class Setups {
 			//
 			// Sphere 1
 			//
-			Point sphere1Center = new Point(-0.4, 1, 1, Point.Space.WORLD);
+			Point sphere1Center = new Point(-0.4, 1, 0, Point.Space.WORLD);
 			double sphere1Radius = 0.755;
-			MyColor basecColorS1 = new MyColor(22, 183, 187, false).normalize();
-			MyColor diffuseColorS1 = new MyColor(36, 199, 203, false).normalize();
-			MyColor specColorS1 = new MyColor(123, 226, 236, false).normalize();
+			MyColor basecColorS1 = new MyColor(0, 0, 0, false).normalize();
+			MyColor diffuseColorS1 = new MyColor(0, 0, 0, false).normalize();
+			MyColor specColorS1 = new MyColor(0, 0, 0, false).normalize();
 
 			Sphere sphere1 = new Sphere(sphere1Center, sphere1Radius, basecColorS1);
 			sphere1.setColors(basecColorS1, specColorS1, diffuseColorS1);
-			sphere1.setCoeffs(0.3, 0.6, 0.1, 160);
-			sphere1.setTransmissiveCoeff(1);
-			sphere1.setRefractiveIndex(1.03);
+			sphere1.setCoeffs(0.1, 0.65, 0.25, 160);
+			sphere1.setTransmissiveCoeff(0.75);
+			sphere1.setRefractiveIndex(0.98);
 			application.getWorld().addEntity(sphere1);
 
 			//
 			// Sphere 2
 			//
-			Point sphere2Center = new Point(0.6, 0.8, -0.6, Point.Space.WORLD);
-			double sphere2Radius = 0.5;
+			Point sphere2Center = new Point(0.85, 0.8, -0.8, Point.Space.WORLD);
+			double sphere2Radius = 0.6;
 			MyColor basecColorS2 = new MyColor(22, 183, 187, false).normalize();
 			MyColor diffuseColorS2 = new MyColor(36, 199, 203, false).normalize();
 			MyColor specColorS2 = new MyColor(123, 226, 236, false).normalize();
