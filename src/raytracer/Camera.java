@@ -73,7 +73,6 @@ public class Camera extends Entity {
         this.cLookAtDir = Util.subtract(cLookAt, cPosition).normalize();
 
         Vector filmPlanePosition = Util.scale(this.cLookAtDir, this.focalLength);
-        // this.filmPlane = new FilmPlane(16, 10, 640, 400, filmPlanePosition);
         this.filmPlane = new FilmPlane(16, 10, 16 * SCALE_RATIO, 10 * SCALE_RATIO, filmPlanePosition);
 
         System.out.println(this);
@@ -134,20 +133,14 @@ public class Camera extends Entity {
             ArrayList<Pixel> subPixels = pixel.getSubPixels(subpixelsCount);
             MyColor color = new MyColor(0, 0, 0, true);
             for (Pixel subPixel : subPixels) {
-                Vector dir = new Vector(subPixel.cPosition);
-                // dir = new Vector(0, 0, -1);
-                dir.normalize();
+                Vector dir = new Vector(subPixel.cPosition).normalize();
                 Ray ray = new Ray(this.cPosition, dir);
-                // color.addColor(this.world.getPixelIrradiance(ray));
                 color.addColor(this.world.illuminate(ray, 0));
             }
             color.r /= subPixelCountSquare;
             color.g /= subPixelCountSquare;
             color.b /= subPixelCountSquare;
-            // Vector dir = new Vector(pixel.cPosition);
-            // dir.normalize();
-            // Ray ray = new Ray(this.cPosition, dir);
-            // MyColor color = this.world.getPixelIrradiance(ray);
+            
             pixel.setValue(color);
         }
     }
@@ -182,7 +175,7 @@ public class Camera extends Entity {
         try {
 
             File outputfile = new File("saved.png");
-            ImageIO.write(bi, "jpg", outputfile);
+            ImageIO.write(bi, "png", outputfile);
         } catch (IOException e) {
             System.out.println("error while writing image file " + e);
         }
