@@ -5,6 +5,7 @@ import java.util.HashMap;
 public abstract class Entity {
 
     public String name;
+
     public enum BSDFTechnique {
         PHONG,
         PHONG_BLINN,
@@ -33,8 +34,13 @@ public abstract class Entity {
 
     protected double n = 1.0;
     protected double nParent = 1.0;
+    
+    protected double nu = 1.0;
+    protected double nv = 1.0;
 
     protected boolean hasTexture = false;
+
+    protected BSDFTechnique shadingTechnique = BSDFTechnique.PHONG_BLINN;
 
     public Entity(MyColor baseColor, Point position) {
         this.setBaseColor(baseColor);
@@ -165,9 +171,6 @@ public abstract class Entity {
     public MyColor ashikhiminShirley(Light light, Camera camera, Point intersecPoint, Vector normalDir) {
         normalDir.normalize();
 
-        double nu = 10.0;
-        double nv = 10.0;
-
         Vector lightDir = Util.subtract(Camera.toCameraSpace(light.position), intersecPoint).normalize();
         Vector view = Util.subtract(camera.getcPosition(), intersecPoint).normalize();
         Vector halfway = Util.add(lightDir, view).normalize();
@@ -175,13 +178,13 @@ public abstract class Entity {
         Vector u = Util.cross(Util.subtract(camera.getcPosition(), intersecPoint), normalDir).normalize();
         Vector v = Util.cross(normalDir, u);
 
-        double constantCoeff = Math.sqrt((nu + 1) * (nv + 1)) / 8 / Math.PI;
+        double constantCoeff = Math.sqrt((this.nu + 1) * (this.nv + 1)) / 8 / Math.PI;
         double hDotU = Util.dot(halfway, u);
         double hDotV = Util.dot(halfway, v);
         double hDotN = Util.dot(halfway, normalDir.normalize());
         double kDotH = Util.dot(halfway, lightDir);
 
-        double power = (nu * hDotU * hDotU + nv * hDotV * hDotV) / (1 - hDotN * hDotN);
+        double power = (this.nu * hDotU * hDotU + this.nv * hDotV * hDotV) / (1 - hDotN * hDotN);
         double numerator = Math.pow(Math.max(0, Util.dot(normalDir, halfway)), power);
         double denominator = Util.dot(halfway, lightDir)
                 * Math.max(Util.dot(normalDir, lightDir), Util.dot(normalDir, view));
@@ -215,7 +218,15 @@ public abstract class Entity {
     public MyColor getPixelIrradiance(Light light, Camera camera, Point intersection, Vector normal,
             BSDFTechnique technique, boolean onlyAmbient) {
         MyColor retColor = new MyColor(0, 0, 0, true);
-        switch (technique) {
+
+        BSDFTechnique techniqueToUse;
+        if (this.shadingTechnique == null) {
+            techniqueToUse = technique;
+        } else {
+            techniqueToUse = this.shadingTechnique;
+        }
+
+        switch (techniqueToUse) {
             case PHONG_BLINN:
                 retColor = this.phongBlinn(light, camera, intersection, normal, onlyAmbient);
                 break;
@@ -228,6 +239,15 @@ public abstract class Entity {
         }
         return retColor;
     }
+
+    public void setAshikiminShirleyCoeffs(double nu, double nv) {
+        this.nu = nu;
+        this.nv = nv;
+    }
+
+    public void setShadingTechnique(BSDFTechnique technique) {
+        this.shadingTechnique = technique;
+    } 
 
     public void setCoeffs(double ka, double kd, double ks, double ke) {
         this.ka = ka;
