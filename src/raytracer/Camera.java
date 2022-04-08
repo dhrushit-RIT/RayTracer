@@ -1,3 +1,5 @@
+package raytracer;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -10,9 +12,10 @@ import org.ejml.simple.SimpleMatrix;
 
 public class Camera extends Entity {
 
-    static final MyColor DEFAULT_COLOR = new MyColor(191, 191, 191, false).normalize();
+    static final MyColor DEFAULT_COLOR = new MyColor(128, 128, 128, false).normalize();
 
     private static SimpleMatrix worldToNodeMatrix;
+    private static SimpleMatrix nodeToWorldMatrix;
 
     public Vector n;
     public Vector u;
@@ -23,7 +26,7 @@ public class Camera extends Entity {
     private Point cLookAt;
     private Point cPosition = new Point(0, 0, 0, Point.Space.CAMERA);
 
-    private int scaleRatio = 40;
+    public static int SCALE_RATIO = 80;
 
     public Point getcPosition() {
         return cPosition;
@@ -63,20 +66,28 @@ public class Camera extends Entity {
                         Util.dot(wCameraPos, n), 1 }
         });
 
+        Camera.nodeToWorldMatrix = new SimpleMatrix(Camera.worldToNodeMatrix.invert());
+
         this.cLookAt = toCameraSpace(wLookAt);
         this.cPosition = toCameraSpace(this.position);
         this.cLookAtDir = Util.subtract(cLookAt, cPosition).normalize();
 
         Vector filmPlanePosition = Util.scale(this.cLookAtDir, this.focalLength);
-        // this.filmPlane = new FilmPlane(16, 10, 640, 400, filmPlanePosition);
-        this.filmPlane = new FilmPlane(16, 10, 16 * scaleRatio, 10 * scaleRatio, filmPlanePosition);
+        this.filmPlane = new FilmPlane(16, 10, 16 * SCALE_RATIO, 10 * SCALE_RATIO, filmPlanePosition);
 
         System.out.println(this);
+        System.out.println(toWorldSpace(this.cLookAt));
     }
 
     //
     // static methods
     //
+
+    public static Point toWorldSpace(Point p) {
+        Point point = Point.getPointFromMatrix(p.getMatrix().copy().mult(Camera.nodeToWorldMatrix));
+        point.setSpace(Point.Space.CAMERA);
+        return point;
+    }
 
     public static Vector toCameraSpace(Vector v) {
         Vector vector = Vector.getVectorFromMatrix(v.getMatrix().copy().mult(Camera.worldToNodeMatrix));
@@ -97,25 +108,39 @@ public class Camera extends Entity {
     public void takeASnap(int subpixelsCount) {
         subpixelsCount = Math.max(subpixelsCount, 1);
         int subPixelCountSquare = subpixelsCount * subpixelsCount;
+        int prev = -1;
 
         for (Pixel pixel : filmPlane) {
+            if (pixel.row / SCALE_RATIO > prev) {
+                prev++;
+                System.out.println(prev + "/" + 10);
+            }
+            int testrow = 200;
+            int testcol = 600;
+
+            // if (pixel.row == testrow || pixel.col == testcol) {
+            //     pixel.setValue(new MyColor(0, 0, 1, true));
+            //     continue;
+            // }
+
+            if (pixel.row == testrow && pixel.col == testcol) {
+                System.out.println("here");
+                World.DEBUG_FLAG = true;
+            } else {
+                World.DEBUG_FLAG = false;
+            }
 
             ArrayList<Pixel> subPixels = pixel.getSubPixels(subpixelsCount);
             MyColor color = new MyColor(0, 0, 0, true);
             for (Pixel subPixel : subPixels) {
-                Vector dir = new Vector(subPixel.cPosition);
-                dir.normalize();
+                Vector dir = new Vector(subPixel.cPosition).normalize();
                 Ray ray = new Ray(this.cPosition, dir);
-                MyColor pixColor = this.world.getPixelIrradiance(ray);
-                color.addColor(pixColor);
+                color.addColor(this.world.illuminate(ray, 0));
             }
             color.r /= subPixelCountSquare;
             color.g /= subPixelCountSquare;
             color.b /= subPixelCountSquare;
-            // Vector dir = new Vector(pixel.cPosition);
-            // dir.normalize();
-            // Ray ray = new Ray(this.cPosition, dir);
-            // MyColor color = this.world.getPixelIrradiance(ray);
+            
             pixel.setValue(color);
         }
     }
@@ -150,7 +175,7 @@ public class Camera extends Entity {
         try {
 
             File outputfile = new File("saved.png");
-            ImageIO.write(bi, "jpg", outputfile);
+            ImageIO.write(bi, "png", outputfile);
         } catch (IOException e) {
             System.out.println("error while writing image file " + e);
         }
@@ -166,9 +191,9 @@ public class Camera extends Entity {
 
     public void normalizeAcrossPixels() {
         for (Pixel pixel : filmPlane) {
-            pixel.color.r = Math.max(0, Math.min(1, pixel.color.r / Pixel.maxR));
-            pixel.color.g = Math.max(0, Math.min(1, pixel.color.g / Pixel.maxG));
-            pixel.color.b = Math.max(0, Math.min(1, pixel.color.b / Pixel.maxB));
+            pixel.color.r = Math.max(0, Math.min(1, pixel.color.r / Pixel.overallMax));
+            pixel.color.g = Math.max(0, Math.min(1, pixel.color.g / Pixel.overallMax));
+            pixel.color.b = Math.max(0, Math.min(1, pixel.color.b / Pixel.overallMax));
         }
     }
 
@@ -204,6 +229,11 @@ public class Camera extends Entity {
         sb.append("\tviewmatrix " + worldToNodeMatrix + "\n");
 
         return sb.toString();
+    }
+
+    @Override
+    protected void computeBoundingBox() {
+        this.boundingBox = null;
     }
 
 }

@@ -1,0 +1,11 @@
+Ashikhmin
+
+kdtree
+    store entities in HM by sorted x, y and z
+
+voxel
+    division type
+    keeps the index of start and finish as per the division type and sorting
+    
+
+light degradation based on square of distance

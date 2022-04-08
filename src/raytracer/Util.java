@@ -1,3 +1,5 @@
+package raytracer;
+
 public class Util {
 
     public static Vector subtract(Vector v1, Vector v2) {
@@ -13,6 +15,9 @@ public class Util {
     }
 
     public static Vector subtract(Point p1, Point p2) {
+        // if (p1.getSpace() != p2.getSpace()) {
+        // System.out.println("unmatched spaces");
+        // }
         return new Vector(p1.x - p2.x, p1.y - p2.y, p1.z - p2.z);
     }
 
@@ -44,7 +49,6 @@ public class Util {
 
     public static Vector cross(Vector a, Vector b) {
         return new Vector(
-                // 0,0,1 x 1,0,0
                 a.y * b.z - a.z * b.y,
                 a.z * b.x - a.x * b.z,
                 a.x * b.y - a.y * b.x);
@@ -83,11 +87,35 @@ public class Util {
         // normal is from intersection point towards away from object
         // reflected ray is from intersection point towards away from normal
 
-        double nDotL = Util.dot(lightDir, normal);
+        Vector normalDir = new Vector(normal);
+        // normalDir = Util.scale(normalDir, -1);
+
+        double nDotL = Util.dot(lightDir, normalDir);
 
         Vector ret = new Vector(subtract(
                 Util.scale(normal, 2 * nDotL),
                 lightDir));
+
+        ret.normalize();
+
+        return ret;
+    }
+
+    public static Vector reflect2(Vector incomingVector, Vector normal, Point intersectionPoint) {
+        // TODO: optimize this by setting the vectors to always be wrt camera and
+        // normalized so you do not have to do that separately
+
+        // assumptions:
+        // light direction is from intersection point to light light ------> vPos
+        // normal is from intersection point towards away from object
+        // reflected ray is from intersection point towards away from normal
+
+        Vector normalDir = new Vector(normal);
+
+        double nDotL = Util.dot(incomingVector, normalDir);
+
+        Vector ret = new Vector(subtract(
+            incomingVector, Util.scale(normal, 2 * nDotL)));
 
         ret.normalize();
 
@@ -154,6 +182,23 @@ public class Util {
         retColor.r = Math.max(0, Math.min(255, retColor.r));
         retColor.g = Math.max(0, Math.min(255, retColor.g));
         retColor.b = Math.max(0, Math.min(255, retColor.b));
+        return retColor;
+    }
+
+    public static double distance(Point p1, Point p2) {
+        // TODO: check the space eace point belongs to before calculating the distance
+        double xDiff = p1.x - p2.x;
+        double yDiff = p1.y - p2.y;
+        double zDiff = p1.z - p2.z;
+        return Math.sqrt(xDiff * xDiff + yDiff * yDiff + zDiff * zDiff);
+    }
+
+    public static MyColor scaleColor(double scaleFactor, MyColor color) {
+        MyColor retColor = new MyColor(color);
+        retColor.r *= scaleFactor;
+        retColor.g *= scaleFactor;
+        retColor.b *= scaleFactor;
+
         return retColor;
     }
 }

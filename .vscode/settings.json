@@ -1,6 +1,7 @@
 {
     "java.project.referencedLibraries": [
         "lib/**/*.jar",
-        "dependencies/ejml-0.41-libs/**/*.jar"
+        "dependencies/ejml-0.41-libs/**/*.jar",
+        "dependencies/commons-math3-3.6.1.jar"
     ]
 }
