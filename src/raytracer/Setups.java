@@ -7,6 +7,10 @@ import raytracer.util.ply_reader.PLYReader;
 
 public class Setups {
 	public static class DefaultSetups {
+		/**
+		 * should not output anything
+		 * @param application
+		 */
 		public static void setup0(Application application) {
 
 			//
@@ -222,7 +226,7 @@ public class Setups {
 	
 			Sphere sphere1 = new Sphere(sphere1Center, sphere1Radius, basecColorS1);
 			sphere1.setColors(basecColorS1, specColorS1, diffuseColorS1);
-			sphere1.setCoeffs(0.3, 0.6, 0.1, 60);
+			sphere1.setCoeffs(0.2, 0.65, 0.15, 60);
 			application.getWorld().addEntity(sphere1);
 	
 			Point sphere2Center = new Point(0.6, 0.8, -0.6, Point.Space.WORLD);
@@ -233,7 +237,7 @@ public class Setups {
 	
 			Sphere sphere2 = new Sphere(sphere2Center, sphere2Radius, basecColorS2);
 			sphere2.setColors(basecColorS2, specColorS2, diffuseColorS2);
-			sphere2.setCoeffs(0.3, 0.5, 0.2, 80);
+			sphere2.setCoeffs(0.2, 0.55, 0.25, 80);
 			application.getWorld().addEntity(sphere2);
 	
 			Point triangle1Position = new Point(1, 0, 1, Point.Space.WORLD);
@@ -386,7 +390,7 @@ public class Setups {
 	
 			Sphere sphere2 = new Sphere(sphere2Center, sphere2Radius, basecColorS2);
 			sphere2.setColors(basecColorS2, specColorS2, diffuseColorS2);
-			sphere2.setCoeffs(0.3, 0.5, 0.2, 180);
+			sphere2.setCoeffs(0.2, 0.5, 0.3, 180);
 			application.getWorld().addEntity(sphere2);
 	
 			//
