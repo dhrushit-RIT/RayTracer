@@ -1,5 +1,10 @@
 package raytracer;
 
+import java.io.File;
+import java.util.ArrayList;
+
+import raytracer.util.ply_reader.PLYReader;
+
 public class Setups {
 	public static class DefaultSetups {
 		public static void setup0(Application application) {
