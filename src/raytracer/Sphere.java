@@ -86,9 +86,9 @@ public class Sphere extends Entity {
     }
 
     public static Point addEpsilonDisplacementToIntersection(Point intersectionPoint, Vector normalAtIntersection) {
-        intersectionPoint.x += 4 * Entity.EPSILON * normalAtIntersection.x;
-        intersectionPoint.y += 4 * Entity.EPSILON * normalAtIntersection.y;
-        intersectionPoint.z += 4 * Entity.EPSILON * normalAtIntersection.z;
+        intersectionPoint.x += 10 * Entity.EPSILON * normalAtIntersection.x;
+        intersectionPoint.y += 10 * Entity.EPSILON * normalAtIntersection.y;
+        intersectionPoint.z += 10 * Entity.EPSILON * normalAtIntersection.z;
         intersectionPoint.updatePoint();
         return intersectionPoint;
     }

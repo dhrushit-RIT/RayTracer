@@ -12,7 +12,7 @@ public abstract class Entity {
         // COOK_TORRANCE
     }
 
-    protected static double EPSILON = 0.000001;
+    protected static double EPSILON = 0.0000001;
     public BoundingBox boundingBox;
     BoundingBox cBoundingBox;
     protected MyColor baseColor;
