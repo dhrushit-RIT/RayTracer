@@ -5,19 +5,28 @@ import java.util.ArrayList;
 import raytracer.Entity;
 import raytracer.Point;
 import raytracer.Ray;
+import raytracer.kdTree.AAPlane.Alignment;
 
 public class KDTree {
     KDNode root;
 
+    private enum PartitioningStrategy {
+        HALF_DIST,
+        HALF_ENTITIES
+    }
+
+    private static PartitioningStrategy partitioningStrategy = PartitioningStrategy.HALF_DIST;
+
     private static int MAX_DEPTH = 500;
-    public static int MAX_ENTITIES_IN_VOXEL = 100;
+    public static int MAX_ENTITIES_IN_VOXEL = 20;
 
     public static KDNode getNode(ArrayList<Entity> L, Voxel V, AAPlane.Alignment divisionAlignment, int depth) {
         if (isTerminal(L, V) || depth > MAX_DEPTH) {
             return new KDNode(L, V);
         }
 
-        AAPlane P = findPartitionPlane(V, divisionAlignment); // plane wrt camera
+        ArrayList<Entity> sortedEntities = KDTree.sortEntities(L, divisionAlignment);
+        AAPlane P = findPartitionPlane(V, divisionAlignment, sortedEntities); // plane wrt camera
 
         Voxel leftVoxel = new Voxel(V);
         Voxel rightVoxel = new Voxel(V);
@@ -35,9 +44,46 @@ public class KDTree {
         return new KDNode(P, leftNode, rightNode, V);
     }
 
+    private static ArrayList<Entity> sortEntities(ArrayList<Entity> l, Alignment divisionAlignment) {
+        switch (divisionAlignment) {
+            case XY:
+                l.sort((Entity e1, Entity e2) -> e1.boundingBox.zMax < e2.boundingBox.zMax ? -1
+                        : e1.boundingBox.zMax > e2.boundingBox.zMax ? 1 : 0);
+                break;
+            case YZ:
+                l.sort((Entity e1, Entity e2) -> e1.boundingBox.xMax < e2.boundingBox.xMax ? -1
+                        : e1.boundingBox.xMax > e2.boundingBox.xMax ? 1 : 0);
+                break;
+            case ZX:
+                l.sort((Entity e1, Entity e2) -> e1.boundingBox.yMax < e2.boundingBox.yMax ? -1
+                        : e1.boundingBox.yMax > e2.boundingBox.yMax ? 1 : 0);
+                break;
+        }
+        return l;
+    }
+
     private static void setEntitiesForSubVoxel(Voxel leftVoxel, ArrayList<Entity> leftEntities, Voxel rightVoxel,
             ArrayList<Entity> rightEntities, ArrayList<Entity> L) {
 
+        switch (partitioningStrategy) {
+            case HALF_ENTITIES:
+                // divideEntitiesInTwoParts(leftVoxel, leftEntities, rightVoxel, rightEntities, L);
+            case HALF_DIST:
+            default:
+                divideEntitiesByHalfDist(leftVoxel, leftEntities, rightVoxel, rightEntities, L);
+                break;
+
+        }
+
+    }
+
+    private static void divideEntitiesInTwoParts(Voxel leftVoxel, ArrayList<Entity> leftEntities, Voxel rightVoxel,
+            ArrayList<Entity> rightEntities, ArrayList<Entity> l) {
+                // leftVoxel
+    }
+
+    private static void divideEntitiesByHalfDist(Voxel leftVoxel, ArrayList<Entity> leftEntities, Voxel rightVoxel,
+            ArrayList<Entity> rightEntities, ArrayList<Entity> L) {
         for (Entity entity : L) {
             if (leftVoxel.isEntityInsideVoxel(entity)) {
                 leftEntities.add(entity);
@@ -90,8 +136,45 @@ public class KDTree {
         rightVoxel.updateComponents();
     }
 
-    private static AAPlane findPartitionPlane(Voxel v, AAPlane.Alignment alignment) {
+    private static AAPlane findPartitionPlane(Voxel v, AAPlane.Alignment alignment,
+            ArrayList<Entity> sortedEntities) {
 
+        switch (partitioningStrategy) {
+            case HALF_DIST:
+                return KDTree.divideAtHalfDist(v, alignment);
+            case HALF_ENTITIES:
+                return KDTree.divideHalfEntities(v, alignment, sortedEntities);
+            default:
+                return KDTree.divideAtHalfDist(v, alignment);
+        }
+
+    }
+
+    private static AAPlane divideHalfEntities(Voxel v, Alignment alignment, ArrayList<Entity> sortedEntities) {
+        int halfIndex = sortedEntities.size() / 2;
+        Entity entityOfInterest = sortedEntities.get(halfIndex);
+
+        double x = v.xMin;
+        double y = v.yMin;
+        double z = v.zMin;
+        switch (alignment) {
+            case YZ:
+                x = entityOfInterest.boundingBox.xMax;
+                break;
+            case ZX:
+                y = entityOfInterest.boundingBox.yMax;
+                break;
+            case XY:
+            default:
+                z = entityOfInterest.boundingBox.zMax;
+                break;
+        }
+        Point pointOnPlane = new Point(x, y, z, Point.Space.CAMERA);
+        AAPlane dividingPlane = new AAPlane(pointOnPlane, alignment);
+        return dividingPlane;
+    }
+
+    private static AAPlane divideAtHalfDist(Voxel v, Alignment alignment) {
         double x = v.xMin;
         double y = v.yMin;
         double z = v.zMin;
