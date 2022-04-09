@@ -8,6 +8,7 @@ public class Application {
         // Setups.Refraction.setup0(this);
         Setups.KDTree.setup1(this);
         // Setups.AshikiminShirley.setup0(this);
+        
     }
 
     private World world;
