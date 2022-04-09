@@ -5,7 +5,8 @@ public class Application {
     public Application() {
         this.world = new World();
         // Setups.DefaultSetups.setup7(this);
-        Setups.Refraction.setup0(this);
+        // Setups.Refraction.setup0(this);
+        Setups.KDTree.setup1(this);
         // Setups.AshikiminShirley.setup0(this);
     }
 
