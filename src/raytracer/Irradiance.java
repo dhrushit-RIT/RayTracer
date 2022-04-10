@@ -82,7 +82,7 @@ public class Irradiance {
         return "C:" + r + "," + g + "," + b;
     }
 
-    public Irradiance multColor(double d){
+    public Irradiance scaleColor(double d){
         if (!this.normalized){
             this.normalize();
         }
