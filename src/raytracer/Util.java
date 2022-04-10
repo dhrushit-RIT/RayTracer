@@ -187,10 +187,15 @@ public class Util {
 
     public static double distance(Point p1, Point p2) {
         // TODO: check the space eace point belongs to before calculating the distance
+        return Math.sqrt(Util.sqDistance(p1, p2));
+    }
+
+    public static double sqDistance(Point p1, Point p2) {
+        // TODO: check the space eace point belongs to before calculating the distance
         double xDiff = p1.x - p2.x;
         double yDiff = p1.y - p2.y;
         double zDiff = p1.z - p2.z;
-        return Math.sqrt(xDiff * xDiff + yDiff * yDiff + zDiff * zDiff);
+        return xDiff * xDiff + yDiff * yDiff + zDiff * zDiff;
     }
 
     public static MyColor scaleColor(double scaleFactor, MyColor color) {
