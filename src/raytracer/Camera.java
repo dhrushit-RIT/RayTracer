@@ -12,7 +12,7 @@ import org.ejml.simple.SimpleMatrix;
 
 public class Camera extends Entity {
 
-    static final MyColor DEFAULT_COLOR = new MyColor(128, 128, 128, false).normalize();
+    static final MyColor DEFAULT_COLOR = new MyColor(152, 205, 236, false).normalize();
 
     private static SimpleMatrix worldToNodeMatrix;
     private static SimpleMatrix nodeToWorldMatrix;
