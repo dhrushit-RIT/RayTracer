@@ -1,4 +1,5 @@
 package raytracer;
+
 public class Light extends Entity {
 
     MyColor color;
@@ -11,14 +12,13 @@ public class Light extends Entity {
     }
 
     @Override
-    public IntersectionDetails intersect(Ray ray) {
-        return new IntersectionDetails(this);
+    public IntersectionDetails<Entity> intersect(Ray ray) {
+        return new IntersectionDetails<Entity>(this);
     }
 
     @Override
     protected void computeBoundingBox() {
-        
-        
+
     }
 
 }
