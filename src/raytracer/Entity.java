@@ -13,6 +13,8 @@ public abstract class Entity {
         // COOK_TORRANCE
     }
 
+    public static boolean SHOULD_USE_FALLOUT = false;
+
     protected static double EPSILON = 0.0000001;
     public BoundingBox boundingBox;
     BoundingBox cBoundingBox;
@@ -34,7 +36,7 @@ public abstract class Entity {
 
     protected double n = 1.0;
     protected double nParent = 1.0;
-    
+
     protected double nu = 1.0;
     protected double nv = 1.0;
 
@@ -113,8 +115,13 @@ public abstract class Entity {
     public MyColor phongBlinn(Light light, Camera camera, Point intersecPoint, Vector normal, boolean onlyAmbient) {
         Vector lightDir = Util.subtract(Camera.toCameraSpace(light.position), intersecPoint);
         lightDir.normalize();
-        double ambientFactor = ka * light.irradiance;
-        double diffuseFactor = kd * light.irradiance * Util.dot(lightDir, normal);
+        double squaredDistance = 1;
+        if (SHOULD_USE_FALLOUT) {
+            squaredDistance = Util.sqDistance(intersecPoint, light.cPosition);
+        }
+        double actualIrradiance = light.irradiance / squaredDistance;
+        double ambientFactor = ka * actualIrradiance;
+        double diffuseFactor = kd * actualIrradiance * Util.dot(lightDir, normal);
 
         // diffuseFactor = Math.max(0.0, diffuseFactor);
         normal.normalize();
@@ -126,7 +133,7 @@ public abstract class Entity {
         Vector halfway = Util.add(lightDir, view).normalize();
 
         double normalDotHalf = Math.max(0.0, Util.dot(halfway, normal));
-        double specularFactor = ks * light.irradiance * Math.pow(normalDotHalf, ke);
+        double specularFactor = ks * actualIrradiance * Math.pow(normalDotHalf, ke);
 
         MyColor ambient = Util.multColor(ambientFactor, getBaseColor(intersecPoint));
         MyColor diffuse = Util.multColor(diffuseFactor, getDiffuseColor(intersecPoint));
@@ -144,8 +151,15 @@ public abstract class Entity {
     public MyColor phong(Light light, Camera camera, Point intersecPoint, Vector normal, boolean onlyAmbient) {
         Vector lightDir = Util.subtract(Camera.toCameraSpace(light.position), intersecPoint);
         lightDir.normalize();
-        double ambientFactor = ka * light.irradiance;
-        double diffuseFactor = kd * light.irradiance * Util.dot(lightDir, normal);
+
+        double squaredDistance = 1;
+        if (SHOULD_USE_FALLOUT) {
+            squaredDistance = Util.sqDistance(intersecPoint, light.cPosition);
+        }
+        double actualIrradiance = light.irradiance / squaredDistance;
+
+        double ambientFactor = ka * actualIrradiance;
+        double diffuseFactor = kd * actualIrradiance * Util.dot(lightDir, normal);
 
         normal.normalize();
 
@@ -153,7 +167,7 @@ public abstract class Entity {
         Vector view = Util.subtract(camera.getcPosition(), intersecPoint);
         view.normalize();
         double reflectDotView = Math.max(0.0, Util.dot(reflectVector, view));
-        double specularFactor = ks * light.irradiance * Math.pow(reflectDotView, ke);
+        double specularFactor = ks * actualIrradiance * Math.pow(reflectDotView, ke);
 
         MyColor ambient = Util.multColor(ambientFactor, getBaseColor(intersecPoint));
         MyColor diffuse = Util.multColor(diffuseFactor, getDiffuseColor(intersecPoint));
@@ -193,16 +207,6 @@ public abstract class Entity {
                 Util.multColor(this.specularColor.getComplement(), Math.pow((1 - kDotH), 5)));
 
         MyColor specular = Util.multColor(fresnel, constantCoeff * (numerator / denominator));
-
-        //
-        // Diffuse
-        //
-
-        // double constantCoeffDiffuse = 28 / 23 / Math.PI;
-        // double lightConstant = (1 - Math.pow((1 - Math.abs(Util.dot(normalDir,
-        // lightDir) / 2)), 5));
-        // double viewConstant = (1 - Math.pow((1 - Math.abs(Util.dot(normalDir, view) /
-        // 2)), 5));
 
         double constantCoeffDiffuse = 28 / 23 / Math.PI;
         double lightConstant = (1 - Math.pow((1 - Util.dot(normalDir, lightDir) / 2), 5));
@@ -247,7 +251,7 @@ public abstract class Entity {
 
     public void setShadingTechnique(BSDFTechnique technique) {
         this.shadingTechnique = technique;
-    } 
+    }
 
     public void setCoeffs(double ka, double kd, double ks, double ke) {
         this.ka = ka;
