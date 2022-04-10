@@ -69,6 +69,7 @@ public class World {
     }
 
     public void simulate() {
+        this.computeEntityPositionInCurrentEntitySpace();
         System.out.println("entities per voxel : " + KDTree.MAX_ENTITIES_IN_VOXEL);
         long startTimeBuildKD = System.currentTimeMillis();
         System.out.println("Starting to build the kd-Tree");
@@ -89,6 +90,13 @@ public class World {
 
         System.out.println("Time to build kd tree : " + (endTimeBuildKD - startTimeBuildKD) + "ms");
         System.out.println("Time to render : " + (endTime - startTime) + "ms");
+    }
+
+    private void computeEntityPositionInCurrentEntitySpace() {
+        for (Light light : this.lightSources)
+            light.getPositionInCameraCoordinates();
+        for (Entity entity : this.worldObjects)
+            entity.getPositionInCameraCoordinates();
     }
 
     private void generateKDTree() {
