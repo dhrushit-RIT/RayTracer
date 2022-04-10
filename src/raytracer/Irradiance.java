@@ -1,12 +1,12 @@
 package raytracer;
-public class MyColor {
+public class Irradiance {
     public double r;
     public double g;
     public double b;
 
     public boolean normalized = false;
 
-    public MyColor(double r, double g, double b, boolean normalized) {
+    public Irradiance(double r, double g, double b, boolean normalized) {
         this.r = r;
         this.g = g;
         this.b = b;
@@ -14,14 +14,14 @@ public class MyColor {
         this.normalized = normalized;
     }
 
-    public MyColor(MyColor myColor) {
+    public Irradiance(Irradiance myColor) {
         this.r = myColor.r;
         this.g = myColor.g;
         this.b = myColor.b;
         this.normalized = myColor.normalized;
     }
 
-    public MyColor normalize() {
+    public Irradiance normalize() {
         if (!normalized) {
             normalized = true;
             this.r /= 255;
@@ -31,7 +31,7 @@ public class MyColor {
         return this;
     }
 
-    public MyColor denormalize() {
+    public Irradiance denormalize() {
         if (normalized) {
             this.normalized = false;
             this.r *= 255;
@@ -45,28 +45,28 @@ public class MyColor {
         return this;
     }
 
-    public MyColor getNormalized() {
+    public Irradiance getNormalized() {
         if (normalized) {
             return this;
         } else {
-            MyColor color = new MyColor(this);
+            Irradiance color = new Irradiance(this);
             color.normalize();
             return color;
         }
     }
 
-    public MyColor getColor() {
+    public Irradiance getColor() {
         if (!normalized) {
             return this;
         } else {
-            MyColor color = new MyColor(this);
+            Irradiance color = new Irradiance(this);
             color.denormalize();
             return color;
         }
     }
 
-    public MyColor getComplement() {
-        MyColor retColor = new MyColor(this);
+    public Irradiance getComplement() {
+        Irradiance retColor = new Irradiance(this);
         if(!retColor.normalized) {
             retColor.normalize();
         }
@@ -82,7 +82,7 @@ public class MyColor {
         return "C:" + r + "," + g + "," + b;
     }
 
-    public MyColor multColor(double d){
+    public Irradiance multColor(double d){
         if (!this.normalized){
             this.normalize();
         }
@@ -93,19 +93,19 @@ public class MyColor {
         return this;
     }
 
-    public MyColor addColor(MyColor otherColor) {
+    public Irradiance addColor(Irradiance otherColor) {
         this.normalize();
-        MyColor other = otherColor.getNormalized();
+        Irradiance other = otherColor.getNormalized();
         this.r += other.r;
         this.g += other.g;
         this.b += other.b;
         return this;
     }
 
-    public MyColor addColor(MyColor... otherColors) {
+    public Irradiance addColor(Irradiance... otherColors) {
         this.normalize();
-        for (MyColor other : otherColors) {
-            MyColor otherNorm = other.getNormalized();
+        for (Irradiance other : otherColors) {
+            Irradiance otherNorm = other.getNormalized();
             this.r += otherNorm.r;
             this.g += otherNorm.g;
             this.b += otherNorm.b;

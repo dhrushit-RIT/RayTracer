@@ -17,7 +17,7 @@ public class Triangle extends Entity {
     private Vector P;
     private Vector Q;
 
-    public Triangle(MyColor baseColor, Point position, Point[] verticePoints) {
+    public Triangle(Irradiance baseColor, Point position, Point[] verticePoints) {
         super(baseColor, position);
         this.wPosition = position;
         this.verticePoints = verticePoints;

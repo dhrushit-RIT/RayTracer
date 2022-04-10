@@ -2,10 +2,10 @@ package raytracer;
 
 public class Light extends Entity {
 
-    MyColor color;
+    Irradiance color;
     double irradiance;
 
-    public Light(MyColor baseColor, Point position, double irradiance) {
+    public Light(Irradiance baseColor, Point position, double irradiance) {
         super(baseColor, position);
         this.color = baseColor;
         this.irradiance = irradiance;

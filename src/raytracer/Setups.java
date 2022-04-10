@@ -28,7 +28,7 @@ public class Setups {
 			//
 			// Light
 			//
-			Light light = new Light(new MyColor(1, 1, 1, true), new Point(2, 5, 5, Point.Space.WORLD), 0.45);
+			Light light = new Light(new Irradiance(1, 1, 1, true), new Point(2, 5, 5, Point.Space.WORLD), 0.45);
 			application.getWorld().addLightSource(light);
 
 			//
@@ -36,7 +36,7 @@ public class Setups {
 			//
 			Point sphereCenter = new Point(0, 0, 3, Point.Space.WORLD);
 			double sphereRadius = 1.0;
-			MyColor sphereColor = new MyColor(0, 0, 255, false);
+			Irradiance sphereColor = new Irradiance(0, 0, 255, false);
 			application.getWorld().addEntity(new Sphere(sphereCenter, sphereRadius, sphereColor));
 
 		}
@@ -56,7 +56,7 @@ public class Setups {
 			//
 			// Light
 			//
-			Light light = new Light(new MyColor(1, 1, 1, true), cameraPosition/*
+			Light light = new Light(new Irradiance(1, 1, 1, true), cameraPosition/*
 																				 * new Point(2, 5, 5, Point.Space.WORLD)
 																				 */,
 					0.45);
@@ -67,7 +67,7 @@ public class Setups {
 			//
 			Point sphereCenter = new Point(0, 0, 0, Point.Space.WORLD);
 			double sphereRadius = 1.0;
-			MyColor sphereColor = new MyColor(0, 0, 255, false);
+			Irradiance sphereColor = new Irradiance(0, 0, 255, false);
 			application.getWorld().addEntity(new Sphere(sphereCenter, sphereRadius, sphereColor));
 
 		}
@@ -88,7 +88,7 @@ public class Setups {
 			//
 			// Light
 			//
-			Light light = new Light(new MyColor(1, 1, 1, true), new Point(2, 5, 5, Point.Space.WORLD), 0.45);
+			Light light = new Light(new Irradiance(1, 1, 1, true), new Point(2, 5, 5, Point.Space.WORLD), 0.45);
 			application.getWorld().addLightSource(light);
 
 			//
@@ -96,7 +96,7 @@ public class Setups {
 			//
 			Point sphereCenter = new Point(0, 0, 0, Point.Space.WORLD);
 			double sphereRadius = 1.0;
-			MyColor sphereColor = new MyColor(0, 0, 255, false);
+			Irradiance sphereColor = new Irradiance(0, 0, 255, false);
 			application.getWorld().addEntity(new Sphere(sphereCenter, sphereRadius, sphereColor));
 
 		}
@@ -116,7 +116,7 @@ public class Setups {
 			//
 			// Light
 			//
-			Light light = new Light(new MyColor(1, 1, 1, true), new Point(2, 5, 5, Point.Space.WORLD), 0.45);
+			Light light = new Light(new Irradiance(1, 1, 1, true), new Point(2, 5, 5, Point.Space.WORLD), 0.45);
 			application.getWorld().addLightSource(light);
 
 			//
@@ -124,7 +124,7 @@ public class Setups {
 			//
 			Point sphereCenter = new Point(0, 0, 0, Point.Space.WORLD);
 			double sphereRadius = 1.0;
-			MyColor sphereColor = new MyColor(0, 0, 255, false);
+			Irradiance sphereColor = new Irradiance(0, 0, 255, false);
 			application.getWorld().addEntity(new Sphere(sphereCenter, sphereRadius, sphereColor));
 
 		}
@@ -145,7 +145,7 @@ public class Setups {
 			//
 			// Light
 			//
-			Light light = new Light(new MyColor(1, 1, 1, true), new Point(2, 5, 5, Point.Space.WORLD), 0.65);
+			Light light = new Light(new Irradiance(1, 1, 1, true), new Point(2, 5, 5, Point.Space.WORLD), 0.65);
 			application.getWorld().addLightSource(light);
 
 			//
@@ -153,9 +153,9 @@ public class Setups {
 			//
 			Point sphere1Center = new Point(-0.4, 1, 0.4, Point.Space.WORLD);
 			double sphere1Radius = 0.755;
-			MyColor basecColorS1 = new MyColor(22, 183, 187, false).normalize();
-			MyColor diffuseColorS1 = new MyColor(36, 199, 203, false).normalize();
-			MyColor specColorS1 = new MyColor(123, 226, 236, false).normalize();
+			Irradiance basecColorS1 = new Irradiance(22, 183, 187, false).normalize();
+			Irradiance diffuseColorS1 = new Irradiance(36, 199, 203, false).normalize();
+			Irradiance specColorS1 = new Irradiance(123, 226, 236, false).normalize();
 
 			Sphere sphere1 = new Sphere(sphere1Center, sphere1Radius, basecColorS1);
 			sphere1.setColors(basecColorS1, specColorS1, diffuseColorS1);
@@ -164,9 +164,9 @@ public class Setups {
 
 			Point sphere2Center = new Point(0.6, 0.8, -0.6, Point.Space.WORLD);
 			double sphere2Radius = 0.6;
-			MyColor basecColorS2 = new MyColor(22, 183, 187, false).normalize();
-			MyColor diffuseColorS2 = new MyColor(36, 199, 203, false).normalize();
-			MyColor specColorS2 = new MyColor(123, 226, 236, false).normalize();
+			Irradiance basecColorS2 = new Irradiance(22, 183, 187, false).normalize();
+			Irradiance diffuseColorS2 = new Irradiance(36, 199, 203, false).normalize();
+			Irradiance specColorS2 = new Irradiance(123, 226, 236, false).normalize();
 
 			Sphere sphere2 = new Sphere(sphere2Center, sphere2Radius, basecColorS2);
 			sphere2.setColors(basecColorS2, specColorS2, diffuseColorS2);
@@ -179,7 +179,7 @@ public class Setups {
 					new Point(1.5, 0, -1.5, Point.Space.WORLD),
 					new Point(-1.5, 0, 1.5, Point.Space.WORLD)
 			};
-			MyColor triangle1Color = new MyColor(238, 50, 51, false).normalize();
+			Irradiance triangle1Color = new Irradiance(238, 50, 51, false).normalize();
 			Triangle triangle1 = new Triangle(triangle1Color, triangle1Position, t1Vertices);
 			triangle1.setCoeffs(0.5, 0.4, 0.1, 80);
 
@@ -191,7 +191,7 @@ public class Setups {
 					new Point(1.5, 0, -1.5, Point.Space.WORLD),
 					new Point(-1.5, 0, -1.5, Point.Space.WORLD)
 			};
-			MyColor t2Color = new MyColor(238, 50, 51, false).normalize();
+			Irradiance t2Color = new Irradiance(238, 50, 51, false).normalize();
 			Triangle triangle2 = new Triangle(t2Color, t2Position, t2Vertices);
 			triangle2.setCoeffs(0.5, 0.4, 0.1, 80);
 			application.getWorld().addEntity(triangle2);
@@ -213,10 +213,10 @@ public class Setups {
 			//
 			// Light
 			//
-			Light light1 = new Light(new MyColor(1, 1, 1, true), new Point(0, 5, 0, Point.Space.WORLD), 0.55);
+			Light light1 = new Light(new Irradiance(1, 1, 1, true), new Point(0, 5, 0, Point.Space.WORLD), 0.55);
 			application.getWorld().addLightSource(light1);
 
-			Light light2 = new Light(new MyColor(1, 1, 1, true), new Point(2, 5, 5, Point.Space.WORLD), 0.55);
+			Light light2 = new Light(new Irradiance(1, 1, 1, true), new Point(2, 5, 5, Point.Space.WORLD), 0.55);
 			application.getWorld().addLightSource(light2);
 
 			//
@@ -224,9 +224,9 @@ public class Setups {
 			//
 			Point sphere1Center = new Point(-0.4, 1, 0.4, Point.Space.WORLD);
 			double sphere1Radius = 0.755;
-			MyColor basecColorS1 = new MyColor(22, 183, 187, false).normalize();
-			MyColor diffuseColorS1 = new MyColor(36, 199, 203, false).normalize();
-			MyColor specColorS1 = new MyColor(123, 226, 236, false).normalize();
+			Irradiance basecColorS1 = new Irradiance(22, 183, 187, false).normalize();
+			Irradiance diffuseColorS1 = new Irradiance(36, 199, 203, false).normalize();
+			Irradiance specColorS1 = new Irradiance(123, 226, 236, false).normalize();
 
 			Sphere sphere1 = new Sphere(sphere1Center, sphere1Radius, basecColorS1);
 			sphere1.setColors(basecColorS1, specColorS1, diffuseColorS1);
@@ -235,9 +235,9 @@ public class Setups {
 
 			Point sphere2Center = new Point(0.6, 0.8, -0.6, Point.Space.WORLD);
 			double sphere2Radius = 0.6;
-			MyColor basecColorS2 = new MyColor(22, 183, 187, false).normalize();
-			MyColor diffuseColorS2 = new MyColor(36, 199, 203, false).normalize();
-			MyColor specColorS2 = new MyColor(123, 226, 236, false).normalize();
+			Irradiance basecColorS2 = new Irradiance(22, 183, 187, false).normalize();
+			Irradiance diffuseColorS2 = new Irradiance(36, 199, 203, false).normalize();
+			Irradiance specColorS2 = new Irradiance(123, 226, 236, false).normalize();
 
 			Sphere sphere2 = new Sphere(sphere2Center, sphere2Radius, basecColorS2);
 			sphere2.setColors(basecColorS2, specColorS2, diffuseColorS2);
@@ -250,7 +250,7 @@ public class Setups {
 					new Point(1.5, 0, -1.5, Point.Space.WORLD),
 					new Point(-1.5, 0, 1.5, Point.Space.WORLD)
 			};
-			MyColor triangle1Color = new MyColor(238, 50, 51, false).normalize();
+			Irradiance triangle1Color = new Irradiance(238, 50, 51, false).normalize();
 			Triangle triangle1 = new Triangle(triangle1Color, triangle1Position, t1Vertices);
 			triangle1.setCoeffs(0.3, 0.4, 0.3, 80);
 
@@ -262,7 +262,7 @@ public class Setups {
 					new Point(1.5, 0, -1.5, Point.Space.WORLD),
 					new Point(-1.5, 0, -1.5, Point.Space.WORLD)
 			};
-			MyColor t2Color = new MyColor(238, 50, 51, false).normalize();
+			Irradiance t2Color = new Irradiance(238, 50, 51, false).normalize();
 			Triangle triangle2 = new Triangle(t2Color, t2Position, t2Vertices);
 			triangle2.setCoeffs(0.3, 0.4, 0.2, 80);
 			application.getWorld().addEntity(triangle2);
@@ -285,10 +285,10 @@ public class Setups {
 			//
 			// Light
 			//
-			Light light1 = new Light(new MyColor(1, 1, 1, true), new Point(0, 5, 0, Point.Space.WORLD), 0.55);
+			Light light1 = new Light(new Irradiance(1, 1, 1, true), new Point(0, 5, 0, Point.Space.WORLD), 0.55);
 			application.getWorld().addLightSource(light1);
 
-			Light light2 = new Light(new MyColor(1, 1, 1, true), new Point(2, 5, 5, Point.Space.WORLD), 0.55);
+			Light light2 = new Light(new Irradiance(1, 1, 1, true), new Point(2, 5, 5, Point.Space.WORLD), 0.55);
 			application.getWorld().addLightSource(light2);
 
 			//
@@ -296,9 +296,9 @@ public class Setups {
 			//
 			Point sphere1Center = new Point(-0.4, 1, 0.4, Point.Space.WORLD);
 			double sphere1Radius = 0.755;
-			MyColor basecColorS1 = new MyColor(22, 183, 187, false).normalize();
-			MyColor diffuseColorS1 = new MyColor(36, 199, 203, false).normalize();
-			MyColor specColorS1 = new MyColor(123, 226, 236, false).normalize();
+			Irradiance basecColorS1 = new Irradiance(22, 183, 187, false).normalize();
+			Irradiance diffuseColorS1 = new Irradiance(36, 199, 203, false).normalize();
+			Irradiance specColorS1 = new Irradiance(123, 226, 236, false).normalize();
 
 			Sphere sphere1 = new Sphere(sphere1Center, sphere1Radius, basecColorS1);
 			sphere1.setColors(basecColorS1, specColorS1, diffuseColorS1);
@@ -307,9 +307,9 @@ public class Setups {
 
 			Point sphere2Center = new Point(0.6, 0.8, -0.6, Point.Space.WORLD);
 			double sphere2Radius = 0.6;
-			MyColor basecColorS2 = new MyColor(22, 183, 187, false).normalize();
-			MyColor diffuseColorS2 = new MyColor(36, 199, 203, false).normalize();
-			MyColor specColorS2 = new MyColor(123, 226, 236, false).normalize();
+			Irradiance basecColorS2 = new Irradiance(22, 183, 187, false).normalize();
+			Irradiance diffuseColorS2 = new Irradiance(36, 199, 203, false).normalize();
+			Irradiance specColorS2 = new Irradiance(123, 226, 236, false).normalize();
 
 			Sphere sphere2 = new Sphere(sphere2Center, sphere2Radius, basecColorS2);
 			sphere2.setColors(basecColorS2, specColorS2, diffuseColorS2);
@@ -322,7 +322,7 @@ public class Setups {
 					new Point(1.5, 0, -1.5, Point.Space.WORLD),
 					new Point(-1.5, 0, 1.5, Point.Space.WORLD)
 			};
-			MyColor triangle1Color = new MyColor(238, 50, 51, false).normalize();
+			Irradiance triangle1Color = new Irradiance(238, 50, 51, false).normalize();
 			Triangle triangle1 = new Triangle(triangle1Color, triangle1Position, t1Vertices);
 			triangle1.setCoeffs(0.3, 0.4, 0.3, 80);
 
@@ -334,7 +334,7 @@ public class Setups {
 					new Point(1.5, 0, -1.5, Point.Space.WORLD),
 					new Point(-1.5, 0, -1.5, Point.Space.WORLD)
 			};
-			MyColor t2Color = new MyColor(238, 50, 51, false).normalize();
+			Irradiance t2Color = new Irradiance(238, 50, 51, false).normalize();
 			Triangle triangle2 = new Triangle(t2Color, t2Position, t2Vertices);
 			triangle2.setCoeffs(0.3, 0.4, 0.2, 80);
 			application.getWorld().addEntity(triangle2);
@@ -359,10 +359,10 @@ public class Setups {
 			//
 			// Light
 			//
-			Light light1 = new Light(new MyColor(1, 1, 1, true), new Point(0, 5, 0, Point.Space.WORLD), 0.55);
+			Light light1 = new Light(new Irradiance(1, 1, 1, true), new Point(0, 5, 0, Point.Space.WORLD), 0.55);
 			application.getWorld().addLightSource(light1);
 
-			Light light2 = new Light(new MyColor(1, 1, 1, true), new Point(2, 5, 5, Point.Space.WORLD), 0.55);
+			Light light2 = new Light(new Irradiance(1, 1, 1, true), new Point(2, 5, 5, Point.Space.WORLD), 0.55);
 			application.getWorld().addLightSource(light2);
 
 			// ================================================================
@@ -374,9 +374,9 @@ public class Setups {
 			//
 			Point sphere1Center = new Point(-0.4, 1, 0.4, Point.Space.WORLD);
 			double sphere1Radius = 0.755;
-			MyColor basecColorS1 = new MyColor(22, 183, 187, false).normalize();
-			MyColor diffuseColorS1 = new MyColor(36, 199, 203, false).normalize();
-			MyColor specColorS1 = new MyColor(123, 226, 236, false).normalize();
+			Irradiance basecColorS1 = new Irradiance(22, 183, 187, false).normalize();
+			Irradiance diffuseColorS1 = new Irradiance(36, 199, 203, false).normalize();
+			Irradiance specColorS1 = new Irradiance(123, 226, 236, false).normalize();
 
 			Sphere sphere1 = new Sphere(sphere1Center, sphere1Radius, basecColorS1);
 			sphere1.setColors(basecColorS1, specColorS1, diffuseColorS1);
@@ -388,9 +388,9 @@ public class Setups {
 			//
 			Point sphere2Center = new Point(0.6, 0.8, -0.6, Point.Space.WORLD);
 			double sphere2Radius = 0.6;
-			MyColor basecColorS2 = new MyColor(22, 183, 187, false).normalize();
-			MyColor diffuseColorS2 = new MyColor(36, 199, 203, false).normalize();
-			MyColor specColorS2 = new MyColor(123, 226, 236, false).normalize();
+			Irradiance basecColorS2 = new Irradiance(22, 183, 187, false).normalize();
+			Irradiance diffuseColorS2 = new Irradiance(36, 199, 203, false).normalize();
+			Irradiance specColorS2 = new Irradiance(123, 226, 236, false).normalize();
 
 			Sphere sphere2 = new Sphere(sphere2Center, sphere2Radius, basecColorS2);
 			sphere2.setColors(basecColorS2, specColorS2, diffuseColorS2);
@@ -406,7 +406,7 @@ public class Setups {
 					new Point(1.5, 0, -1.5, Point.Space.WORLD),
 					new Point(-1.5, 0, 1.5, Point.Space.WORLD)
 			};
-			MyColor triangle1Color = new MyColor(238, 50, 51, false).normalize();
+			Irradiance triangle1Color = new Irradiance(238, 50, 51, false).normalize();
 			Triangle triangle1 = new Triangle(triangle1Color, triangle1Position, t1Vertices);
 			triangle1.setCoeffs(0.3, 0.4, 0.3, 180);
 
@@ -421,7 +421,7 @@ public class Setups {
 					new Point(1.5, 0, -1.5, Point.Space.WORLD),
 					new Point(-1.5, 0, -1.5, Point.Space.WORLD)
 			};
-			MyColor t2Color = new MyColor(238, 50, 51, false).normalize();
+			Irradiance t2Color = new Irradiance(238, 50, 51, false).normalize();
 			Triangle triangle2 = new Triangle(t2Color, t2Position, t2Vertices);
 			triangle2.setCoeffs(0.3, 0.4, 0.2, 180);
 			application.getWorld().addEntity(triangle2);
@@ -447,10 +447,10 @@ public class Setups {
 			//
 			// Light
 			//
-			Light light1 = new Light(new MyColor(1, 1, 1, true), new Point(0, 5, 0, Point.Space.WORLD), 0.55);
+			Light light1 = new Light(new Irradiance(1, 1, 1, true), new Point(0, 5, 0, Point.Space.WORLD), 0.55);
 			application.getWorld().addLightSource(light1);
 
-			Light light2 = new Light(new MyColor(1, 1, 1, true), new Point(2, 5, 5, Point.Space.WORLD), 0.55);
+			Light light2 = new Light(new Irradiance(1, 1, 1, true), new Point(2, 5, 5, Point.Space.WORLD), 0.55);
 			application.getWorld().addLightSource(light2);
 
 			// ================================================================
@@ -462,9 +462,9 @@ public class Setups {
 			//
 			Point sphere1Center = new Point(-0.4, 1, 0.4, Point.Space.WORLD);
 			double sphere1Radius = 0.755;
-			MyColor basecColorS1 = new MyColor(22, 183, 187, false).normalize();
-			MyColor diffuseColorS1 = new MyColor(36, 199, 203, false).normalize();
-			MyColor specColorS1 = new MyColor(123, 226, 236, false).normalize();
+			Irradiance basecColorS1 = new Irradiance(22, 183, 187, false).normalize();
+			Irradiance diffuseColorS1 = new Irradiance(36, 199, 203, false).normalize();
+			Irradiance specColorS1 = new Irradiance(123, 226, 236, false).normalize();
 
 			Sphere sphere1 = new Sphere(sphere1Center, sphere1Radius, basecColorS1);
 			sphere1.setColors(basecColorS1, specColorS1, diffuseColorS1);
@@ -476,9 +476,9 @@ public class Setups {
 			//
 			Point sphere2Center = new Point(0.6, 0.8, -0.6, Point.Space.WORLD);
 			double sphere2Radius = 0.6;
-			MyColor basecColorS2 = new MyColor(22, 183, 187, false).normalize();
-			MyColor diffuseColorS2 = new MyColor(36, 199, 203, false).normalize();
-			MyColor specColorS2 = new MyColor(123, 226, 236, false).normalize();
+			Irradiance basecColorS2 = new Irradiance(22, 183, 187, false).normalize();
+			Irradiance diffuseColorS2 = new Irradiance(36, 199, 203, false).normalize();
+			Irradiance specColorS2 = new Irradiance(123, 226, 236, false).normalize();
 
 			Sphere sphere2 = new Sphere(sphere2Center, sphere2Radius, basecColorS2);
 			sphere2.setColors(basecColorS2, specColorS2, diffuseColorS2);
@@ -494,7 +494,7 @@ public class Setups {
 					new Point(1.5, 0, -1.5, Point.Space.WORLD),
 					new Point(-1.5, 0, 1.5, Point.Space.WORLD)
 			};
-			MyColor triangle1Color = new MyColor(238, 50, 51, false).normalize();
+			Irradiance triangle1Color = new Irradiance(238, 50, 51, false).normalize();
 			Triangle triangle1 = new Triangle(triangle1Color, triangle1Position, t1Vertices);
 			triangle1.setCoeffs(0.3, 0.4, 0.3, 180);
 
@@ -509,7 +509,7 @@ public class Setups {
 					new Point(1.5, 0, -1.5, Point.Space.WORLD),
 					new Point(-1.5, 0, -1.5, Point.Space.WORLD)
 			};
-			MyColor t2Color = new MyColor(238, 50, 51, false).normalize();
+			Irradiance t2Color = new Irradiance(238, 50, 51, false).normalize();
 			Triangle triangle2 = new Triangle(t2Color, t2Position, t2Vertices);
 			triangle2.setCoeffs(0.3, 0.4, 0.2, 180);
 			application.getWorld().addEntity(triangle2);
@@ -535,13 +535,13 @@ public class Setups {
 			//
 			// Light
 			//
-			Light light1 = new Light(new MyColor(1, 1, 1, true), new Point(-2, 5, -5, Point.Space.WORLD), 0.65);
+			Light light1 = new Light(new Irradiance(1, 1, 1, true), new Point(-2, 5, -5, Point.Space.WORLD), 0.65);
 			application.getWorld().addLightSource(light1);
 
-			Light light2 = new Light(new MyColor(1, 1, 1, true), new Point(2, 5, 5, Point.Space.WORLD), 0.65);
+			Light light2 = new Light(new Irradiance(1, 1, 1, true), new Point(2, 5, 5, Point.Space.WORLD), 0.65);
 			application.getWorld().addLightSource(light2);
 
-			Light light3 = new Light(new MyColor(1, 1, 1, true), new Point(5, 4, -3, Point.Space.WORLD), 0.65);
+			Light light3 = new Light(new Irradiance(1, 1, 1, true), new Point(5, 4, -3, Point.Space.WORLD), 0.65);
 			application.getWorld().addLightSource(light3);
 
 			// ================================================================
@@ -553,9 +553,9 @@ public class Setups {
 			//
 			Point sphere1Center = new Point(-0.4, 1, 0, Point.Space.WORLD);
 			double sphere1Radius = 0.755;
-			MyColor basecColorS1 = new MyColor(0, 0, 0, false).normalize();
-			MyColor diffuseColorS1 = new MyColor(0, 0, 0, false).normalize();
-			MyColor specColorS1 = new MyColor(0, 0, 0, false).normalize();
+			Irradiance basecColorS1 = new Irradiance(0, 0, 0, false).normalize();
+			Irradiance diffuseColorS1 = new Irradiance(0, 0, 0, false).normalize();
+			Irradiance specColorS1 = new Irradiance(0, 0, 0, false).normalize();
 
 			Sphere sphere1 = new Sphere(sphere1Center, sphere1Radius, basecColorS1);
 			sphere1.setColors(basecColorS1, specColorS1, diffuseColorS1);
@@ -569,9 +569,9 @@ public class Setups {
 			//
 			Point sphere2Center = new Point(0.85, 0.8, -0.8, Point.Space.WORLD);
 			double sphere2Radius = 0.6;
-			MyColor basecColorS2 = new MyColor(22, 183, 187, false).normalize();
-			MyColor diffuseColorS2 = new MyColor(36, 199, 203, false).normalize();
-			MyColor specColorS2 = new MyColor(123, 226, 236, false).normalize();
+			Irradiance basecColorS2 = new Irradiance(22, 183, 187, false).normalize();
+			Irradiance diffuseColorS2 = new Irradiance(36, 199, 203, false).normalize();
+			Irradiance specColorS2 = new Irradiance(123, 226, 236, false).normalize();
 
 			Sphere sphere2 = new Sphere(sphere2Center, sphere2Radius, basecColorS2);
 			sphere2.setColors(basecColorS2, specColorS2, diffuseColorS2);
@@ -589,7 +589,7 @@ public class Setups {
 					new Point(sideLength, 0, -sideLength, Point.Space.WORLD),
 					new Point(-sideLength, 0, sideLength, Point.Space.WORLD)
 			};
-			MyColor triangle1Color = new MyColor(238, 50, 51, false).normalize();
+			Irradiance triangle1Color = new Irradiance(238, 50, 51, false).normalize();
 			Triangle triangle1 = new Triangle(triangle1Color, triangle1Position, t1Vertices);
 			triangle1.setCoeffs(0.3, 0.4, 0.3, 180);
 			triangle1.setHasTexture(true);
@@ -605,7 +605,7 @@ public class Setups {
 					new Point(sideLength, 0, -sideLength, Point.Space.WORLD),
 					new Point(-sideLength, 0, -sideLength, Point.Space.WORLD)
 			};
-			MyColor t2Color = new MyColor(238, 50, 51, false).normalize();
+			Irradiance t2Color = new Irradiance(238, 50, 51, false).normalize();
 			Triangle triangle2 = new Triangle(t2Color, t2Position, t2Vertices);
 			triangle2.setCoeffs(0.3, 0.4, 0.2, 180);
 			triangle2.setHasTexture(true);
@@ -630,10 +630,10 @@ public class Setups {
 			//
 			// Light
 			//
-			Light light1 = new Light(new MyColor(1, 1, 1, true), new Point(0, 5, 0, Point.Space.WORLD), 0.65);
+			Light light1 = new Light(new Irradiance(1, 1, 1, true), new Point(0, 5, 0, Point.Space.WORLD), 0.65);
 			// application.getWorld().addLightSource(light1);
 
-			Light light2 = new Light(new MyColor(1, 1, 1, true), new Point(2, 5, 5, Point.Space.WORLD), 0.65);
+			Light light2 = new Light(new Irradiance(1, 1, 1, true), new Point(2, 5, 5, Point.Space.WORLD), 0.65);
 			application.getWorld().addLightSource(light2);
 
 			// ================================================================
@@ -645,9 +645,9 @@ public class Setups {
 			//
 			Point sphere1Center = new Point(0, 1, 0, Point.Space.WORLD);
 			double sphere1Radius = 0.755;
-			MyColor basecColorS1 = new MyColor(22, 183, 187, false).normalize();
-			MyColor diffuseColorS1 = new MyColor(36, 199, 203, false).normalize();
-			MyColor specColorS1 = new MyColor(123, 226, 236, false).normalize();
+			Irradiance basecColorS1 = new Irradiance(22, 183, 187, false).normalize();
+			Irradiance diffuseColorS1 = new Irradiance(36, 199, 203, false).normalize();
+			Irradiance specColorS1 = new Irradiance(123, 226, 236, false).normalize();
 
 			Sphere sphere1 = new Sphere(sphere1Center, sphere1Radius, basecColorS1);
 			sphere1.setColors(basecColorS1, specColorS1, diffuseColorS1);
@@ -661,9 +661,9 @@ public class Setups {
 			//
 			Point sphere2Center = new Point(0.6, 0.8, -0.6, Point.Space.WORLD);
 			double sphere2Radius = 0.5;
-			MyColor basecColorS2 = new MyColor(22, 183, 187, false).normalize();
-			MyColor diffuseColorS2 = new MyColor(36, 199, 203, false).normalize();
-			MyColor specColorS2 = new MyColor(123, 226, 236, false).normalize();
+			Irradiance basecColorS2 = new Irradiance(22, 183, 187, false).normalize();
+			Irradiance diffuseColorS2 = new Irradiance(36, 199, 203, false).normalize();
+			Irradiance specColorS2 = new Irradiance(123, 226, 236, false).normalize();
 
 			Sphere sphere2 = new Sphere(sphere2Center, sphere2Radius, basecColorS2);
 			sphere2.setColors(basecColorS2, specColorS2, diffuseColorS2);
@@ -681,7 +681,7 @@ public class Setups {
 					new Point(sidelen, 0, -sidelen, Point.Space.WORLD),
 					new Point(-sidelen, 0, sidelen, Point.Space.WORLD)
 			};
-			MyColor triangle1Color = new MyColor(238, 50, 51, false).normalize();
+			Irradiance triangle1Color = new Irradiance(238, 50, 51, false).normalize();
 			Triangle triangle1 = new Triangle(triangle1Color, triangle1Position, t1Vertices);
 			triangle1.setCoeffs(0.3, 0.4, 0.3, 180);
 			triangle1.setHasTexture(true);
@@ -697,7 +697,7 @@ public class Setups {
 					new Point(sidelen, 0, -sidelen, Point.Space.WORLD),
 					new Point(-sidelen, 0, -sidelen, Point.Space.WORLD)
 			};
-			MyColor t2Color = new MyColor(238, 50, 51, false).normalize();
+			Irradiance t2Color = new Irradiance(238, 50, 51, false).normalize();
 			Triangle triangle2 = new Triangle(t2Color, t2Position, t2Vertices);
 			triangle2.setCoeffs(0.3, 0.4, 0.2, 180);
 			triangle2.setHasTexture(true);
@@ -722,10 +722,10 @@ public class Setups {
 			//
 			// Light
 			//
-			Light light1 = new Light(new MyColor(1, 1, 1, true), new Point(0, 5, 0, Point.Space.WORLD), 0.65);
+			Light light1 = new Light(new Irradiance(1, 1, 1, true), new Point(0, 5, 0, Point.Space.WORLD), 0.65);
 			// application.getWorld().addLightSource(light1);
 
-			Light light2 = new Light(new MyColor(1, 1, 1, true), new Point(2, 5, 5, Point.Space.WORLD), 0.65);
+			Light light2 = new Light(new Irradiance(1, 1, 1, true), new Point(2, 5, 5, Point.Space.WORLD), 0.65);
 			application.getWorld().addLightSource(light2);
 
 			// ================================================================
@@ -737,9 +737,9 @@ public class Setups {
 			//
 			Point sphere1Center = new Point(0, 0, 0, Point.Space.WORLD);
 			double sphere1Radius = 1;
-			MyColor basecColorS1 = new MyColor(22, 183, 187, false).normalize();
-			MyColor diffuseColorS1 = new MyColor(36, 199, 203, false).normalize();
-			MyColor specColorS1 = new MyColor(123, 226, 236, false).normalize();
+			Irradiance basecColorS1 = new Irradiance(22, 183, 187, false).normalize();
+			Irradiance diffuseColorS1 = new Irradiance(36, 199, 203, false).normalize();
+			Irradiance specColorS1 = new Irradiance(123, 226, 236, false).normalize();
 
 			Sphere sphere1 = new Sphere(sphere1Center, sphere1Radius, basecColorS1);
 			sphere1.setColors(basecColorS1, specColorS1, diffuseColorS1);
@@ -753,9 +753,9 @@ public class Setups {
 			//
 			Point sphere2Center = new Point(0.6, 0.8, -0.6, Point.Space.WORLD);
 			double sphere2Radius = 0.5;
-			MyColor basecColorS2 = new MyColor(22, 183, 187, false).normalize();
-			MyColor diffuseColorS2 = new MyColor(36, 199, 203, false).normalize();
-			MyColor specColorS2 = new MyColor(123, 226, 236, false).normalize();
+			Irradiance basecColorS2 = new Irradiance(22, 183, 187, false).normalize();
+			Irradiance diffuseColorS2 = new Irradiance(36, 199, 203, false).normalize();
+			Irradiance specColorS2 = new Irradiance(123, 226, 236, false).normalize();
 
 			Sphere sphere2 = new Sphere(sphere2Center, sphere2Radius, basecColorS2);
 			sphere2.setColors(basecColorS2, specColorS2, diffuseColorS2);
@@ -773,7 +773,7 @@ public class Setups {
 					new Point(sidelen, 0, -sidelen, Point.Space.WORLD),
 					new Point(-sidelen, 0, sidelen, Point.Space.WORLD)
 			};
-			MyColor triangle1Color = new MyColor(238, 50, 51, false).normalize();
+			Irradiance triangle1Color = new Irradiance(238, 50, 51, false).normalize();
 			Triangle triangle1 = new Triangle(triangle1Color, triangle1Position, t1Vertices);
 			triangle1.setCoeffs(0.3, 0.4, 0.3, 180);
 			triangle1.setHasTexture(true);
@@ -789,7 +789,7 @@ public class Setups {
 					new Point(sidelen, 0, -sidelen, Point.Space.WORLD),
 					new Point(-sidelen, 0, -sidelen, Point.Space.WORLD)
 			};
-			MyColor t2Color = new MyColor(238, 50, 51, false).normalize();
+			Irradiance t2Color = new Irradiance(238, 50, 51, false).normalize();
 			Triangle triangle2 = new Triangle(t2Color, t2Position, t2Vertices);
 			triangle2.setCoeffs(0.3, 0.4, 0.2, 180);
 			triangle2.setHasTexture(true);
@@ -817,11 +817,11 @@ public class Setups {
 			//
 			// Light
 			//
-			Light light1 = new Light(new MyColor(1, 1, 1, true), new Point(0, 5, 0, Point.Space.WORLD),
+			Light light1 = new Light(new Irradiance(1, 1, 1, true), new Point(0, 5, 0, Point.Space.WORLD),
 					0.55);
 			application.getWorld().addLightSource(light1);
 
-			Light light2 = new Light(new MyColor(1, 1, 1, true), new Point(2, 5, 5, Point.Space.WORLD),
+			Light light2 = new Light(new Irradiance(1, 1, 1, true), new Point(2, 5, 5, Point.Space.WORLD),
 					0.55);
 			application.getWorld().addLightSource(light2);
 
@@ -834,9 +834,9 @@ public class Setups {
 			//
 			Point sphere1Center = new Point(-0.4, 1, 0.4, Point.Space.WORLD);
 			double sphere1Radius = 0.755;
-			MyColor basecColorS1 = new MyColor(22, 183, 187, false).normalize();
-			MyColor diffuseColorS1 = new MyColor(36, 199, 203, false).normalize();
-			MyColor specColorS1 = new MyColor(123, 226, 236, false).normalize();
+			Irradiance basecColorS1 = new Irradiance(22, 183, 187, false).normalize();
+			Irradiance diffuseColorS1 = new Irradiance(36, 199, 203, false).normalize();
+			Irradiance specColorS1 = new Irradiance(123, 226, 236, false).normalize();
 
 			Sphere sphere1 = new Sphere(sphere1Center, sphere1Radius, basecColorS1);
 			sphere1.setColors(basecColorS1, specColorS1, diffuseColorS1);
@@ -848,9 +848,9 @@ public class Setups {
 			//
 			Point sphere2Center = new Point(0.6, 0.8, -0.6, Point.Space.WORLD);
 			double sphere2Radius = 0.6;
-			MyColor basecColorS2 = new MyColor(22, 183, 187, false).normalize();
-			MyColor diffuseColorS2 = new MyColor(36, 199, 203, false).normalize();
-			MyColor specColorS2 = new MyColor(123, 226, 236, false).normalize();
+			Irradiance basecColorS2 = new Irradiance(22, 183, 187, false).normalize();
+			Irradiance diffuseColorS2 = new Irradiance(36, 199, 203, false).normalize();
+			Irradiance specColorS2 = new Irradiance(123, 226, 236, false).normalize();
 
 			Sphere sphere2 = new Sphere(sphere2Center, sphere2Radius, basecColorS2);
 			sphere2.setColors(basecColorS2, specColorS2, diffuseColorS2);
@@ -866,7 +866,7 @@ public class Setups {
 					new Point(1.5, 0, -1.5, Point.Space.WORLD),
 					new Point(-1.5, 0, 1.5, Point.Space.WORLD)
 			};
-			MyColor triangle1Color = new MyColor(238, 50, 51, false).normalize();
+			Irradiance triangle1Color = new Irradiance(238, 50, 51, false).normalize();
 			Triangle triangle1 = new Triangle(triangle1Color, triangle1Position, t1Vertices);
 			triangle1.setCoeffs(0.3, 0.4, 0.3, 180);
 
@@ -881,7 +881,7 @@ public class Setups {
 					new Point(1.5, 0, -1.5, Point.Space.WORLD),
 					new Point(-1.5, 0, -1.5, Point.Space.WORLD)
 			};
-			MyColor t2Color = new MyColor(238, 50, 51, false).normalize();
+			Irradiance t2Color = new Irradiance(238, 50, 51, false).normalize();
 			Triangle triangle2 = new Triangle(t2Color, t2Position, t2Vertices);
 			triangle2.setCoeffs(0.3, 0.4, 0.2, 180);
 			application.getWorld().addEntity(triangle2);
@@ -906,11 +906,11 @@ public class Setups {
 			//
 			// Light
 			//
-			Light light1 = new Light(new MyColor(1, 1, 1, true), new Point(0, 5, 0, Point.Space.WORLD),
+			Light light1 = new Light(new Irradiance(1, 1, 1, true), new Point(0, 5, 0, Point.Space.WORLD),
 					0.35);
 			application.getWorld().addLightSource(light1);
 
-			Light light2 = new Light(new MyColor(1, 1, 1, true), new Point(2, 5, 5, Point.Space.WORLD),
+			Light light2 = new Light(new Irradiance(1, 1, 1, true), new Point(2, 5, 5, Point.Space.WORLD),
 					0.35);
 			application.getWorld().addLightSource(light2);
 
@@ -955,7 +955,7 @@ public class Setups {
 			//
 			// Light
 			//
-			Light light1 = new Light(new MyColor(1, 1, 1, true), new Point(4, 1, 6, Point.Space.WORLD),
+			Light light1 = new Light(new Irradiance(1, 1, 1, true), new Point(4, 1, 6, Point.Space.WORLD),
 					0.55);
 			application.getWorld().addLightSource(light1);
 
@@ -973,9 +973,9 @@ public class Setups {
 			//
 			Point sphere1Center = new Point(0, 0, 0, Point.Space.WORLD);
 			double sphere1Radius = 1;
-			MyColor basecColorS1 = new MyColor(22, 183, 187, false).normalize();
-			MyColor diffuseColorS1 = new MyColor(36, 199, 203, false).normalize();
-			MyColor specColorS1 = new MyColor(123, 226, 236, false).normalize();
+			Irradiance basecColorS1 = new Irradiance(22, 183, 187, false).normalize();
+			Irradiance diffuseColorS1 = new Irradiance(36, 199, 203, false).normalize();
+			Irradiance specColorS1 = new Irradiance(123, 226, 236, false).normalize();
 
 			Sphere sphere1 = new Sphere(sphere1Center, sphere1Radius, basecColorS1);
 			sphere1.setColors(basecColorS1, specColorS1, diffuseColorS1);
@@ -987,9 +987,9 @@ public class Setups {
 			//
 			Point sphere2Center = new Point(3, 0, 0, Point.Space.WORLD);
 			double sphere2Radius = 1;
-			MyColor basecColorS2 = new MyColor(22, 183, 187, false).normalize();
-			MyColor diffuseColorS2 = new MyColor(36, 199, 203, false).normalize();
-			MyColor specColorS2 = new MyColor(123, 226, 236, false).normalize();
+			Irradiance basecColorS2 = new Irradiance(22, 183, 187, false).normalize();
+			Irradiance diffuseColorS2 = new Irradiance(36, 199, 203, false).normalize();
+			Irradiance specColorS2 = new Irradiance(123, 226, 236, false).normalize();
 
 			Sphere sphere2 = new Sphere(sphere2Center, sphere2Radius, basecColorS2);
 			sphere2.setColors(basecColorS2, specColorS2, diffuseColorS2);
@@ -1001,9 +1001,9 @@ public class Setups {
 			//
 			Point sphere3Center = new Point(0, 3, 0, Point.Space.WORLD);
 			double sphere3Radius = 1;
-			MyColor basecColorS3 = new MyColor(22, 183, 187, false).normalize();
-			MyColor diffuseColorS3 = new MyColor(36, 199, 203, false).normalize();
-			MyColor specColorS3 = new MyColor(123, 226, 236, false).normalize();
+			Irradiance basecColorS3 = new Irradiance(22, 183, 187, false).normalize();
+			Irradiance diffuseColorS3 = new Irradiance(36, 199, 203, false).normalize();
+			Irradiance specColorS3 = new Irradiance(123, 226, 236, false).normalize();
 
 			Sphere sphere3 = new Sphere(sphere3Center, sphere3Radius, basecColorS3);
 			sphere3.setColors(basecColorS1, specColorS3, diffuseColorS3);
@@ -1015,9 +1015,9 @@ public class Setups {
 			//
 			Point sphere4Center = new Point(3, 3, 0, Point.Space.WORLD);
 			double sphere4Radius = 1;
-			MyColor basecColorS4 = new MyColor(22, 183, 187, false).normalize();
-			MyColor diffuseColorS4 = new MyColor(36, 199, 203, false).normalize();
-			MyColor specColorS4 = new MyColor(123, 226, 236, false).normalize();
+			Irradiance basecColorS4 = new Irradiance(22, 183, 187, false).normalize();
+			Irradiance diffuseColorS4 = new Irradiance(36, 199, 203, false).normalize();
+			Irradiance specColorS4 = new Irradiance(123, 226, 236, false).normalize();
 
 			Sphere sphere4 = new Sphere(sphere4Center, sphere4Radius, basecColorS4);
 			sphere4.setColors(basecColorS2, specColorS4, diffuseColorS4);
@@ -1045,7 +1045,7 @@ public class Setups {
 			//
 			// Light
 			//
-			Light light1 = new Light(new MyColor(1, 1, 1, true), new Point(4, 1, 6, Point.Space.WORLD),
+			Light light1 = new Light(new Irradiance(1, 1, 1, true), new Point(4, 1, 6, Point.Space.WORLD),
 					0.55);
 			application.getWorld().addLightSource(light1);
 
@@ -1063,9 +1063,9 @@ public class Setups {
 			//
 			Point sphere1Center = new Point(0, 0, 0, Point.Space.WORLD);
 			double sphere1Radius = 1;
-			MyColor basecColorS1 = new MyColor(22, 183, 187, false).normalize();
-			MyColor diffuseColorS1 = new MyColor(36, 199, 203, false).normalize();
-			MyColor specColorS1 = new MyColor(123, 226, 236, false).normalize();
+			Irradiance basecColorS1 = new Irradiance(22, 183, 187, false).normalize();
+			Irradiance diffuseColorS1 = new Irradiance(36, 199, 203, false).normalize();
+			Irradiance specColorS1 = new Irradiance(123, 226, 236, false).normalize();
 
 			Sphere sphere1 = new Sphere(sphere1Center, sphere1Radius, basecColorS1);
 			sphere1.setColors(basecColorS1, specColorS1, diffuseColorS1);
@@ -1077,9 +1077,9 @@ public class Setups {
 			//
 			Point sphere2Center = new Point(3, 0, 0, Point.Space.WORLD);
 			double sphere2Radius = 1;
-			MyColor basecColorS2 = new MyColor(22, 183, 187, false).normalize();
-			MyColor diffuseColorS2 = new MyColor(36, 199, 203, false).normalize();
-			MyColor specColorS2 = new MyColor(123, 226, 236, false).normalize();
+			Irradiance basecColorS2 = new Irradiance(22, 183, 187, false).normalize();
+			Irradiance diffuseColorS2 = new Irradiance(36, 199, 203, false).normalize();
+			Irradiance specColorS2 = new Irradiance(123, 226, 236, false).normalize();
 
 			Sphere sphere2 = new Sphere(sphere2Center, sphere2Radius, basecColorS2);
 			sphere2.setColors(basecColorS2, specColorS2, diffuseColorS2);
@@ -1091,9 +1091,9 @@ public class Setups {
 			//
 			Point sphere3Center = new Point(0, 0, 3, Point.Space.WORLD);
 			double sphere3Radius = 1;
-			MyColor basecColorS3 = new MyColor(22, 183, 187, false).normalize();
-			MyColor diffuseColorS3 = new MyColor(36, 199, 203, false).normalize();
-			MyColor specColorS3 = new MyColor(123, 226, 236, false).normalize();
+			Irradiance basecColorS3 = new Irradiance(22, 183, 187, false).normalize();
+			Irradiance diffuseColorS3 = new Irradiance(36, 199, 203, false).normalize();
+			Irradiance specColorS3 = new Irradiance(123, 226, 236, false).normalize();
 
 			Sphere sphere3 = new Sphere(sphere3Center, sphere3Radius, basecColorS3);
 			sphere3.setColors(basecColorS1, specColorS3, diffuseColorS3);
@@ -1105,9 +1105,9 @@ public class Setups {
 			//
 			Point sphere4Center = new Point(3, 0, 3, Point.Space.WORLD);
 			double sphere4Radius = 1;
-			MyColor basecColorS4 = new MyColor(22, 183, 187, false).normalize();
-			MyColor diffuseColorS4 = new MyColor(36, 199, 203, false).normalize();
-			MyColor specColorS4 = new MyColor(123, 226, 236, false).normalize();
+			Irradiance basecColorS4 = new Irradiance(22, 183, 187, false).normalize();
+			Irradiance diffuseColorS4 = new Irradiance(36, 199, 203, false).normalize();
+			Irradiance specColorS4 = new Irradiance(123, 226, 236, false).normalize();
 
 			Sphere sphere4 = new Sphere(sphere4Center, sphere4Radius, basecColorS4);
 			sphere4.setColors(basecColorS2, specColorS4, diffuseColorS4);
@@ -1135,7 +1135,7 @@ public class Setups {
 			//
 			// Light
 			//
-			Light light1 = new Light(new MyColor(1, 1, 1, true), new Point(4, 1, 6, Point.Space.WORLD),
+			Light light1 = new Light(new Irradiance(1, 1, 1, true), new Point(4, 1, 6, Point.Space.WORLD),
 					0.55);
 			application.getWorld().addLightSource(light1);
 
@@ -1153,9 +1153,9 @@ public class Setups {
 			//
 			Point sphere1Center = new Point(0, 0, 0, Point.Space.WORLD);
 			double sphere1Radius = 1;
-			MyColor basecColorS1 = new MyColor(22, 183, 187, false).normalize();
-			MyColor diffuseColorS1 = new MyColor(36, 199, 203, false).normalize();
-			MyColor specColorS1 = new MyColor(123, 226, 236, false).normalize();
+			Irradiance basecColorS1 = new Irradiance(22, 183, 187, false).normalize();
+			Irradiance diffuseColorS1 = new Irradiance(36, 199, 203, false).normalize();
+			Irradiance specColorS1 = new Irradiance(123, 226, 236, false).normalize();
 
 			Sphere sphere1 = new Sphere(sphere1Center, sphere1Radius, basecColorS1);
 			sphere1.setColors(basecColorS1, specColorS1, diffuseColorS1);
@@ -1167,9 +1167,9 @@ public class Setups {
 			//
 			Point sphere2Center = new Point(2, 0.5, 1.5, Point.Space.WORLD);
 			double sphere2Radius = 1;
-			MyColor basecColorS2 = new MyColor(22, 183, 187, false).normalize();
-			MyColor diffuseColorS2 = new MyColor(36, 199, 203, false).normalize();
-			MyColor specColorS2 = new MyColor(123, 226, 236, false).normalize();
+			Irradiance basecColorS2 = new Irradiance(22, 183, 187, false).normalize();
+			Irradiance diffuseColorS2 = new Irradiance(36, 199, 203, false).normalize();
+			Irradiance specColorS2 = new Irradiance(123, 226, 236, false).normalize();
 
 			Sphere sphere2 = new Sphere(sphere2Center, sphere2Radius, basecColorS2);
 			sphere2.setColors(basecColorS2, specColorS2, diffuseColorS2);
@@ -1197,7 +1197,7 @@ public class Setups {
 			//
 			// Light
 			//
-			Light light1 = new Light(new MyColor(1, 1, 1, true), new Point(4, 1, 6, Point.Space.WORLD),
+			Light light1 = new Light(new Irradiance(1, 1, 1, true), new Point(4, 1, 6, Point.Space.WORLD),
 					0.55);
 			application.getWorld().addLightSource(light1);
 
@@ -1215,9 +1215,9 @@ public class Setups {
 			//
 			Point sphere1Center = new Point(0, 0, 0, Point.Space.WORLD);
 			double sphere1Radius = 1;
-			MyColor basecColorS1 = new MyColor(22, 183, 187, false).normalize();
-			MyColor diffuseColorS1 = new MyColor(36, 199, 203, false).normalize();
-			MyColor specColorS1 = new MyColor(123, 226, 236, false).normalize();
+			Irradiance basecColorS1 = new Irradiance(22, 183, 187, false).normalize();
+			Irradiance diffuseColorS1 = new Irradiance(36, 199, 203, false).normalize();
+			Irradiance specColorS1 = new Irradiance(123, 226, 236, false).normalize();
 
 			Sphere sphere1 = new Sphere(sphere1Center, sphere1Radius, basecColorS1);
 			sphere1.setColors(basecColorS1, specColorS1, diffuseColorS1);
@@ -1229,9 +1229,9 @@ public class Setups {
 			//
 			Point sphere2Center = new Point(2.5, 0, 0, Point.Space.WORLD);
 			double sphere2Radius = 1;
-			MyColor basecColorS2 = new MyColor(22, 183, 187, false).normalize();
-			MyColor diffuseColorS2 = new MyColor(36, 199, 203, false).normalize();
-			MyColor specColorS2 = new MyColor(123, 226, 236, false).normalize();
+			Irradiance basecColorS2 = new Irradiance(22, 183, 187, false).normalize();
+			Irradiance diffuseColorS2 = new Irradiance(36, 199, 203, false).normalize();
+			Irradiance specColorS2 = new Irradiance(123, 226, 236, false).normalize();
 
 			Sphere sphere2 = new Sphere(sphere2Center, sphere2Radius, basecColorS2);
 			sphere2.setColors(basecColorS2, specColorS2, diffuseColorS2);
@@ -1259,7 +1259,7 @@ public class Setups {
 			// ================================================================
 			// Light
 			// ================================================================
-			Light light1 = new Light(new MyColor(1, 1, 1, true), new Point(7, 7, -6, Point.Space.WORLD),
+			Light light1 = new Light(new Irradiance(1, 1, 1, true), new Point(7, 7, -6, Point.Space.WORLD),
 					0.55);
 			application.getWorld().addLightSource(light1);
 
@@ -1275,9 +1275,9 @@ public class Setups {
 		}
 
 		private static void sphereCube(Application application, int sideLen) {
-			MyColor basecColor = new MyColor(22, 183, 187, false).normalize();
-			MyColor diffuseColor = new MyColor(36, 199, 203, false).normalize();
-			MyColor specColor = new MyColor(123, 226, 236, false).normalize();
+			Irradiance basecColor = new Irradiance(22, 183, 187, false).normalize();
+			Irradiance diffuseColor = new Irradiance(36, 199, 203, false).normalize();
+			Irradiance specColor = new Irradiance(123, 226, 236, false).normalize();
 			double gap = 0.5;
 			double sphereRadius = 0.5;
 			for (int i = -sideLen / 2; i < sideLen / 2; i++) {
@@ -1319,7 +1319,7 @@ public class Setups {
 			//
 			// Light
 			//
-			Light light1 = new Light(new MyColor(1, 1, 1, true), new Point(7, 7, -6, Point.Space.WORLD),
+			Light light1 = new Light(new Irradiance(1, 1, 1, true), new Point(7, 7, -6, Point.Space.WORLD),
 					0.55);
 			application.getWorld().addLightSource(light1);
 
@@ -1341,9 +1341,9 @@ public class Setups {
 			for (int i = -sideLen / 2; i < sideLen / 2; i++) {
 				for (int j = -sideLen / 2; j < sideLen / 2; j++) {
 					for (int k = -sideLen / 2; k < sideLen / 2; k++) {
-						MyColor basecColor = new MyColor(22 * k / 10, 183 * k / 10, 187 * k / 10, false).normalize();
-						MyColor diffuseColor = new MyColor(36 * k / 10, 199 * k / 10, 203 * k / 10, false).normalize();
-						MyColor specColor = new MyColor(123 * k / 10, 226 * k / 10, 236 * k / 10, false).normalize();
+						Irradiance basecColor = new Irradiance(22 * k / 10, 183 * k / 10, 187 * k / 10, false).normalize();
+						Irradiance diffuseColor = new Irradiance(36 * k / 10, 199 * k / 10, 203 * k / 10, false).normalize();
+						Irradiance specColor = new Irradiance(123 * k / 10, 226 * k / 10, 236 * k / 10, false).normalize();
 
 						double x = i * (gap + triangleSide);
 						double y = j * (gap + triangleSide);
@@ -1381,10 +1381,10 @@ public class Setups {
 			//
 			// Light
 			//
-			Light light1 = new Light(new MyColor(1, 1, 1, true), new Point(0, 5, 0, Point.Space.WORLD), 0.55);
+			Light light1 = new Light(new Irradiance(1, 1, 1, true), new Point(0, 5, 0, Point.Space.WORLD), 0.55);
 			application.getWorld().addLightSource(light1);
 
-			Light light2 = new Light(new MyColor(1, 1, 1, true), new Point(2, 5, 5, Point.Space.WORLD), 0.55);
+			Light light2 = new Light(new Irradiance(1, 1, 1, true), new Point(2, 5, 5, Point.Space.WORLD), 0.55);
 			application.getWorld().addLightSource(light2);
 
 			//
@@ -1392,9 +1392,9 @@ public class Setups {
 			//
 			Point sphere1Center = new Point(-0.4, 1, 0.4, Point.Space.WORLD);
 			double sphere1Radius = 0.755;
-			MyColor basecColorS1 = new MyColor(22, 183, 187, false).normalize();
-			MyColor diffuseColorS1 = new MyColor(36, 199, 203, false).normalize();
-			MyColor specColorS1 = new MyColor(123, 226, 236, false).normalize();
+			Irradiance basecColorS1 = new Irradiance(22, 183, 187, false).normalize();
+			Irradiance diffuseColorS1 = new Irradiance(36, 199, 203, false).normalize();
+			Irradiance specColorS1 = new Irradiance(123, 226, 236, false).normalize();
 
 			Sphere sphere1 = new Sphere(sphere1Center, sphere1Radius, basecColorS1);
 			sphere1.setColors(basecColorS1, specColorS1, diffuseColorS1);
@@ -1403,9 +1403,9 @@ public class Setups {
 
 			Point sphere2Center = new Point(0.6, 0.8, -0.6, Point.Space.WORLD);
 			double sphere2Radius = 0.6;
-			MyColor basecColorS2 = new MyColor(22, 183, 187, false).normalize();
-			MyColor diffuseColorS2 = new MyColor(36, 199, 203, false).normalize();
-			MyColor specColorS2 = new MyColor(123, 226, 236, false).normalize();
+			Irradiance basecColorS2 = new Irradiance(22, 183, 187, false).normalize();
+			Irradiance diffuseColorS2 = new Irradiance(36, 199, 203, false).normalize();
+			Irradiance specColorS2 = new Irradiance(123, 226, 236, false).normalize();
 
 			Sphere sphere2 = new Sphere(sphere2Center, sphere2Radius, basecColorS2);
 			sphere2.setColors(basecColorS2, specColorS2, diffuseColorS2);
@@ -1423,7 +1423,7 @@ public class Setups {
 					new Point(1, 0, 0, Point.Space.ENTITY),
 					new Point(0, 0, 1, Point.Space.ENTITY)
 			};
-			MyColor triangle1Color = new MyColor(238, 50, 51, false).normalize();
+			Irradiance triangle1Color = new Irradiance(238, 50, 51, false).normalize();
 			Triangle triangle1 = new Triangle(triangle1Color, triangle1Position, t1Vertices);
 			triangle1.setCoeffs(0.3, 0.4, 0.3, 180);
 			triangle1.setTextureCoordinates(t1TexCoords);
@@ -1442,7 +1442,7 @@ public class Setups {
 					new Point(1, 0, 0, Point.Space.WORLD),
 					new Point(0, 0, 0, Point.Space.WORLD)
 			};
-			MyColor t2Color = new MyColor(238, 50, 51, false).normalize();
+			Irradiance t2Color = new Irradiance(238, 50, 51, false).normalize();
 			Triangle triangle2 = new Triangle(t2Color, t2Position, t2Vertices);
 			triangle2.setCoeffs(0.3, 0.4, 0.2, 180);
 			triangle2.setTextureCoordinates(t2texCoords);
@@ -1472,7 +1472,7 @@ public class Setups {
 			//
 			// Light
 			//
-			Light light = new Light(new MyColor(1, 1, 1, true), new Point(2, 5, 5, Point.Space.WORLD),
+			Light light = new Light(new Irradiance(1, 1, 1, true), new Point(2, 5, 5, Point.Space.WORLD),
 					0.45);
 			application.getWorld().addLightSource(light);
 
@@ -1481,7 +1481,7 @@ public class Setups {
 			//
 			Point sphereCenter = new Point(0, 0, 3, Point.Space.WORLD);
 			double sphereRadius = 1.0;
-			MyColor sphereColor = new MyColor(0, 0, 255, false);
+			Irradiance sphereColor = new Irradiance(0, 0, 255, false);
 			application.getWorld().addEntity(new Sphere(sphereCenter, sphereRadius, sphereColor));
 
 		}
@@ -1501,7 +1501,7 @@ public class Setups {
 			//
 			// Light
 			//
-			Light light = new Light(new MyColor(1, 1, 1, true), cameraPosition/*
+			Light light = new Light(new Irradiance(1, 1, 1, true), cameraPosition/*
 																				 * new Point(2, 5, 5,
 																				 * Point.Space.WORLD)
 																				 */,
@@ -1513,7 +1513,7 @@ public class Setups {
 			//
 			Point sphereCenter = new Point(0, 0, 0, Point.Space.WORLD);
 			double sphereRadius = 1.0;
-			MyColor sphereColor = new MyColor(0, 0, 255, false);
+			Irradiance sphereColor = new Irradiance(0, 0, 255, false);
 			application.getWorld().addEntity(new Sphere(sphereCenter, sphereRadius, sphereColor));
 
 		}
@@ -1534,7 +1534,7 @@ public class Setups {
 			//
 			// Light
 			//
-			Light light = new Light(new MyColor(1, 1, 1, true), new Point(2, 5, 5, Point.Space.WORLD),
+			Light light = new Light(new Irradiance(1, 1, 1, true), new Point(2, 5, 5, Point.Space.WORLD),
 					0.45);
 			application.getWorld().addLightSource(light);
 
@@ -1543,7 +1543,7 @@ public class Setups {
 			//
 			Point sphereCenter = new Point(0, 0, 0, Point.Space.WORLD);
 			double sphereRadius = 1.0;
-			MyColor sphereColor = new MyColor(0, 0, 255, false);
+			Irradiance sphereColor = new Irradiance(0, 0, 255, false);
 			application.getWorld().addEntity(new Sphere(sphereCenter, sphereRadius, sphereColor));
 
 		}
@@ -1563,7 +1563,7 @@ public class Setups {
 			//
 			// Light
 			//
-			Light light = new Light(new MyColor(1, 1, 1, true), new Point(2, 5, 5, Point.Space.WORLD),
+			Light light = new Light(new Irradiance(1, 1, 1, true), new Point(2, 5, 5, Point.Space.WORLD),
 					0.45);
 			application.getWorld().addLightSource(light);
 
@@ -1572,7 +1572,7 @@ public class Setups {
 			//
 			Point sphereCenter = new Point(0, 0, 0, Point.Space.WORLD);
 			double sphereRadius = 1.0;
-			MyColor sphereColor = new MyColor(0, 0, 255, false);
+			Irradiance sphereColor = new Irradiance(0, 0, 255, false);
 			application.getWorld().addEntity(new Sphere(sphereCenter, sphereRadius, sphereColor));
 
 		}
@@ -1593,7 +1593,7 @@ public class Setups {
 			//
 			// Light
 			//
-			Light light = new Light(new MyColor(1, 1, 1, true), new Point(2, 5, 5, Point.Space.WORLD),
+			Light light = new Light(new Irradiance(1, 1, 1, true), new Point(2, 5, 5, Point.Space.WORLD),
 					0.65);
 			application.getWorld().addLightSource(light);
 
@@ -1602,9 +1602,9 @@ public class Setups {
 			//
 			Point sphere1Center = new Point(-0.4, 1, 0.4, Point.Space.WORLD);
 			double sphere1Radius = 0.755;
-			MyColor basecColorS1 = new MyColor(22, 183, 187, false).normalize();
-			MyColor diffuseColorS1 = new MyColor(36, 199, 203, false).normalize();
-			MyColor specColorS1 = new MyColor(123, 226, 236, false).normalize();
+			Irradiance basecColorS1 = new Irradiance(22, 183, 187, false).normalize();
+			Irradiance diffuseColorS1 = new Irradiance(36, 199, 203, false).normalize();
+			Irradiance specColorS1 = new Irradiance(123, 226, 236, false).normalize();
 
 			Sphere sphere1 = new Sphere(sphere1Center, sphere1Radius, basecColorS1);
 			sphere1.setColors(basecColorS1, specColorS1, diffuseColorS1);
@@ -1613,9 +1613,9 @@ public class Setups {
 
 			Point sphere2Center = new Point(0.6, 0.8, -0.6, Point.Space.WORLD);
 			double sphere2Radius = 0.6;
-			MyColor basecColorS2 = new MyColor(22, 183, 187, false).normalize();
-			MyColor diffuseColorS2 = new MyColor(36, 199, 203, false).normalize();
-			MyColor specColorS2 = new MyColor(123, 226, 236, false).normalize();
+			Irradiance basecColorS2 = new Irradiance(22, 183, 187, false).normalize();
+			Irradiance diffuseColorS2 = new Irradiance(36, 199, 203, false).normalize();
+			Irradiance specColorS2 = new Irradiance(123, 226, 236, false).normalize();
 
 			Sphere sphere2 = new Sphere(sphere2Center, sphere2Radius, basecColorS2);
 			sphere2.setColors(basecColorS2, specColorS2, diffuseColorS2);
@@ -1628,7 +1628,7 @@ public class Setups {
 					new Point(1.5, 0, -1.5, Point.Space.WORLD),
 					new Point(-1.5, 0, 1.5, Point.Space.WORLD)
 			};
-			MyColor triangle1Color = new MyColor(238, 50, 51, false).normalize();
+			Irradiance triangle1Color = new Irradiance(238, 50, 51, false).normalize();
 			Triangle triangle1 = new Triangle(triangle1Color, triangle1Position, t1Vertices);
 			triangle1.setCoeffs(0.5, 0.4, 0.1, 80);
 
@@ -1640,7 +1640,7 @@ public class Setups {
 					new Point(1.5, 0, -1.5, Point.Space.WORLD),
 					new Point(-1.5, 0, -1.5, Point.Space.WORLD)
 			};
-			MyColor t2Color = new MyColor(238, 50, 51, false).normalize();
+			Irradiance t2Color = new Irradiance(238, 50, 51, false).normalize();
 			Triangle triangle2 = new Triangle(t2Color, t2Position, t2Vertices);
 			triangle2.setCoeffs(0.5, 0.4, 0.1, 80);
 			application.getWorld().addEntity(triangle2);
@@ -1662,11 +1662,11 @@ public class Setups {
 			//
 			// Light
 			//
-			Light light1 = new Light(new MyColor(1, 1, 1, true), new Point(0, 5, 0, Point.Space.WORLD),
+			Light light1 = new Light(new Irradiance(1, 1, 1, true), new Point(0, 5, 0, Point.Space.WORLD),
 					0.55);
 			application.getWorld().addLightSource(light1);
 
-			Light light2 = new Light(new MyColor(1, 1, 1, true), new Point(2, 5, 5, Point.Space.WORLD),
+			Light light2 = new Light(new Irradiance(1, 1, 1, true), new Point(2, 5, 5, Point.Space.WORLD),
 					0.55);
 			application.getWorld().addLightSource(light2);
 
@@ -1675,9 +1675,9 @@ public class Setups {
 			//
 			Point sphere1Center = new Point(-0.4, 1, 0.4, Point.Space.WORLD);
 			double sphere1Radius = 0.755;
-			MyColor basecColorS1 = new MyColor(22, 183, 187, false).normalize();
-			MyColor diffuseColorS1 = new MyColor(36, 199, 203, false).normalize();
-			MyColor specColorS1 = new MyColor(123, 226, 236, false).normalize();
+			Irradiance basecColorS1 = new Irradiance(22, 183, 187, false).normalize();
+			Irradiance diffuseColorS1 = new Irradiance(36, 199, 203, false).normalize();
+			Irradiance specColorS1 = new Irradiance(123, 226, 236, false).normalize();
 
 			Sphere sphere1 = new Sphere(sphere1Center, sphere1Radius, basecColorS1);
 			sphere1.setColors(basecColorS1, specColorS1, diffuseColorS1);
@@ -1686,9 +1686,9 @@ public class Setups {
 
 			Point sphere2Center = new Point(0.6, 0.8, -0.6, Point.Space.WORLD);
 			double sphere2Radius = 0.6;
-			MyColor basecColorS2 = new MyColor(22, 183, 187, false).normalize();
-			MyColor diffuseColorS2 = new MyColor(36, 199, 203, false).normalize();
-			MyColor specColorS2 = new MyColor(123, 226, 236, false).normalize();
+			Irradiance basecColorS2 = new Irradiance(22, 183, 187, false).normalize();
+			Irradiance diffuseColorS2 = new Irradiance(36, 199, 203, false).normalize();
+			Irradiance specColorS2 = new Irradiance(123, 226, 236, false).normalize();
 
 			Sphere sphere2 = new Sphere(sphere2Center, sphere2Radius, basecColorS2);
 			sphere2.setColors(basecColorS2, specColorS2, diffuseColorS2);
@@ -1701,7 +1701,7 @@ public class Setups {
 					new Point(1.5, 0, -1.5, Point.Space.WORLD),
 					new Point(-1.5, 0, 1.5, Point.Space.WORLD)
 			};
-			MyColor triangle1Color = new MyColor(238, 50, 51, false).normalize();
+			Irradiance triangle1Color = new Irradiance(238, 50, 51, false).normalize();
 			Triangle triangle1 = new Triangle(triangle1Color, triangle1Position, t1Vertices);
 			triangle1.setCoeffs(0.3, 0.4, 0.3, 80);
 
@@ -1713,7 +1713,7 @@ public class Setups {
 					new Point(1.5, 0, -1.5, Point.Space.WORLD),
 					new Point(-1.5, 0, -1.5, Point.Space.WORLD)
 			};
-			MyColor t2Color = new MyColor(238, 50, 51, false).normalize();
+			Irradiance t2Color = new Irradiance(238, 50, 51, false).normalize();
 			Triangle triangle2 = new Triangle(t2Color, t2Position, t2Vertices);
 			triangle2.setCoeffs(0.3, 0.4, 0.2, 80);
 			application.getWorld().addEntity(triangle2);
@@ -1736,11 +1736,11 @@ public class Setups {
 			//
 			// Light
 			//
-			Light light1 = new Light(new MyColor(1, 1, 1, true), new Point(0, 5, 0, Point.Space.WORLD),
+			Light light1 = new Light(new Irradiance(1, 1, 1, true), new Point(0, 5, 0, Point.Space.WORLD),
 					0.55);
 			application.getWorld().addLightSource(light1);
 
-			Light light2 = new Light(new MyColor(1, 1, 1, true), new Point(2, 5, 5, Point.Space.WORLD),
+			Light light2 = new Light(new Irradiance(1, 1, 1, true), new Point(2, 5, 5, Point.Space.WORLD),
 					0.55);
 			application.getWorld().addLightSource(light2);
 
@@ -1749,9 +1749,9 @@ public class Setups {
 			//
 			Point sphere1Center = new Point(-0.4, 1, 0.4, Point.Space.WORLD);
 			double sphere1Radius = 0.755;
-			MyColor basecColorS1 = new MyColor(22, 183, 187, false).normalize();
-			MyColor diffuseColorS1 = new MyColor(36, 199, 203, false).normalize();
-			MyColor specColorS1 = new MyColor(123, 226, 236, false).normalize();
+			Irradiance basecColorS1 = new Irradiance(22, 183, 187, false).normalize();
+			Irradiance diffuseColorS1 = new Irradiance(36, 199, 203, false).normalize();
+			Irradiance specColorS1 = new Irradiance(123, 226, 236, false).normalize();
 
 			Sphere sphere1 = new Sphere(sphere1Center, sphere1Radius, basecColorS1);
 			sphere1.setColors(basecColorS1, specColorS1, diffuseColorS1);
@@ -1760,9 +1760,9 @@ public class Setups {
 
 			Point sphere2Center = new Point(0.6, 0.8, -0.6, Point.Space.WORLD);
 			double sphere2Radius = 0.6;
-			MyColor basecColorS2 = new MyColor(22, 183, 187, false).normalize();
-			MyColor diffuseColorS2 = new MyColor(36, 199, 203, false).normalize();
-			MyColor specColorS2 = new MyColor(123, 226, 236, false).normalize();
+			Irradiance basecColorS2 = new Irradiance(22, 183, 187, false).normalize();
+			Irradiance diffuseColorS2 = new Irradiance(36, 199, 203, false).normalize();
+			Irradiance specColorS2 = new Irradiance(123, 226, 236, false).normalize();
 
 			Sphere sphere2 = new Sphere(sphere2Center, sphere2Radius, basecColorS2);
 			sphere2.setColors(basecColorS2, specColorS2, diffuseColorS2);
@@ -1775,7 +1775,7 @@ public class Setups {
 					new Point(1.5, 0, -1.5, Point.Space.WORLD),
 					new Point(-1.5, 0, 1.5, Point.Space.WORLD)
 			};
-			MyColor triangle1Color = new MyColor(238, 50, 51, false).normalize();
+			Irradiance triangle1Color = new Irradiance(238, 50, 51, false).normalize();
 			Triangle triangle1 = new Triangle(triangle1Color, triangle1Position, t1Vertices);
 			triangle1.setCoeffs(0.3, 0.4, 0.3, 80);
 
@@ -1787,7 +1787,7 @@ public class Setups {
 					new Point(1.5, 0, -1.5, Point.Space.WORLD),
 					new Point(-1.5, 0, -1.5, Point.Space.WORLD)
 			};
-			MyColor t2Color = new MyColor(238, 50, 51, false).normalize();
+			Irradiance t2Color = new Irradiance(238, 50, 51, false).normalize();
 			Triangle triangle2 = new Triangle(t2Color, t2Position, t2Vertices);
 			triangle2.setCoeffs(0.3, 0.4, 0.2, 80);
 			application.getWorld().addEntity(triangle2);
@@ -1812,11 +1812,11 @@ public class Setups {
 			//
 			// Light
 			//
-			Light light1 = new Light(new MyColor(1, 1, 1, true), new Point(0, 5, 0, Point.Space.WORLD),
+			Light light1 = new Light(new Irradiance(1, 1, 1, true), new Point(0, 5, 0, Point.Space.WORLD),
 					0.55);
 			application.getWorld().addLightSource(light1);
 
-			Light light2 = new Light(new MyColor(1, 1, 1, true), new Point(2, 5, 5, Point.Space.WORLD),
+			Light light2 = new Light(new Irradiance(1, 1, 1, true), new Point(2, 5, 5, Point.Space.WORLD),
 					0.55);
 			application.getWorld().addLightSource(light2);
 
@@ -1825,9 +1825,9 @@ public class Setups {
 			//
 			Point sphere1Center = new Point(-0.4, 1, 0.4, Point.Space.WORLD);
 			double sphere1Radius = 0.755;
-			MyColor basecColorS1 = new MyColor(22, 183, 187, false).normalize();
-			MyColor diffuseColorS1 = new MyColor(36, 199, 203, false).normalize();
-			MyColor specColorS1 = new MyColor(123, 226, 236, false).normalize();
+			Irradiance basecColorS1 = new Irradiance(22, 183, 187, false).normalize();
+			Irradiance diffuseColorS1 = new Irradiance(36, 199, 203, false).normalize();
+			Irradiance specColorS1 = new Irradiance(123, 226, 236, false).normalize();
 
 			Sphere sphere1 = new Sphere(sphere1Center, sphere1Radius, basecColorS1);
 			sphere1.setColors(basecColorS1, specColorS1, diffuseColorS1);
@@ -1836,9 +1836,9 @@ public class Setups {
 
 			Point sphere2Center = new Point(0.6, 0.8, -0.6, Point.Space.WORLD);
 			double sphere2Radius = 0.6;
-			MyColor basecColorS2 = new MyColor(22, 183, 187, false).normalize();
-			MyColor diffuseColorS2 = new MyColor(36, 199, 203, false).normalize();
-			MyColor specColorS2 = new MyColor(123, 226, 236, false).normalize();
+			Irradiance basecColorS2 = new Irradiance(22, 183, 187, false).normalize();
+			Irradiance diffuseColorS2 = new Irradiance(36, 199, 203, false).normalize();
+			Irradiance specColorS2 = new Irradiance(123, 226, 236, false).normalize();
 
 			Sphere sphere2 = new Sphere(sphere2Center, sphere2Radius, basecColorS2);
 			sphere2.setColors(basecColorS2, specColorS2, diffuseColorS2);
@@ -1851,7 +1851,7 @@ public class Setups {
 					new Point(1.5, 0, -1.5, Point.Space.WORLD),
 					new Point(-1.5, 0, 1.5, Point.Space.WORLD)
 			};
-			MyColor triangle1Color = new MyColor(238, 50, 51, false).normalize();
+			Irradiance triangle1Color = new Irradiance(238, 50, 51, false).normalize();
 			Triangle triangle1 = new Triangle(triangle1Color, triangle1Position, t1Vertices);
 			triangle1.setCoeffs(0.3, 0.4, 0.3, 180);
 
@@ -1863,7 +1863,7 @@ public class Setups {
 					new Point(1.5, 0, -1.5, Point.Space.WORLD),
 					new Point(-1.5, 0, -1.5, Point.Space.WORLD)
 			};
-			MyColor t2Color = new MyColor(238, 50, 51, false).normalize();
+			Irradiance t2Color = new Irradiance(238, 50, 51, false).normalize();
 			Triangle triangle2 = new Triangle(t2Color, t2Position, t2Vertices);
 			triangle2.setCoeffs(0.3, 0.4, 0.2, 180);
 			application.getWorld().addEntity(triangle2);
@@ -1892,7 +1892,7 @@ public class Setups {
 			//
 			// Light
 			//
-			Light light1 = new Light(new MyColor(1, 1, 1, true), new Point(0, 5, 0, Point.Space.WORLD),
+			Light light1 = new Light(new Irradiance(1, 1, 1, true), new Point(0, 5, 0, Point.Space.WORLD),
 					0.55);
 			application.getWorld().addLightSource(light1);
 
@@ -1906,9 +1906,9 @@ public class Setups {
 			//
 			Point sphere1Center = new Point(-0.4, 1, 0.4, Point.Space.WORLD);
 			double sphere1Radius = 0.755;
-			MyColor basecColorS1 = new MyColor(22, 183, 187, false).normalize();
-			MyColor diffuseColorS1 = new MyColor(36, 199, 203, false).normalize();
-			MyColor specColorS1 = new MyColor(123, 226, 236, false).normalize();
+			Irradiance basecColorS1 = new Irradiance(22, 183, 187, false).normalize();
+			Irradiance diffuseColorS1 = new Irradiance(36, 199, 203, false).normalize();
+			Irradiance specColorS1 = new Irradiance(123, 226, 236, false).normalize();
 
 			Sphere sphere1 = new Sphere(sphere1Center, sphere1Radius, basecColorS1);
 			sphere1.setReflectiveCoeff(0.5);
@@ -1918,9 +1918,9 @@ public class Setups {
 
 			Point sphere2Center = new Point(0.6, 0.8, -0.6, Point.Space.WORLD);
 			double sphere2Radius = 0.6;
-			MyColor basecColorS2 = new MyColor(22, 183, 187, false).normalize();
-			MyColor diffuseColorS2 = new MyColor(36, 199, 203, false).normalize();
-			MyColor specColorS2 = new MyColor(123, 226, 236, false).normalize();
+			Irradiance basecColorS2 = new Irradiance(22, 183, 187, false).normalize();
+			Irradiance diffuseColorS2 = new Irradiance(36, 199, 203, false).normalize();
+			Irradiance specColorS2 = new Irradiance(123, 226, 236, false).normalize();
 
 			Sphere sphere2 = new Sphere(sphere2Center, sphere2Radius, basecColorS2);
 			// sphere2.setReflectiveCoeff(0.2);
@@ -1934,7 +1934,7 @@ public class Setups {
 					new Point(1.5, 0, -1.5, Point.Space.WORLD),
 					new Point(-1.5, 0, 1.5, Point.Space.WORLD)
 			};
-			MyColor triangle1Color = new MyColor(238, 50, 51, false).normalize();
+			Irradiance triangle1Color = new Irradiance(238, 50, 51, false).normalize();
 			Triangle triangle1 = new Triangle(triangle1Color, triangle1Position, t1Vertices);
 			triangle1.setCoeffs(0.3, 0.4, 0.3, 180);
 			triangle1.setHasTexture(true);
@@ -1948,7 +1948,7 @@ public class Setups {
 					new Point(1.5, 0, -1.5, Point.Space.WORLD),
 					new Point(-1.5, 0, -1.5, Point.Space.WORLD)
 			};
-			MyColor t2Color = new MyColor(238, 50, 51, false).normalize();
+			Irradiance t2Color = new Irradiance(238, 50, 51, false).normalize();
 			Triangle triangle2 = new Triangle(t2Color, t2Position, t2Vertices);
 			triangle2.setCoeffs(0.3, 0.4, 0.2, 180);
 			triangle2.setHasTexture(true);
@@ -1975,11 +1975,11 @@ public class Setups {
 			//
 			// Light
 			//
-			Light light1 = new Light(new MyColor(1, 1, 1, true), new Point(0, 5, 0, Point.Space.WORLD),
+			Light light1 = new Light(new Irradiance(1, 1, 1, true), new Point(0, 5, 0, Point.Space.WORLD),
 					0.4);
 			application.getWorld().addLightSource(light1);
 
-			Light light2 = new Light(new MyColor(1, 1, 1, true), new Point(2, 5, 5, Point.Space.WORLD),
+			Light light2 = new Light(new Irradiance(1, 1, 1, true), new Point(2, 5, 5, Point.Space.WORLD),
 					0.4);
 			application.getWorld().addLightSource(light2);
 
@@ -1988,9 +1988,9 @@ public class Setups {
 			//
 			Point sphere1Center = new Point(-0.4, 1.5, 0.4, Point.Space.WORLD);
 			double sphere1Radius = 0.755;
-			MyColor basecColorS1 = new MyColor(22, 183, 187, false).normalize();
-			MyColor diffuseColorS1 = new MyColor(36, 199, 203, false).normalize();
-			MyColor specColorS1 = new MyColor(123, 226, 236, false).normalize();
+			Irradiance basecColorS1 = new Irradiance(22, 183, 187, false).normalize();
+			Irradiance diffuseColorS1 = new Irradiance(36, 199, 203, false).normalize();
+			Irradiance specColorS1 = new Irradiance(123, 226, 236, false).normalize();
 
 			Sphere sphere1 = new Sphere(sphere1Center, sphere1Radius, basecColorS1);
 			// sphere1.setReflectiveCoeff(0.5);
@@ -2000,9 +2000,9 @@ public class Setups {
 
 			Point sphere2Center = new Point(0.6, 0.8, -0.6, Point.Space.WORLD);
 			double sphere2Radius = 0.6;
-			MyColor basecColorS2 = new MyColor(22, 183, 187, false).normalize();
-			MyColor diffuseColorS2 = new MyColor(36, 199, 203, false).normalize();
-			MyColor specColorS2 = new MyColor(123, 226, 236, false).normalize();
+			Irradiance basecColorS2 = new Irradiance(22, 183, 187, false).normalize();
+			Irradiance diffuseColorS2 = new Irradiance(36, 199, 203, false).normalize();
+			Irradiance specColorS2 = new Irradiance(123, 226, 236, false).normalize();
 
 			Sphere sphere2 = new Sphere(sphere2Center, sphere2Radius, basecColorS2);
 			sphere2.setReflectiveCoeff(0.2);
@@ -2017,7 +2017,7 @@ public class Setups {
 					new Point(triangleSide, 0, -triangleSide, Point.Space.WORLD),
 					new Point(-triangleSide, 0, triangleSide, Point.Space.WORLD)
 			};
-			MyColor triangle1Color = new MyColor(238, 50, 51, false).normalize();
+			Irradiance triangle1Color = new Irradiance(238, 50, 51, false).normalize();
 			Triangle triangle1 = new Triangle(triangle1Color, triangle1Position, t1Vertices);
 			triangle1.setCoeffs(0.3, 0.4, 0.3, 180);
 			triangle1.setHasTexture(true);
@@ -2031,7 +2031,7 @@ public class Setups {
 					new Point(triangleSide, 0, -triangleSide, Point.Space.WORLD),
 					new Point(-triangleSide, 0, -triangleSide, Point.Space.WORLD)
 			};
-			MyColor t2Color = new MyColor(238, 50, 51, false).normalize();
+			Irradiance t2Color = new Irradiance(238, 50, 51, false).normalize();
 			Triangle triangle2 = new Triangle(t2Color, t2Position, t2Vertices);
 			triangle2.setCoeffs(0.3, 0.4, 0.2, 180);
 			triangle2.setHasTexture(true);
@@ -2059,11 +2059,11 @@ public class Setups {
 			//
 			// Light
 			//
-			Light light1 = new Light(new MyColor(1, 1, 1, true), new Point(0, 5, 0, Point.Space.WORLD),
+			Light light1 = new Light(new Irradiance(1, 1, 1, true), new Point(0, 5, 0, Point.Space.WORLD),
 					0.55);
 			application.getWorld().addLightSource(light1);
 
-			Light light2 = new Light(new MyColor(1, 1, 1, true), new Point(2, 5, 5, Point.Space.WORLD),
+			Light light2 = new Light(new Irradiance(1, 1, 1, true), new Point(2, 5, 5, Point.Space.WORLD),
 					0.55);
 			application.getWorld().addLightSource(light2);
 
@@ -2072,9 +2072,9 @@ public class Setups {
 			//
 			Point sphere1Center = new Point(0, 0, 0, Point.Space.WORLD);
 			double sphere1Radius = 1;
-			MyColor basecColorS1 = new MyColor(22, 183, 187, false).normalize();
-			MyColor diffuseColorS1 = new MyColor(36, 199, 203, false).normalize();
-			MyColor specColorS1 = new MyColor(123, 226, 236, false).normalize();
+			Irradiance basecColorS1 = new Irradiance(22, 183, 187, false).normalize();
+			Irradiance diffuseColorS1 = new Irradiance(36, 199, 203, false).normalize();
+			Irradiance specColorS1 = new Irradiance(123, 226, 236, false).normalize();
 
 			Sphere sphere1 = new Sphere(sphere1Center, sphere1Radius, basecColorS1);
 			sphere1.setReflectiveCoeff(0.5);
@@ -2084,9 +2084,9 @@ public class Setups {
 
 			Point sphere2Center = new Point(0.6, 0.8, -0.6, Point.Space.WORLD);
 			double sphere2Radius = 0.6;
-			MyColor basecColorS2 = new MyColor(22, 183, 187, false).normalize();
-			MyColor diffuseColorS2 = new MyColor(36, 199, 203, false).normalize();
-			MyColor specColorS2 = new MyColor(123, 226, 236, false).normalize();
+			Irradiance basecColorS2 = new Irradiance(22, 183, 187, false).normalize();
+			Irradiance diffuseColorS2 = new Irradiance(36, 199, 203, false).normalize();
+			Irradiance specColorS2 = new Irradiance(123, 226, 236, false).normalize();
 
 			Sphere sphere2 = new Sphere(sphere2Center, sphere2Radius, basecColorS2);
 			// sphere2.setReflectiveCoeff(0.2);
@@ -2102,7 +2102,7 @@ public class Setups {
 					new Point(triangleSide, -1.5, -triangleSide, Point.Space.WORLD),
 					new Point(-triangleSide, -1.5, triangleSide, Point.Space.WORLD)
 			};
-			MyColor triangle1Color = new MyColor(238, 50, 51, false).normalize();
+			Irradiance triangle1Color = new Irradiance(238, 50, 51, false).normalize();
 			Triangle triangle1 = new Triangle(triangle1Color, triangle1Position, t1Vertices);
 			triangle1.setCoeffs(0.3, 0.4, 0.3, 180);
 			triangle1.setHasTexture(true);
@@ -2116,7 +2116,7 @@ public class Setups {
 					new Point(triangleSide, -1.5, -triangleSide, Point.Space.WORLD),
 					new Point(-triangleSide, -1.5, -triangleSide, Point.Space.WORLD)
 			};
-			MyColor t2Color = new MyColor(238, 50, 51, false).normalize();
+			Irradiance t2Color = new Irradiance(238, 50, 51, false).normalize();
 			Triangle triangle2 = new Triangle(t2Color, t2Position, t2Vertices);
 			triangle2.setCoeffs(0.3, 0.4, 0.2, 180);
 			triangle2.setHasTexture(true);
@@ -2146,10 +2146,10 @@ public class Setups {
 			//
 			// Light
 			//
-			Light light1 = new Light(new MyColor(1, 1, 1, true), new Point(0, 5, 0, Point.Space.WORLD), 0.55);
+			Light light1 = new Light(new Irradiance(1, 1, 1, true), new Point(0, 5, 0, Point.Space.WORLD), 0.55);
 			application.getWorld().addLightSource(light1);
 
-			Light light2 = new Light(new MyColor(1, 1, 1, true), new Point(2, 5, 5, Point.Space.WORLD), 0.55);
+			Light light2 = new Light(new Irradiance(1, 1, 1, true), new Point(2, 5, 5, Point.Space.WORLD), 0.55);
 			application.getWorld().addLightSource(light2);
 
 			// ================================================================
@@ -2161,9 +2161,9 @@ public class Setups {
 			//
 			Point sphere1Center = new Point(-0.4, 1, 0.4, Point.Space.WORLD);
 			double sphere1Radius = 0.755;
-			MyColor basecColorS1 = new MyColor(22, 183, 187, false).normalize();
-			MyColor diffuseColorS1 = new MyColor(36, 199, 203, false).normalize();
-			MyColor specColorS1 = new MyColor(123, 226, 236, false).normalize();
+			Irradiance basecColorS1 = new Irradiance(22, 183, 187, false).normalize();
+			Irradiance diffuseColorS1 = new Irradiance(36, 199, 203, false).normalize();
+			Irradiance specColorS1 = new Irradiance(123, 226, 236, false).normalize();
 
 			Sphere sphere1 = new Sphere(sphere1Center, sphere1Radius, basecColorS1);
 			sphere1.setColors(basecColorS1, specColorS1, diffuseColorS1);
@@ -2177,9 +2177,9 @@ public class Setups {
 			//
 			Point sphere2Center = new Point(0.6, 0.8, -0.6, Point.Space.WORLD);
 			double sphere2Radius = 0.6;
-			MyColor basecColorS2 = new MyColor(22, 183, 187, false).normalize();
-			MyColor diffuseColorS2 = new MyColor(36, 199, 203, false).normalize();
-			MyColor specColorS2 = new MyColor(123, 226, 236, false).normalize();
+			Irradiance basecColorS2 = new Irradiance(22, 183, 187, false).normalize();
+			Irradiance diffuseColorS2 = new Irradiance(36, 199, 203, false).normalize();
+			Irradiance specColorS2 = new Irradiance(123, 226, 236, false).normalize();
 
 			Sphere sphere2 = new Sphere(sphere2Center, sphere2Radius, basecColorS2);
 			sphere2.setColors(basecColorS2, specColorS2, diffuseColorS2);
@@ -2197,7 +2197,7 @@ public class Setups {
 					new Point(1.5, 0, -1.5, Point.Space.WORLD),
 					new Point(-1.5, 0, 1.5, Point.Space.WORLD)
 			};
-			MyColor triangle1Color = new MyColor(238, 50, 51, false).normalize();
+			Irradiance triangle1Color = new Irradiance(238, 50, 51, false).normalize();
 			Triangle triangle1 = new Triangle(triangle1Color, triangle1Position, t1Vertices);
 			triangle1.setCoeffs(0.3, 0.4, 0.3, 180);
 			triangle1.setShadingTechnique(BSDFTechnique.PHONG_BLINN);
@@ -2213,7 +2213,7 @@ public class Setups {
 					new Point(1.5, 0, -1.5, Point.Space.WORLD),
 					new Point(-1.5, 0, -1.5, Point.Space.WORLD)
 			};
-			MyColor t2Color = new MyColor(238, 50, 51, false).normalize();
+			Irradiance t2Color = new Irradiance(238, 50, 51, false).normalize();
 			Triangle triangle2 = new Triangle(t2Color, t2Position, t2Vertices);
 			triangle2.setCoeffs(0.3, 0.4, 0.2, 180);
 			triangle2.setShadingTechnique(BSDFTechnique.PHONG_BLINN);
@@ -2241,10 +2241,10 @@ public class Setups {
 			//
 			// Light
 			//
-			Light light1 = new Light(new MyColor(1, 1, 1, true), new Point(0, 5, 0, Point.Space.WORLD), 65);
+			Light light1 = new Light(new Irradiance(1, 1, 1, true), new Point(0, 5, 0, Point.Space.WORLD), 65);
 			application.getWorld().addLightSource(light1);
 
-			Light light2 = new Light(new MyColor(1, 1, 1, true), new Point(2, 5, 5, Point.Space.WORLD), 65);
+			Light light2 = new Light(new Irradiance(1, 1, 1, true), new Point(2, 5, 5, Point.Space.WORLD), 65);
 			application.getWorld().addLightSource(light2);
 
 			// ================================================================
@@ -2256,9 +2256,9 @@ public class Setups {
 			//
 			Point sphere1Center = new Point(-0.4, 1, 0.4, Point.Space.WORLD);
 			double sphere1Radius = 0.755;
-			MyColor basecColorS1 = new MyColor(22, 183, 187, false).normalize();
-			MyColor diffuseColorS1 = new MyColor(36, 199, 203, false).normalize();
-			MyColor specColorS1 = new MyColor(123, 226, 236, false).normalize();
+			Irradiance basecColorS1 = new Irradiance(22, 183, 187, false).normalize();
+			Irradiance diffuseColorS1 = new Irradiance(36, 199, 203, false).normalize();
+			Irradiance specColorS1 = new Irradiance(123, 226, 236, false).normalize();
 
 			Sphere sphere1 = new Sphere(sphere1Center, sphere1Radius, basecColorS1);
 			sphere1.setColors(basecColorS1, specColorS1, diffuseColorS1);
@@ -2270,9 +2270,9 @@ public class Setups {
 			//
 			Point sphere2Center = new Point(0.6, 0.8, -0.6, Point.Space.WORLD);
 			double sphere2Radius = 0.6;
-			MyColor basecColorS2 = new MyColor(22, 183, 187, false).normalize();
-			MyColor diffuseColorS2 = new MyColor(36, 199, 203, false).normalize();
-			MyColor specColorS2 = new MyColor(123, 226, 236, false).normalize();
+			Irradiance basecColorS2 = new Irradiance(22, 183, 187, false).normalize();
+			Irradiance diffuseColorS2 = new Irradiance(36, 199, 203, false).normalize();
+			Irradiance specColorS2 = new Irradiance(123, 226, 236, false).normalize();
 
 			Sphere sphere2 = new Sphere(sphere2Center, sphere2Radius, basecColorS2);
 			sphere2.setColors(basecColorS2, specColorS2, diffuseColorS2);
@@ -2288,7 +2288,7 @@ public class Setups {
 					new Point(1.5, 0, -1.5, Point.Space.WORLD),
 					new Point(-1.5, 0, 1.5, Point.Space.WORLD)
 			};
-			MyColor triangle1Color = new MyColor(238, 50, 51, false).normalize();
+			Irradiance triangle1Color = new Irradiance(238, 50, 51, false).normalize();
 			Triangle triangle1 = new Triangle(triangle1Color, triangle1Position, t1Vertices);
 			triangle1.setCoeffs(0.3, 0.4, 0.3, 180);
 
@@ -2303,7 +2303,7 @@ public class Setups {
 					new Point(1.5, 0, -1.5, Point.Space.WORLD),
 					new Point(-1.5, 0, -1.5, Point.Space.WORLD)
 			};
-			MyColor t2Color = new MyColor(238, 50, 51, false).normalize();
+			Irradiance t2Color = new Irradiance(238, 50, 51, false).normalize();
 			Triangle triangle2 = new Triangle(t2Color, t2Position, t2Vertices);
 			triangle2.setCoeffs(0.3, 0.4, 0.2, 180);
 			application.getWorld().addEntity(triangle2);
@@ -2329,10 +2329,10 @@ public class Setups {
 			//
 			// Light
 			//
-			Light light1 = new Light(new MyColor(1, 1, 1, true), new Point(0, 5, 0, Point.Space.WORLD), 165);
+			Light light1 = new Light(new Irradiance(1, 1, 1, true), new Point(0, 5, 0, Point.Space.WORLD), 165);
 			application.getWorld().addLightSource(light1);
 
-			Light light2 = new Light(new MyColor(1, 1, 1, true), new Point(2, 5, 5, Point.Space.WORLD), 65);
+			Light light2 = new Light(new Irradiance(1, 1, 1, true), new Point(2, 5, 5, Point.Space.WORLD), 65);
 			application.getWorld().addLightSource(light2);
 
 			// ================================================================
@@ -2344,9 +2344,9 @@ public class Setups {
 			//
 			Point sphere1Center = new Point(-0.4, 1, 0.4, Point.Space.WORLD);
 			double sphere1Radius = 0.755;
-			MyColor basecColorS1 = new MyColor(22, 183, 187, false).normalize();
-			MyColor diffuseColorS1 = new MyColor(36, 199, 203, false).normalize();
-			MyColor specColorS1 = new MyColor(123, 226, 236, false).normalize();
+			Irradiance basecColorS1 = new Irradiance(22, 183, 187, false).normalize();
+			Irradiance diffuseColorS1 = new Irradiance(36, 199, 203, false).normalize();
+			Irradiance specColorS1 = new Irradiance(123, 226, 236, false).normalize();
 
 			Sphere sphere1 = new Sphere(sphere1Center, sphere1Radius, basecColorS1);
 			sphere1.setColors(basecColorS1, specColorS1, diffuseColorS1);
@@ -2360,9 +2360,9 @@ public class Setups {
 			//
 			Point sphere2Center = new Point(0.6, 0.8, -0.6, Point.Space.WORLD);
 			double sphere2Radius = 0.6;
-			MyColor basecColorS2 = new MyColor(22, 183, 187, false).normalize();
-			MyColor diffuseColorS2 = new MyColor(36, 199, 203, false).normalize();
-			MyColor specColorS2 = new MyColor(123, 226, 236, false).normalize();
+			Irradiance basecColorS2 = new Irradiance(22, 183, 187, false).normalize();
+			Irradiance diffuseColorS2 = new Irradiance(36, 199, 203, false).normalize();
+			Irradiance specColorS2 = new Irradiance(123, 226, 236, false).normalize();
 
 			Sphere sphere2 = new Sphere(sphere2Center, sphere2Radius, basecColorS2);
 			sphere2.setColors(basecColorS2, specColorS2, diffuseColorS2);
@@ -2379,7 +2379,7 @@ public class Setups {
 					new Point(1.5, 0, -1.5, Point.Space.WORLD),
 					new Point(-1.5, 0, 1.5, Point.Space.WORLD)
 			};
-			MyColor triangle1Color = new MyColor(238, 50, 51, false).normalize();
+			Irradiance triangle1Color = new Irradiance(238, 50, 51, false).normalize();
 			Triangle triangle1 = new Triangle(triangle1Color, triangle1Position, t1Vertices);
 			triangle1.setCoeffs(0.3, 0.4, 0.3, 180);
 			triangle1.setHasTexture(true);
@@ -2394,7 +2394,7 @@ public class Setups {
 					new Point(1.5, 0, -1.5, Point.Space.WORLD),
 					new Point(-1.5, 0, -1.5, Point.Space.WORLD)
 			};
-			MyColor t2Color = new MyColor(238, 50, 51, false).normalize();
+			Irradiance t2Color = new Irradiance(238, 50, 51, false).normalize();
 			Triangle triangle2 = new Triangle(t2Color, t2Position, t2Vertices);
 			triangle2.setCoeffs(0.3, 0.4, 0.2, 180);
 			triangle2.setHasTexture(true);

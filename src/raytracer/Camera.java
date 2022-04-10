@@ -12,7 +12,7 @@ import org.ejml.simple.SimpleMatrix;
 
 public class Camera extends Entity {
 
-    static final MyColor DEFAULT_COLOR = new MyColor(152, 205, 236, false).normalize();
+    static final Irradiance DEFAULT_COLOR = new Irradiance(152, 205, 236, false).normalize();
 
     private static SimpleMatrix worldToNodeMatrix;
     private static SimpleMatrix nodeToWorldMatrix;
@@ -131,7 +131,7 @@ public class Camera extends Entity {
             }
 
             ArrayList<Pixel> subPixels = pixel.getSubPixels(subpixelsCount);
-            MyColor color = new MyColor(0, 0, 0, true);
+            Irradiance color = new Irradiance(0, 0, 0, true);
             for (Pixel subPixel : subPixels) {
                 Vector dir = new Vector(subPixel.cPosition).normalize();
                 Ray ray = new Ray(this.cPosition, dir);
@@ -160,7 +160,7 @@ public class Camera extends Entity {
         for (Pixel pixel : filmPlane) {
             // System.out.println(pixel.color);
 
-            MyColor denormColor = pixel.color.denormalize();
+            Irradiance denormColor = pixel.color.denormalize();
 
             Color color = new Color((int) denormColor.r, (int) denormColor.g, (int) denormColor.b);
             int actualRow = filmPlane.numPixelsHeight - pixel.row - 1;

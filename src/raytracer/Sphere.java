@@ -7,7 +7,7 @@ package raytracer;
 public class Sphere extends Entity {
     private double radius;
 
-    public Sphere(Point sphereCenter, double sphereRadius, MyColor sphereColor) {
+    public Sphere(Point sphereCenter, double sphereRadius, Irradiance sphereColor) {
         super(sphereColor, sphereCenter);
         this.radius = sphereRadius;
         this.getPositionInCameraCoordinates();

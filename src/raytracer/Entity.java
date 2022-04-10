@@ -18,13 +18,13 @@ public abstract class Entity {
     protected static double EPSILON = 0.0000001;
     public BoundingBox boundingBox;
     BoundingBox cBoundingBox;
-    protected MyColor baseColor;
-    protected MyColor specularColor;
-    protected MyColor diffusedColor;
+    protected Irradiance baseColor;
+    protected Irradiance specularColor;
+    protected Irradiance diffusedColor;
     protected Point position;
 
     protected Point cPosition;
-    protected HashMap<String, MyColor> entityColors;
+    protected HashMap<String, Irradiance> entityColors;
 
     protected double ka = 0.1;
     protected double kd = 0.4;
@@ -44,7 +44,7 @@ public abstract class Entity {
 
     protected BSDFTechnique shadingTechnique = BSDFTechnique.PHONG_BLINN;
 
-    public Entity(MyColor baseColor, Point position) {
+    public Entity(Irradiance baseColor, Point position) {
         this.setBaseColor(baseColor);
 
         this.specularColor = this.baseColor;
@@ -104,15 +104,15 @@ public abstract class Entity {
 
     protected abstract void computeBoundingBox();
 
-    protected void setBaseColor(MyColor baseColor) {
+    protected void setBaseColor(Irradiance baseColor) {
         if (baseColor == null) {
-            this.baseColor = new MyColor(255, 255, 255, false).normalize();
+            this.baseColor = new Irradiance(255, 255, 255, false).normalize();
         } else {
             this.baseColor = baseColor.normalize();
         }
     }
 
-    public MyColor phongBlinn(Light light, Camera camera, Point intersecPoint, Vector normal, boolean onlyAmbient) {
+    public Irradiance phongBlinn(Light light, Camera camera, Point intersecPoint, Vector normal, boolean onlyAmbient) {
         Vector lightDir = Util.subtract(Camera.toCameraSpace(light.position), intersecPoint);
         lightDir.normalize();
         double squaredDistance = 1;
@@ -135,11 +135,11 @@ public abstract class Entity {
         double normalDotHalf = Math.max(0.0, Util.dot(halfway, normal));
         double specularFactor = ks * actualIrradiance * Math.pow(normalDotHalf, ke);
 
-        MyColor ambient = Util.multColor(ambientFactor, getBaseColor(intersecPoint));
-        MyColor diffuse = Util.multColor(diffuseFactor, getDiffuseColor(intersecPoint));
-        MyColor specular = Util.multColor(specularFactor, getSpecColor(intersecPoint));
+        Irradiance ambient = Util.multColor(ambientFactor, getBaseColor(intersecPoint));
+        Irradiance diffuse = Util.multColor(diffuseFactor, getDiffuseColor(intersecPoint));
+        Irradiance specular = Util.multColor(specularFactor, getSpecColor(intersecPoint));
 
-        MyColor finalColor = Util.addColor(ambient);
+        Irradiance finalColor = Util.addColor(ambient);
         if (onlyAmbient) {
             return finalColor;
         }
@@ -148,7 +148,7 @@ public abstract class Entity {
         return finalColor;
     }
 
-    public MyColor phong(Light light, Camera camera, Point intersecPoint, Vector normal, boolean onlyAmbient) {
+    public Irradiance phong(Light light, Camera camera, Point intersecPoint, Vector normal, boolean onlyAmbient) {
         Vector lightDir = Util.subtract(Camera.toCameraSpace(light.position), intersecPoint);
         lightDir.normalize();
 
@@ -169,11 +169,11 @@ public abstract class Entity {
         double reflectDotView = Math.max(0.0, Util.dot(reflectVector, view));
         double specularFactor = ks * actualIrradiance * Math.pow(reflectDotView, ke);
 
-        MyColor ambient = Util.multColor(ambientFactor, getBaseColor(intersecPoint));
-        MyColor diffuse = Util.multColor(diffuseFactor, getDiffuseColor(intersecPoint));
-        MyColor specular = Util.multColor(specularFactor, getSpecColor(intersecPoint));
+        Irradiance ambient = Util.multColor(ambientFactor, getBaseColor(intersecPoint));
+        Irradiance diffuse = Util.multColor(diffuseFactor, getDiffuseColor(intersecPoint));
+        Irradiance specular = Util.multColor(specularFactor, getSpecColor(intersecPoint));
 
-        MyColor finalColor = Util.addColor(ambient);
+        Irradiance finalColor = Util.addColor(ambient);
         if (onlyAmbient) {
             return finalColor;
         }
@@ -182,7 +182,7 @@ public abstract class Entity {
         return finalColor;
     }
 
-    public MyColor ashikhiminShirley(Light light, Camera camera, Point intersecPoint, Vector normalDir) {
+    public Irradiance ashikhiminShirley(Light light, Camera camera, Point intersecPoint, Vector normalDir) {
         normalDir.normalize();
 
         Vector lightDir = Util.subtract(Camera.toCameraSpace(light.position), intersecPoint).normalize();
@@ -203,25 +203,25 @@ public abstract class Entity {
         double denominator = Util.dot(halfway, lightDir)
                 * Math.max(Util.dot(normalDir, lightDir), Util.dot(normalDir, view));
 
-        MyColor fresnel = Util.addColor(this.specularColor,
+        Irradiance fresnel = Util.addColor(this.specularColor,
                 Util.multColor(this.specularColor.getComplement(), Math.pow((1 - kDotH), 5)));
 
-        MyColor specular = Util.multColor(fresnel, constantCoeff * (numerator / denominator));
+        Irradiance specular = Util.multColor(fresnel, constantCoeff * (numerator / denominator));
 
         double constantCoeffDiffuse = 28 / 23 / Math.PI;
         double lightConstant = (1 - Math.pow((1 - Util.dot(normalDir, lightDir) / 2), 5));
         double viewConstant = (1 - Math.pow((1 - Util.dot(normalDir, view) / 2), 5));
 
-        MyColor diffuse = Util.multColor(this.diffusedColor, this.specularColor.getComplement());
+        Irradiance diffuse = Util.multColor(this.diffusedColor, this.specularColor.getComplement());
         diffuse.multColor(constantCoeffDiffuse * lightConstant * viewConstant);
 
-        MyColor finalColor = Util.addColor(diffuse, specular);
+        Irradiance finalColor = Util.addColor(diffuse, specular);
         return finalColor;
     }
 
-    public MyColor getPixelIrradiance(Light light, Camera camera, Point intersection, Vector normal,
+    public Irradiance getPixelIrradiance(Light light, Camera camera, Point intersection, Vector normal,
             BSDFTechnique technique, boolean onlyAmbient) {
-        MyColor retColor = new MyColor(0, 0, 0, true);
+        Irradiance retColor = new Irradiance(0, 0, 0, true);
 
         BSDFTechnique techniqueToUse;
         if (this.shadingTechnique == null) {
@@ -264,7 +264,7 @@ public abstract class Entity {
     // Map<String, MyColor> entityColors = new HashMap<>();
     // }
 
-    public MyColor getBaseColor(Point intersectionPoint) {
+    public Irradiance getBaseColor(Point intersectionPoint) {
 
         if (this.hasTexture) {
             return this.computeBaseColor(intersectionPoint);
@@ -272,7 +272,7 @@ public abstract class Entity {
         return this.baseColor;
     }
 
-    public MyColor getDiffuseColor(Point intersectionPoint) {
+    public Irradiance getDiffuseColor(Point intersectionPoint) {
 
         if (this.hasTexture) {
             return this.computeBaseColor(intersectionPoint);
@@ -280,7 +280,7 @@ public abstract class Entity {
         return this.diffusedColor;
     }
 
-    public MyColor getSpecColor(Point intersectionPoint) {
+    public Irradiance getSpecColor(Point intersectionPoint) {
 
         if (this.hasTexture) {
             return this.computeBaseColor(intersectionPoint);
@@ -289,7 +289,7 @@ public abstract class Entity {
     }
 
     // TODO: to be converted to entity space for actual working
-    public MyColor computeBaseColor(Point intersectionPoint) {
+    public Irradiance computeBaseColor(Point intersectionPoint) {
         Point intersectionWorld = Camera.toWorldSpace(intersectionPoint);
         double u = intersectionWorld.z;
         double v = intersectionWorld.x;
@@ -301,15 +301,15 @@ public abstract class Entity {
         int col = (int) Math.floor(v / 0.2);
         if (row % 2 == 0) {
             if (col % 2 == 0) {
-                return new MyColor(1.0, 0.0, 0.0, true);
+                return new Irradiance(1.0, 0.0, 0.0, true);
             } else {
-                return new MyColor(1.0, 1.0, 0.0, true);
+                return new Irradiance(1.0, 1.0, 0.0, true);
             }
         } else {
             if (col % 2 == 0) {
-                return new MyColor(1.0, 1.0, 0.0, true);
+                return new Irradiance(1.0, 1.0, 0.0, true);
             } else {
-                return new MyColor(1.0, 0.0, 0.0, true);
+                return new Irradiance(1.0, 0.0, 0.0, true);
             }
         }
         // return new MyColor(1, 0, 0, true);
@@ -319,7 +319,7 @@ public abstract class Entity {
         this.hasTexture = hasTexture;
     }
 
-    public void setColors(MyColor basecColor, MyColor speColor, MyColor diffuseColor) {
+    public void setColors(Irradiance basecColor, Irradiance speColor, Irradiance diffuseColor) {
         this.baseColor = basecColor.normalize();
         this.specularColor = speColor.normalize();
         this.diffusedColor = diffuseColor.normalize();

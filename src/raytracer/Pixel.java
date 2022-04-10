@@ -3,7 +3,7 @@ package raytracer;
 import java.util.ArrayList;
 
 public class Pixel {
-    public MyColor color;
+    public Irradiance color;
     public int row;
     public int col;
     public static double width;
@@ -29,7 +29,7 @@ public class Pixel {
         this.cPosition = position;
     }
 
-    public void setValue(MyColor value) {
+    public void setValue(Irradiance value) {
         this.color = value;
         Pixel.maxR = Math.max(maxR, this.color.r);
         Pixel.maxG = Math.max(maxG, this.color.g);

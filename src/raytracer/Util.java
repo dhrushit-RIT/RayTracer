@@ -122,11 +122,11 @@ public class Util {
         return ret;
     }
 
-    public static MyColor multColor(double d, MyColor c) {
+    public static Irradiance multColor(double d, Irradiance c) {
         if (c.normalized == false) {
             System.out.println("color is not normalized");
         }
-        MyColor retColor = new MyColor(c);
+        Irradiance retColor = new Irradiance(c);
         retColor.r *= d;
         retColor.g *= d;
         retColor.b *= d;
@@ -138,18 +138,18 @@ public class Util {
         return retColor;
     }
 
-    public static MyColor multColor(MyColor c1, MyColor c2) {
-        MyColor normalizedC1 = c1;
+    public static Irradiance multColor(Irradiance c1, Irradiance c2) {
+        Irradiance normalizedC1 = c1;
         if (!c1.normalized) {
             normalizedC1 = c1.getNormalized();
         }
 
-        MyColor normalizedC2 = c2;
+        Irradiance normalizedC2 = c2;
         if (!c2.normalized) {
             normalizedC2 = c2.getNormalized();
         }
 
-        MyColor retColor = new MyColor(
+        Irradiance retColor = new Irradiance(
                 normalizedC1.r * normalizedC2.r,
                 normalizedC1.g * normalizedC2.g,
                 normalizedC1.b * normalizedC2.b,
@@ -158,7 +158,7 @@ public class Util {
         return retColor;
     }
 
-    public static MyColor multColor(MyColor c, double d) {
+    public static Irradiance multColor(Irradiance c, double d) {
         c.r *= d;
         c.g *= d;
         c.b *= d;
@@ -170,10 +170,10 @@ public class Util {
         return c;
     }
 
-    public static MyColor addColor(MyColor... colors) {
-        MyColor retColor = new MyColor(0, 0, 0, true);
+    public static Irradiance addColor(Irradiance... colors) {
+        Irradiance retColor = new Irradiance(0, 0, 0, true);
 
-        for (MyColor c : colors) {
+        for (Irradiance c : colors) {
             retColor.r += c.r;
             retColor.g += c.g;
             retColor.b += c.b;
@@ -198,8 +198,8 @@ public class Util {
         return xDiff * xDiff + yDiff * yDiff + zDiff * zDiff;
     }
 
-    public static MyColor scaleColor(double scaleFactor, MyColor color) {
-        MyColor retColor = new MyColor(color);
+    public static Irradiance scaleColor(double scaleFactor, Irradiance color) {
+        Irradiance retColor = new Irradiance(color);
         retColor.r *= scaleFactor;
         retColor.g *= scaleFactor;
         retColor.b *= scaleFactor;
