@@ -39,6 +39,8 @@ public abstract class Entity {
 
     protected double nu = 1.0;
     protected double nv = 1.0;
+    protected double Rd = 1.0;
+    protected double Rs = 1.0;
 
     protected boolean hasTexture = false;
 
@@ -203,17 +205,16 @@ public abstract class Entity {
         double denominator = Util.dot(halfway, lightDir)
                 * Math.max(Util.dot(normalDir, lightDir), Util.dot(normalDir, view));
 
-        Irradiance fresnel = Util.addColor(this.specularColor,
-                Util.multColor(this.specularColor.getComplement(), Math.pow((1 - kDotH), 5)));
+        Irradiance fresnel = new Irradiance(this.specularColor).scaleColor(1 - Rs * Math.pow((1 - kDotH), 5));
 
         Irradiance specular = Util.multColor(fresnel, constantCoeff * (numerator / denominator));
 
-        double constantCoeffDiffuse = 28 / 23 / Math.PI;
+        double constantCoeffDiffuse = 28 * Rd * (1 - Rs) / 23 / Math.PI;
         double lightConstant = (1 - Math.pow((1 - Util.dot(normalDir, lightDir) / 2), 5));
         double viewConstant = (1 - Math.pow((1 - Util.dot(normalDir, view) / 2), 5));
 
-        Irradiance diffuse = Util.multColor(this.diffusedColor, this.specularColor.getComplement());
-        diffuse.multColor(constantCoeffDiffuse * lightConstant * viewConstant);
+        Irradiance diffuse = new Irradiance(this.diffusedColor);
+        diffuse.scaleColor(constantCoeffDiffuse * lightConstant * viewConstant);
 
         Irradiance finalColor = Util.addColor(diffuse, specular);
         return finalColor;
@@ -244,9 +245,11 @@ public abstract class Entity {
         return retColor;
     }
 
-    public void setAshikiminShirleyCoeffs(double nu, double nv) {
+    public void setAshikiminShirleyCoeffs(double nu, double nv, double Rs, double Rd) {
         this.nu = nu;
         this.nv = nv;
+        this.Rd = Rd;
+        this.Rs = Rs;
     }
 
     public void setShadingTechnique(BSDFTechnique technique) {
