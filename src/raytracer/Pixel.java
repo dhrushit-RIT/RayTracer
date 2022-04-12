@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class Pixel {
     public Irradiance color;
+    public Irradiance reflectance;
     public int row;
     public int col;
     public static double width;
@@ -18,6 +19,9 @@ public class Pixel {
     public static double minG = 1;
     public static double minB = 1;
 
+    private double luminance = 0.0;
+    private double destLuminance = 0.0;
+
     // public Vector planePosition; // with respect to the origin of film plane
     public Vector cPosition; // with respect to the origin of world
 
@@ -29,7 +33,23 @@ public class Pixel {
         this.cPosition = position;
     }
 
-    public void setValue(Irradiance value) {
+    public double getDestLuminance() {
+        return destLuminance;
+    }
+
+    public void setDestLuminance(double destLuminance) {
+        this.destLuminance = destLuminance;
+    }
+
+    public double getLuminance() {
+        return luminance;
+    }
+
+    public void setLuminance(double luminance) {
+        this.luminance = luminance;
+    }
+
+    public void setIrradiance(Irradiance value) {
         this.color = value;
         Pixel.maxR = Math.max(maxR, this.color.r);
         Pixel.maxG = Math.max(maxG, this.color.g);
