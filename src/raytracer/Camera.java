@@ -10,6 +10,8 @@ import javax.imageio.ImageIO;
 import java.awt.Color;
 import org.ejml.simple.SimpleMatrix;
 
+import raytracer.ToneMapping.ToneCompressor;
+
 public class Camera extends Entity {
 
     static final Irradiance DEFAULT_COLOR = new Irradiance(152, 205, 236, false).normalize();
@@ -25,6 +27,8 @@ public class Camera extends Entity {
     private Point wLookAt;
     private Point cLookAt;
     private Point cPosition = new Point(0, 0, 0, Point.Space.CAMERA);
+
+    private ToneCompressor toneCompressor;
 
     public static int SCALE_RATIO = 80;
 
@@ -119,8 +123,8 @@ public class Camera extends Entity {
             int testcol = 600;
 
             // if (pixel.row == testrow || pixel.col == testcol) {
-            //     pixel.setValue(new MyColor(0, 0, 1, true));
-            //     continue;
+            // pixel.setValue(new MyColor(0, 0, 1, true));
+            // continue;
             // }
 
             if (pixel.row == testrow && pixel.col == testcol) {
@@ -140,8 +144,8 @@ public class Camera extends Entity {
             color.r /= subPixelCountSquare;
             color.g /= subPixelCountSquare;
             color.b /= subPixelCountSquare;
-            
-            pixel.setValue(color);
+
+            pixel.setIrradiance(color);
         }
     }
 
@@ -162,6 +166,9 @@ public class Camera extends Entity {
 
             Irradiance denormColor = pixel.color.denormalize();
 
+            if(denormColor.r > 255 || denormColor.g > 255 || denormColor.b > 255 ){
+                System.out.println();
+            }
             Color color = new Color((int) denormColor.r, (int) denormColor.g, (int) denormColor.b);
             int actualRow = filmPlane.numPixelsHeight - pixel.row - 1;
             rgbImage.setRGB(pixel.col, actualRow, color.getRGB());
@@ -198,8 +205,36 @@ public class Camera extends Entity {
     }
 
     public void applyToneMapping() {
-        // this.capToOne();
-        this.normalizeAcrossPixels();
+
+        this.computeAbsoluteLuminances();
+        this.compressTone();
+        this.expandToneToTargetDevice();
+
+        this.capToOne();
+        // this.normalizeAcrossPixels();
+    }
+
+    private void expandToneToTargetDevice() {
+        for (Pixel pixel: this.filmPlane){
+            pixel.color.scaleColor(1/this.toneCompressor.getLDMax());
+        }
+    }
+
+    private void compressTone() {
+        this.toneCompressor.compress(filmPlane);
+        
+    }
+
+    private void computeAbsoluteLuminances() {
+        double averageLuminance = 0.0;
+        for (Pixel pixel : filmPlane) {
+            double luminance = 0.27 * pixel.color.r + 0.67 * pixel.color.g + 0.06 * pixel.color.b;
+            pixel.setLuminance(luminance);
+            averageLuminance += luminance;
+        }
+
+        averageLuminance /= filmPlane.getSize();
+        filmPlane.setAverageLuminance(averageLuminance);
     }
 
     @Override
@@ -234,6 +269,10 @@ public class Camera extends Entity {
     @Override
     protected void computeBoundingBox() {
         this.boundingBox = null;
+    }
+
+    public void setToneCompressor(ToneCompressor compressor) {
+        this.toneCompressor = compressor;
     }
 
 }
