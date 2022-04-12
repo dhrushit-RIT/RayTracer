@@ -1,4 +1,5 @@
 package raytracer;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -11,6 +12,8 @@ public class FilmPlane implements Iterable<Pixel> {
     public int numPixelsWidth;
 
     private ArrayList<ArrayList<Pixel>> filmPixels;
+
+    private double averageLuminance = 0;
 
     public FilmPlane(int width, int height, int numPixelsWidth, int numPixelsHeight, Vector wPosition) {
         this.width = width;
@@ -42,6 +45,10 @@ public class FilmPlane implements Iterable<Pixel> {
         System.out.println(this);
     }
 
+    public double getAverageLuminance() {
+        return averageLuminance;
+    }
+
     @Override
     public Iterator<Pixel> iterator() {
         return new Iterator<Pixel>() {
@@ -71,6 +78,10 @@ public class FilmPlane implements Iterable<Pixel> {
         };
     }
 
+    public int getSize() {
+        return this.numPixelsHeight * this.numPixelsWidth;
+    }
+
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
@@ -79,5 +90,13 @@ public class FilmPlane implements Iterable<Pixel> {
         // sb.append("\tposition wrt camera" + Camera.toCameraSpace(cPosition) + "\n");
 
         return sb.toString();
+    }
+
+    public void setAverageLuminance(double averageLuminance) {
+        this.averageLuminance = averageLuminance;
+    }
+
+    public Pixel getPixelAt(int row, int col) {
+        return filmPixels.get(row).get(col);
     }
 }
