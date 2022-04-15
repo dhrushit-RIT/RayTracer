@@ -16,7 +16,7 @@ public class Application {
         // Setups.Refraction.setup0(this);
         // Setups.AshikhiminShirley.setup0(this);
         // Setups.LightFallout.setup0(this);
-        Setups.ToneMapping.setup2(this);
+        Setups.ToneMapping.setup0(this);
     }
 
     public ToneCompressor getToneCompressor() {

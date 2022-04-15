@@ -2416,6 +2416,8 @@ public class Setups {
 	}
 
 	public static class ToneMapping {
+
+		// Ward
 		public static void setup0(Application application) {
 
 			//
