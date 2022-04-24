@@ -117,4 +117,19 @@ public class Irradiance {
         return this;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+
+        double EPSILON = 0.000001;
+        if(obj instanceof Irradiance) {
+            Irradiance other = (Irradiance)obj;
+            boolean rInRange = this.r >= other.r - EPSILON && this.r <= other.r + EPSILON;
+            boolean gInRange = this.g >= other.g - EPSILON && this.g <= other.g + EPSILON;
+            boolean bInRange = this.b >= other.b - EPSILON && this.b <= other.b + EPSILON;
+            
+            return rInRange && gInRange && bInRange;
+        }
+        return false;
+    }
+
 }

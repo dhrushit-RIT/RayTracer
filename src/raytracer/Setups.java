@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 import raytracer.Entity.BSDFTechnique;
+import raytracer.ToneMapping.AdaptiveToneMapping;
 import raytracer.ToneMapping.Reinhard;
 import raytracer.ToneMapping.ToneCompressor;
 import raytracer.ToneMapping.Reinhard.MidToneLuminanceFrom;
@@ -925,7 +926,7 @@ public class Setups {
 			//
 			// set other configs
 			//
-			application.getWorld().setSuperSampleFactor(3);
+			application.getWorld().setSuperSampleFactor(1);
 			application.getWorld().setBSDFTechnique(Entity.BSDFTechnique.PHONG_BLINN);
 
 			//
@@ -2823,6 +2824,213 @@ public class Setups {
 			camera.setToneCompressor(application.toneCompressor);
 
 			application.getWorld().setSuperSampleFactor(3);
+			application.getWorld().setBSDFTechnique(Entity.BSDFTechnique.PHONG_BLINN);
+
+		}
+
+		// Adaptive
+		public static void setup4(Application application) {
+
+			//
+			// set up Camera
+			//
+			Point cameraPosition = new Point(0, 1.15, 3, Point.Space.WORLD);
+			Vector cameraUp = new Vector(0, 1, 0);
+			Point cameraLookAt = new Point(0, 1.15, 0, Point.Space.WORLD);
+			double cameraFocalLength = 8;
+			Camera camera = new Camera(cameraPosition, cameraUp, cameraLookAt, cameraFocalLength);
+			application.getWorld().setCamera(camera);
+
+			//
+			// Light
+			//
+
+			Entity.SHOULD_USE_FALLOUT = true;
+
+			Light light1 = new Light(new Irradiance(1, 1, 1, true), new Point(0, 5, 0, Point.Space.WORLD), 800);
+			application.getWorld().addLightSource(light1);
+
+			Light light2 = new Light(new Irradiance(1, 1, 1, true), new Point(2, 5, 5, Point.Space.WORLD), 800);
+			application.getWorld().addLightSource(light2);
+
+			// ================================================================
+			// Entities
+			// ================================================================
+
+			//
+			// Sphere 1
+			//
+			Point sphere1Center = new Point(-0.4, 1, 1, Point.Space.WORLD);
+			double sphere1Radius = 0.755;
+			Irradiance basecColorS1 = new Irradiance(22, 183, 187, false).normalize();
+			Irradiance diffuseColorS1 = new Irradiance(36, 199, 203, false).normalize();
+			Irradiance specColorS1 = new Irradiance(123, 226, 236, false).normalize();
+
+			Sphere sphere1 = new Sphere(sphere1Center, sphere1Radius, basecColorS1);
+			sphere1.setColors(basecColorS1, specColorS1, diffuseColorS1);
+			sphere1.setCoeffs(0.3, 0.6, 0.1, 160);
+			sphere1.setTransmissiveCoeff(0.8);
+			sphere1.setRefractiveIndex(0.98);
+			application.getWorld().addEntity(sphere1);
+
+			//
+			// Sphere 2
+			//
+			Point sphere2Center = new Point(0.6, 0.8, -0.2, Point.Space.WORLD);
+			double sphere2Radius = 0.6;
+			Irradiance basecColorS2 = new Irradiance(22, 183, 187, false).normalize();
+			Irradiance diffuseColorS2 = new Irradiance(36, 199, 203, false).normalize();
+			Irradiance specColorS2 = new Irradiance(123, 226, 236, false).normalize();
+
+			Sphere sphere2 = new Sphere(sphere2Center, sphere2Radius, basecColorS2);
+			sphere2.setColors(basecColorS2, specColorS2, diffuseColorS2);
+			sphere2.setCoeffs(0.2, 0.5, 0.3, 180);
+			sphere2.setReflectiveCoeff(0.6);
+			application.getWorld().addEntity(sphere2);
+
+			//
+			// Triangle 1
+			//
+			Point triangle1Position = new Point(1, 0, 1, Point.Space.WORLD);
+			Point[] t1Vertices = new Point[] {
+					new Point(1.5, 0, 1.5, Point.Space.WORLD),
+					new Point(1.5, 0, -1.5, Point.Space.WORLD),
+					new Point(-1.5, 0, 1.5, Point.Space.WORLD)
+			};
+			Irradiance triangle1Color = new Irradiance(238, 50, 51, false).normalize();
+			Triangle triangle1 = new Triangle(triangle1Color, triangle1Position, t1Vertices);
+			triangle1.setCoeffs(0.3, 0.4, 0.3, 180);
+			triangle1.setHasTexture(true);
+			application.getWorld().addEntity(triangle1);
+
+			//
+			// Triangle 2
+			//
+			Point t2Position = new Point(1, 0, 1, Point.Space.WORLD);
+			Point[] t2Vertices = new Point[] {
+					new Point(-1.5, 0, 1.5, Point.Space.WORLD),
+					new Point(1.5, 0, -1.5, Point.Space.WORLD),
+					new Point(-1.5, 0, -1.5, Point.Space.WORLD)
+			};
+			Irradiance t2Color = new Irradiance(238, 50, 51, false).normalize();
+			Triangle triangle2 = new Triangle(t2Color, t2Position, t2Vertices);
+			triangle2.setCoeffs(0.3, 0.4, 0.2, 180);
+			triangle2.setHasTexture(true);
+			application.getWorld().addEntity(triangle2);
+
+			ToneCompressor.setLDMax(50);
+			Application.compressorType = ToneCompressor.Type.ADAPTIVE;
+			application.toneCompressor = application.getToneCompressor();
+			camera.setToneCompressor(application.toneCompressor);
+			if (application.toneCompressor instanceof AdaptiveToneMapping) {
+				((AdaptiveToneMapping) application.toneCompressor).base = 0.86;
+			}
+
+			application.getWorld().setSuperSampleFactor(1);
+			application.getWorld().setBSDFTechnique(Entity.BSDFTechnique.PHONG_BLINN);
+
+		}
+
+
+		// Hist
+		public static void setup5(Application application) {
+
+			//
+			// set up Camera
+			//
+			Point cameraPosition = new Point(0, 1.15, 3, Point.Space.WORLD);
+			Vector cameraUp = new Vector(0, 1, 0);
+			Point cameraLookAt = new Point(0, 1.15, 0, Point.Space.WORLD);
+			double cameraFocalLength = 8;
+			Camera camera = new Camera(cameraPosition, cameraUp, cameraLookAt, cameraFocalLength);
+			application.getWorld().setCamera(camera);
+
+			//
+			// Light
+			//
+
+			Entity.SHOULD_USE_FALLOUT = true;
+
+			Light light1 = new Light(new Irradiance(1, 1, 1, true), new Point(0, 5, 0, Point.Space.WORLD), 800);
+			application.getWorld().addLightSource(light1);
+
+			Light light2 = new Light(new Irradiance(1, 1, 1, true), new Point(2, 5, 5, Point.Space.WORLD), 800);
+			application.getWorld().addLightSource(light2);
+
+			// ================================================================
+			// Entities
+			// ================================================================
+
+			//
+			// Sphere 1
+			//
+			Point sphere1Center = new Point(-0.4, 1, 1, Point.Space.WORLD);
+			double sphere1Radius = 0.755;
+			Irradiance basecColorS1 = new Irradiance(22, 183, 187, false).normalize();
+			Irradiance diffuseColorS1 = new Irradiance(36, 199, 203, false).normalize();
+			Irradiance specColorS1 = new Irradiance(123, 226, 236, false).normalize();
+
+			Sphere sphere1 = new Sphere(sphere1Center, sphere1Radius, basecColorS1);
+			sphere1.setColors(basecColorS1, specColorS1, diffuseColorS1);
+			sphere1.setCoeffs(0.3, 0.6, 0.1, 160);
+			sphere1.setTransmissiveCoeff(0.8);
+			sphere1.setRefractiveIndex(0.98);
+			application.getWorld().addEntity(sphere1);
+
+			//
+			// Sphere 2
+			//
+			Point sphere2Center = new Point(0.6, 0.8, -0.2, Point.Space.WORLD);
+			double sphere2Radius = 0.6;
+			Irradiance basecColorS2 = new Irradiance(22, 183, 187, false).normalize();
+			Irradiance diffuseColorS2 = new Irradiance(36, 199, 203, false).normalize();
+			Irradiance specColorS2 = new Irradiance(123, 226, 236, false).normalize();
+
+			Sphere sphere2 = new Sphere(sphere2Center, sphere2Radius, basecColorS2);
+			sphere2.setColors(basecColorS2, specColorS2, diffuseColorS2);
+			sphere2.setCoeffs(0.2, 0.5, 0.3, 180);
+			sphere2.setReflectiveCoeff(0.6);
+			application.getWorld().addEntity(sphere2);
+
+			//
+			// Triangle 1
+			//
+			Point triangle1Position = new Point(1, 0, 1, Point.Space.WORLD);
+			Point[] t1Vertices = new Point[] {
+					new Point(1.5, 0, 1.5, Point.Space.WORLD),
+					new Point(1.5, 0, -1.5, Point.Space.WORLD),
+					new Point(-1.5, 0, 1.5, Point.Space.WORLD)
+			};
+			Irradiance triangle1Color = new Irradiance(238, 50, 51, false).normalize();
+			Triangle triangle1 = new Triangle(triangle1Color, triangle1Position, t1Vertices);
+			triangle1.setCoeffs(0.3, 0.4, 0.3, 180);
+			triangle1.setHasTexture(true);
+			application.getWorld().addEntity(triangle1);
+
+			//
+			// Triangle 2
+			//
+			Point t2Position = new Point(1, 0, 1, Point.Space.WORLD);
+			Point[] t2Vertices = new Point[] {
+					new Point(-1.5, 0, 1.5, Point.Space.WORLD),
+					new Point(1.5, 0, -1.5, Point.Space.WORLD),
+					new Point(-1.5, 0, -1.5, Point.Space.WORLD)
+			};
+			Irradiance t2Color = new Irradiance(238, 50, 51, false).normalize();
+			Triangle triangle2 = new Triangle(t2Color, t2Position, t2Vertices);
+			triangle2.setCoeffs(0.3, 0.4, 0.2, 180);
+			triangle2.setHasTexture(true);
+			application.getWorld().addEntity(triangle2);
+
+			ToneCompressor.setLDMax(50);
+			Application.compressorType = ToneCompressor.Type.HIST;
+			application.toneCompressor = application.getToneCompressor();
+			camera.setToneCompressor(application.toneCompressor);
+			if (application.toneCompressor instanceof AdaptiveToneMapping) {
+				((AdaptiveToneMapping) application.toneCompressor).base = 0.86;
+			}
+
+			application.getWorld().setSuperSampleFactor(1);
 			application.getWorld().setBSDFTechnique(Entity.BSDFTechnique.PHONG_BLINN);
 
 		}

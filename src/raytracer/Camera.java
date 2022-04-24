@@ -14,6 +14,8 @@ import raytracer.ToneMapping.ToneCompressor;
 
 public class Camera extends Entity {
 
+    // static final Irradiance DEFAULT_COLOR = new Irradiance(128, 128, 128,
+    // false).normalize();
     static final Irradiance DEFAULT_COLOR = new Irradiance(152, 205, 236, false).normalize();
 
     private static SimpleMatrix worldToNodeMatrix;
@@ -146,6 +148,10 @@ public class Camera extends Entity {
             color.b /= subPixelCountSquare;
 
             pixel.setIrradiance(color);
+
+            if(color.equals(DEFAULT_COLOR)){
+                pixel.setNoIntersect(true);
+            }
         }
     }
 
@@ -166,7 +172,7 @@ public class Camera extends Entity {
 
             Irradiance denormColor = pixel.color.denormalize();
 
-            if(denormColor.r > 255 || denormColor.g > 255 || denormColor.b > 255 ){
+            if (denormColor.r > 255 || denormColor.g > 255 || denormColor.b > 255) {
                 System.out.println();
             }
             Color color = new Color((int) denormColor.r, (int) denormColor.g, (int) denormColor.b);
@@ -210,26 +216,31 @@ public class Camera extends Entity {
         this.compressTone();
         this.expandToneToTargetDevice();
 
-        this.capToOne();
+        // this.capToOne();
         // this.normalizeAcrossPixels();
     }
 
     private void expandToneToTargetDevice() {
-        for (Pixel pixel: this.filmPlane){
-            pixel.color.scaleColor(1/this.toneCompressor.getLDMax());
+        double LDMax = this.toneCompressor.getLDMax();
+        for (Pixel pixel : this.filmPlane) {
+            pixel.color.scaleColor(1 / LDMax);
         }
     }
 
     private void compressTone() {
         this.toneCompressor.compress(filmPlane);
-        
+
     }
 
     private void computeAbsoluteLuminances() {
         double averageLuminance = 0.0;
         for (Pixel pixel : filmPlane) {
             double luminance = 0.27 * pixel.color.r + 0.67 * pixel.color.g + 0.06 * pixel.color.b;
+            if (pixel.row == 20 && pixel.col == 600) {
+                System.out.println("lum" + luminance);
+            }
             pixel.setLuminance(luminance);
+            pixel.setLogLuminance(Math.log(luminance));
             averageLuminance += luminance;
         }
 

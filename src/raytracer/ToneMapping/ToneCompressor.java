@@ -5,14 +5,18 @@ import raytracer.Pixel;
 
 public abstract class ToneCompressor {
 
-    private final static double DELTA = 0.000001;
+    protected final static double DELTA = 0.000001;
 
     public enum Type {
         WARD,
-        REINHARD
+        REINHARD,
+        ADAPTIVE,
+        HIST
     }
 
     protected static double Ldmax;
+    protected double Lwmin;
+    protected double Lwmax;
 
     public static void setLDMax(double Ldmax) {
         ToneCompressor.Ldmax = Ldmax;
@@ -44,6 +48,13 @@ public abstract class ToneCompressor {
         averageLuminance = Math.exp(averageLuminance);
         this.averageLuminance = averageLuminance;
         System.out.println("Ward log average luminance " + this.averageLuminance);
+    }
+
+    protected void computeMaxSceneLuminance(FilmPlane filmPlane) {
+        this.Lwmax = -Double.MAX_VALUE;
+        for (Pixel pixel : filmPlane) {
+            Lwmax = Math.max(Lwmax, pixel.getLuminance());
+        }
     }
 
 }

@@ -20,7 +20,10 @@ public class Pixel {
     public static double minB = 1;
 
     private double luminance = 0.0;
+    private double logLuminance = 0.0;
     private double destLuminance = 0.0;
+
+    private boolean noIntersect = false;
 
     // public Vector planePosition; // with respect to the origin of film plane
     public Vector cPosition; // with respect to the origin of world
@@ -95,6 +98,18 @@ public class Pixel {
         }
 
         return subPixels;
+    }
+
+    public void setLogLuminance(double log) {
+        this.logLuminance = log;
+    }
+
+    public void setNoIntersect(boolean noIntersect) {
+        this.noIntersect = noIntersect;
+    }
+
+    public boolean hadNoIntersection() {
+        return noIntersect;
     }
 
 }

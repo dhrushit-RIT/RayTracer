@@ -1,5 +1,7 @@
 package raytracer;
 
+import raytracer.ToneMapping.AdaptiveToneMapping;
+import raytracer.ToneMapping.HistogramCompressor;
 import raytracer.ToneMapping.Reinhard;
 import raytracer.ToneMapping.ToneCompressor;
 import raytracer.ToneMapping.Ward;
@@ -12,11 +14,12 @@ public class Application {
     public Application() {
         this.world = new World();
 
+        // Setups.KDTree.setup1(this);
         // Setups.DefaultSetups.setup7(this);
         // Setups.Refraction.setup0(this);
         // Setups.AshikhiminShirley.setup0(this);
         // Setups.LightFallout.setup0(this);
-        Setups.ToneMapping.setup0(this);
+        Setups.ToneMapping.setup5(this);
     }
 
     public ToneCompressor getToneCompressor() {
@@ -25,6 +28,10 @@ public class Application {
                 return new Ward();
             case REINHARD:
                 return new Reinhard();
+            case ADAPTIVE:
+                return new AdaptiveToneMapping();
+            case HIST:
+                return new HistogramCompressor();
             default:
                 return new Ward();
         }
