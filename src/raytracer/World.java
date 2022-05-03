@@ -4,14 +4,18 @@ import raytracer.kdTree.*;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Random;
 
 public class World {
 
+    public static final int NUM_RAYS_TO_CREATE = 2;
+    public static long SEED = 42;
     public static boolean DEBUG_FLAG = false;
     public static double EPSILON = 0.001;
     public static int MAX_DEPTH = 10;
 
     private KDNode kdRoot = null;
+    private Random rng = new Random(SEED);
 
     private boolean withoutKDTree = false;
 
@@ -24,6 +28,7 @@ public class World {
     private int superSampleFactor;
 
     public World() {
+
         this.worldObjects = new ArrayList<>();
         this.lightSources = new ArrayList<>();
         this.superSampleFactor = 1;
@@ -115,6 +120,92 @@ public class World {
         this.camera.setWorld(this);
     }
 
+    public Irradiance kajiaIlluminate(Ray ray, IntersectionDetails<Entity> source, int depth) {
+        Irradiance finalColor = new Irradiance(0, 0, 0, false).normalize();
+
+        ArrayList<IntersectionDetails<Entity>> entityIntersectionDetailsList = this.checkIntersection(ray, false);
+
+        // no entities intersected
+        // return the background color
+        if (entityIntersectionDetailsList.size() == 0) {
+            return new Irradiance(Camera.DEFAULT_COLOR);
+        }
+
+        ArrayList<IntersectionDetails<Entity>> lightIntersectionDetailsList = this.checkLightIntersetion(ray);
+        if (lightIntersectionDetailsList.size() > 0) {
+
+            for (IntersectionDetails<Entity> lightIntersection : lightIntersectionDetailsList) {
+
+                Light light = (Light) lightIntersection.entity;
+                Irradiance colorFromLightSource = ray.originEntity
+                        .getPixelIrradiance(light, camera,
+                                source.intersectionPoint,
+                                source.normalAtIntersection,
+                                this.techniqueToUse, false);
+                finalColor.addColor(colorFromLightSource);
+            }
+            return finalColor;
+        }
+
+        // importance sampling at the current point
+        // create ray from which light is coming
+        IntersectionDetails<Entity> intersectingEntityDetails = entityIntersectionDetailsList.get(0);
+        Entity intersectingEntity = intersectingEntityDetails.entity;
+        ArrayList<Ray> scatteredRays = new ArrayList<>();
+
+        
+
+        // generate scattered rays
+        for (int i = 0; i < World.NUM_RAYS_TO_CREATE; i++) {
+            Vector direction = new Vector(0, 0, 0);
+
+            // decide if diffuse or specular
+            double diffuseOrSpecular = rng.nextDouble();
+
+            // diffuse
+            if (diffuseOrSpecular <= intersectingEntity.kd) {
+                double u1 = rng.nextDouble();
+                double u2 = rng.nextDouble();
+
+                double theta = Math.acos(Math.sqrt(u1));
+                double phi = 2 * Math.PI * u2;
+
+                double x = Math.cos(phi) * Math.sin(theta);
+                double y = Math.sin(phi) * Math.sin(theta);
+                double z = Math.cos(theta);
+
+                direction = new Vector(x, y, z);
+
+            }
+
+            // specular
+            else if (diffuseOrSpecular > intersectingEntity.kd
+                    && diffuseOrSpecular <= intersectingEntity.kd + intersectingEntity.ks) {
+
+            }
+
+            // no reflection case. do not create any rays
+            else {
+
+            }
+
+            scatteredRays.add(new Ray(intersectingEntityDetails.intersectionPoint, direction));
+        }
+
+        for (Ray scatteredRay : scatteredRays) {
+            Irradiance receiveIrradiance = kajiaIlluminate(scatteredRay, intersectingEntityDetails, depth + 1);
+
+            // check if the ray was fruitful, if so, then want to explore it further with a
+            // little deviation
+            // this might be somewhere else
+
+            finalColor.addColor(receiveIrradiance);
+        }
+
+        return finalColor;
+
+    }
+
     public Irradiance illuminate(Ray ray, int depth) {
         Irradiance finalColor = new Irradiance(0, 0, 0, false).normalize();
 
@@ -203,7 +294,6 @@ public class World {
                     }
                 }
             }
-
         }
 
         return finalColor;
@@ -301,6 +391,20 @@ public class World {
         Irradiance finalTransmittedColor = Util.scaleColor(entityIntersectionDetails.entity.kt, transmittedColor);
 
         return finalTransmittedColor;
+    }
+
+    public ArrayList<IntersectionDetails<Entity>> checkLightIntersetion(Ray cRay) {
+
+        ArrayList<IntersectionDetails<Entity>> intersectionList = new ArrayList<>();
+
+        for (Entity entity : lightSources) {
+            IntersectionDetails<Entity> intersection = entity.intersect(cRay); // TODO : implement intersect for light
+            if (intersection.distance > EPSILON) {
+                intersectionList.add(intersection);
+            }
+        }
+
+        return intersectionList;
     }
 
     public ArrayList<IntersectionDetails<Entity>> checkIntersection(Ray cRay, boolean ignoreTransparentObjects) {

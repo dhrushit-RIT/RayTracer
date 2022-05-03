@@ -16,10 +16,10 @@ public class Application {
 
         // Setups.KDTree.setup1(this);
         // Setups.DefaultSetups.setup7(this);
-        // Setups.Refraction.setup0(this);
+        Setups.Refraction.setup0(this);
         // Setups.AshikhiminShirley.setup0(this);
         // Setups.LightFallout.setup0(this);
-        Setups.ToneMapping.setup5(this);
+        // Setups.ToneMapping.setup5(this);
     }
 
     public ToneCompressor getToneCompressor() {
